@@ -49,8 +49,18 @@ An online marketplace where users can search, book, comment and rate short term 
 
 > When running on Linux, the following steps can simply be replaced by [`./run.sh`](run.sh)
 
-1. [Activate the Python virtual environment](#).
+1. [Activate the Python virtual environment](#setup).
 2. Run the development server:
     ```bash
     python3.10 ./manage.py runserver
     ```
+
+You should be able to visit http://127.0.0.1:8000/api/ and see the following JSON response:
+
+```json
+{
+    "hello": "world"
+}
+```
+
+All additional API endpoints will reside under the `/api/` path.
