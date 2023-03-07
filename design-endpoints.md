@@ -40,6 +40,10 @@
         ]
         ```
 
+        **Error Codes**
+
+        -   ...
+
     -   #### `PUT`: create a new property
 
         **JSON Body**
@@ -81,10 +85,17 @@
         }
         ```
 
+        **Error Codes**
+
+        -   `400`: required fields missing or incorrect data format
+        -   `401`: user not logged in
+
 -   ### `/property/<id>/`
 
     -   #### `GET`: fetch a specific property identified by its ID
+
         **Response**
+
         ```json
         {
             "property_id": 6532,
@@ -103,8 +114,16 @@
             "images": ["7f46165474d11ee5836777d85df2cdab", "a4b46da106e59f424a2310cb7766366e"]
         }
         ```
+
+        **Error Codes**
+
+        -   `401`: user not logged in
+        -   `404`: nonexistent property ID
+
     -   #### `POST`: update an existing property listing
+
         **JSON Body**
+
         ```json
         {
             "address": "123 Broadway, New York, NY, United States",
@@ -129,36 +148,19 @@
             }
         }
         ```
+
+        **Error Codes**
+
+        -   `400`: incorrect data format
+        -   `401`: user not logged in
+        -   `403`: user is not the owner of property
+        -   `404`: nonexistent property ID
+
     -   #### `DELETE` delete a specific property
 
 ---
 
 ## 👍 Image
-
--   ### `/image/`
-
-    -   #### `PUT`: upload a list of new images
-
-        **JSON Body**
-
-        ```json
-        [
-            {
-                "ext": "png",
-                "data": "iVBORw0KGgoAANSUhEAB4AAAAAC/kV7ZAAAAOXRFWHRTb..."
-            },
-            {
-                "ext": "jpg",
-                "data": "p1aS2M6tYsaJ++eUXtWzZ0uK+f/75R48++qhFvbXnLi4u..."
-            }
-        ]
-        ```
-
-        **Response**
-
-        ```json
-        ["7f46165474d11ee5836777d85df2cdab", "a4b46da106e59f424a2310cb7766366e"]
-        ```
 
 -   ### `/images/<hash>`
 
@@ -172,7 +174,11 @@
 
         Only one of `width`, `height` should be specified. If both are specified, the request is invalid.
 
-    -   #### `DELETE`: delete an image
+        **Error Codes**
+
+        -   `400`: incorrect parameters
+        -   `401`: user not logged in
+        -   `404`: nonexistent image hash
 
 ---
 
@@ -209,6 +215,12 @@
         ]
         ```
 
+        **Error Codes**
+
+        -   `400`: incorrect parameters
+        -   `401`: user not logged in
+        -   `403`: user is not participant of any reservation (must either be guest or host)
+
     -   #### `PUT`: create a new reservation request
 
         **JSON Body**
@@ -243,10 +255,17 @@
         }
         ```
 
+        **Error Codes**
+
+        -   `400`: incorrect data format
+        -   `401`: user not logged in
+
 -   ### `/reservation/<id>/`
 
     -   #### `GET`: return a specific reservation
+
         **Response** (the entire saved reservation object)
+
         ```json
         {
             "reservation_id": 5874,
@@ -261,8 +280,17 @@
             }
         }
         ```
+
+        **Error Codes**
+
+        -   `401`: user not logged in
+        -   `403`: user is not a participant of the reservation (must either be guest or host)
+        -   `404`: nonexistent reservation ID
+
     -   #### `POST`: modify a specific reservation
+
         **JSON Body**
+
         ```json
         {
             "status": "approved",
@@ -273,3 +301,27 @@
             }
         }
         ```
+
+        **Response** (the entire updated reservation object)
+
+        ```json
+        {
+            "reservation_id": 5874,
+            "guest_id": 6113,
+            "host_id": 9945,
+            "status": "pending",
+            "property_id": 6532,
+            "guests": 2,
+            "duration": {
+                "from": "March 3, 2025",
+                "to": "March 28, 2025"
+            }
+        }
+        ```
+
+        **Error Codes**
+
+        -   `400`: incorrect data format
+        -   `401`: user not logged in
+        -   `403`: user is not a participant of the reservation (must either be guest or host)
+        -   `404`: nonexistent reservation ID
