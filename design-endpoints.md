@@ -192,7 +192,7 @@
 
         -   `guest_id`: user ID of the guest that initiated the reservation
         -   `host_id`: user ID of the host that owns the property
-        -   `status`: one of `approved`, `pending`, `denied`, `expired`
+        -   `status`: one of `reservation_pending`, `reserved`, `reservation_denied`, `cancellation_pending`, `cancelled`, `cancellation_denied`, `expired`, `terminated`
         -   `from`: start date on or before all returned reservations
         -   `to`: end date on or after all returned reservations
 
@@ -204,7 +204,7 @@
                 "reservation_id": 5874,
                 "guest_id": 6113,
                 "host_id": 9945,
-                "status": "pending",
+                "status": "reservation_pending",
                 "property_id": 6532,
                 "guests": 2,
                 "duration": {
@@ -245,7 +245,7 @@
             "reservation_id": 5874,
             "guest_id": 6113,
             "host_id": 9945,
-            "status": "pending",
+            "status": "reservation_pending",
             "property_id": 6532,
             "guests": 2,
             "duration": {
@@ -271,7 +271,7 @@
             "reservation_id": 5874,
             "guest_id": 6113,
             "host_id": 9945,
-            "status": "pending",
+            "status": "reservation_pending",
             "property_id": 6532,
             "guests": 2,
             "duration": {
@@ -301,6 +301,21 @@
             }
         }
         ```
+
+        Valid status changes for host:
+
+        -   `reservation_pending` -> `reserved` || `reservation_denied`,
+        -   `cancellation_pending` -> `cancelled` || `cancellation_denied`,
+        -   `reserved` -> `terminated`
+
+        Valid status changes for guest:
+
+        -   `reservation_pending` -> `cancelled`
+        -   `reserved` -> `cancellation_pending`
+
+        Automatic status changes:
+
+        -   `reservation_pending` || `cancellation_pending` -> `expired`
 
         **Response** (the entire updated reservation object)
 
