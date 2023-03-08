@@ -338,5 +338,5 @@
 
         -   `400`: incorrect data format
         -   `401`: user not logged in
-        -   `403`: user is not a participant of the reservation (must either be guest or host)
+        -   `403`: user is not a participant of the reservation (must either be guest or host), or user status change not valid
         -   `404`: nonexistent reservation ID
