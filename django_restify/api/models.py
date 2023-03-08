@@ -13,9 +13,9 @@ class Property(models.Model):
     address = models.CharField(max_length=255, null=False)
     description = models.TextField(null=True)
     guest_capacity = models.PositiveIntegerField(null=False, default=0)
-    availability = models.JSONField(null=False, default=[])  # list of objects
-    amenities = models.JSONField(null=False, default=[])  # list of strings
-    images = models.JSONField(null=False, default=[])  # list of strings (image hashes)
+    availability = models.JSONField(null=False, default=list)  # list of objects
+    amenities = models.JSONField(null=False, default=list)  # list of strings
+    images = models.JSONField(null=False, default=list)  # list of strings (image hashes)
 
 
 class Reservation(models.Model):
@@ -30,4 +30,4 @@ class Reservation(models.Model):
     )
     status = models.CharField(max_length=10, null=False, default="reservation_pending")
     guest_count = models.PositiveIntegerField(null=False, default=1)
-    duration = models.JSONField(null=False, default={})  # duration/availability object
+    duration = models.JSONField(null=False, default=dict)  # duration/availability object
