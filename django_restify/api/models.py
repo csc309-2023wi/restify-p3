@@ -1,8 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, AnonymousUser
 
 
-class User(AbstractUser):
+class User(AbstractUser, AnonymousUser):
     pass
 
 
@@ -22,9 +22,9 @@ class Reservation(models.Model):
     guest = models.ForeignKey(
         User, related_name="reservations_outgoing", null=True, on_delete=models.SET_NULL
     )
-    host = models.ForeignKey(
-        User, related_name="reservations_incoming", null=True, on_delete=models.SET_NULL
-    )
+    # host = models.ForeignKey(
+    #     User, related_name="reservations_incoming", null=True, on_delete=models.SET_NULL
+    # )
     property = models.ForeignKey(
         Property, related_name="reservations", null=True, on_delete=models.SET_NULL
     )
