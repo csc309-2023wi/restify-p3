@@ -254,6 +254,7 @@
         -   `400`: incorrect data format
         -   `401`: user not logged in
 
+
 -   ### `/reservation/update/<id>/`
 
     -   #### `PUT`: Allows the host of a property to update the reservation status of pending reservations to 'Approved' or 'Denied.
@@ -293,21 +294,6 @@
         }
         ```
 
-        Valid status changes for host:
-
-        -   `reservation_pending` -> `reserved` || `reservation_denied`,
-        -   `cancellation_pending` -> `cancelled` || `cancellation_denied`,
-        -   `reserved` -> `terminated`
-
-        Valid status changes for guest:
-
-        -   `reservation_pending` -> `cancelled`
-        -   `reserved` -> `cancellation_pending`
-
-        Automatic status changes:
-
-        -   `reservation_pending` || `cancellation_pending` -> `expired`
-
 -   ### `/reservation/cancel/request/<id>/`
 
     -   #### `GET`: Allows the host of a property that is in the reservation process to cancel any reservation. If cancellation was first requested by user then status is cancelled otherwise status is terminated.
@@ -332,3 +318,13 @@
         -   `401`: user not logged in
         -   `403`: user is not a participant of the reservation (must either be guest or host), or user status change not valid
         -   `404`: nonexistent reservation ID
+
+
+        Valid status changes for host:
+
+        -   `Pending` -> `Approved` || `Denied`,
+        -   `Approved` -> `Terminated` || 'Cancelled'
+
+        Valid status changes for guest:
+
+        -   `Pending` -> `Cancelled`
