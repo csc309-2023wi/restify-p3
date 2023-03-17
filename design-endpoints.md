@@ -206,8 +206,8 @@
                 "status": "Pending",
                 "property_id": 6532,
                 "guests": 2,
-                "from_date": "March 3, 2025",
-                "to_date": "March 28, 2025"
+                "from": "2025-03-05",
+                "to": "2025-03-08"
             }
         ]
         ```
@@ -227,8 +227,8 @@
         ```json
         {
             "guests": 2,
-            "from_date": "March 3, 2025",
-            "to_date": "March 28, 2025"
+            "from": "2025-03-05",
+            "to": "2025-03-08"
         }
         ```
 
@@ -243,8 +243,8 @@
             "status": "Pending",
             "property_id": 6532,
             "guests": 2,
-            "from": "March 3, 2025",
-            "to": "March 28, 2025"
+            "from": "2025-03-05",
+            "to": "2025-03-08"
         }
         ```
 
@@ -267,8 +267,8 @@
             "status": "Approved",
             "property_id": 6532,
             "guests": 2,
-            "from": "March 3, 2025",
-            "to": "March 28, 2025"
+            "from": "2025-03-05",
+            "to": "2025-03-08"
         }
         ```
 
@@ -288,8 +288,8 @@
         {
             "status": "Cancelled",
             "guests": 2,
-            "from": "March 3, 2025",
-            "to": "March 28, 2025"
+            "from": "2025-03-05",
+            "to": "2025-03-08"
         }
         ```
 
@@ -306,8 +306,8 @@
             "status": "Terminated",
             "property_id": 6532,
             "guests": 2,
-            "from": "March 3, 2025",
-            "to": "March 28, 2025"
+            "from": "2025-03-05",
+            "to": "2025-03-08"
         }
         ```
 
@@ -345,7 +345,7 @@
                 "notification_id": 5874,
                 "user_id": 6113,
                 "reservation_id": 6000,
-                "created_at": "March 1, 2025 8:43 PM",
+                "created_at": "2025-03-01T20:43:20",
                 "is_read": false,
                 "is_cancel_req": false,
                 "is_cleared": false,
@@ -374,7 +374,7 @@
                 "notification_id": 5874,
                 "user_id": 6113,
                 "reservation_id": 6000,
-                "created_at": "March 1, 2025 8:43 PM",
+                "created_at": "2025-03-01T20:43:20",
                 "is_read": true,
                 "is_cancel_req": false,
                 "is_cleared": true,
