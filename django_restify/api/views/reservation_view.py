@@ -126,6 +126,10 @@ class ReservationUpdateView(UpdateAPIView):
         user_id = self.request.query_params.get("user_id")
         user = get_object_or_404(User, id=user_id)
 
+        # x = Reservation.objects.filter(property_id = reservation.property.id, status='PE')
+        # for res in x:
+        #     print(res)
+
         if user != reservation.property.host or reservation.status != 'PE':
             return Response({'error': 'You are not authorized to perform this action.'}, status=status.HTTP_403_FORBIDDEN)
 
@@ -136,7 +140,11 @@ class ReservationUpdateView(UpdateAPIView):
         reservation.status = state
         reservation.save()
         serializer = self.serializer_class(reservation)
-        if state == 'Approved':
+        if state == 'AP':
+            for res in Reservation.objects.filter(property_id = reservation.property.id, status='PE'):
+                if res.from_date <= reservation.to_date or res.to_date >= reservation.from_date:
+                    res.status = 'DE'
+                    res.save()
             notification = Notification.objects.create(
                 user = reservation.guest,
                 reservation = reservation,
@@ -190,7 +198,7 @@ class ReservationCancelView(APIView):
             dict['Message'] = 'Request for cancellation has been sent to host'
             return Response(dict, status=status.HTTP_200_OK)
 
-class ReservationHostCancelView(UpdateAPIView):
+class ReservationHostCancelView(APIView):
     serializer_class = ReservationSerializer
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -206,14 +214,14 @@ class ReservationHostCancelView(UpdateAPIView):
                 status=status.HTTP_403_FORBIDDEN
             )
 
-        if reservation.status != 'Approved':
+        if reservation.status != 'AP':
             return Response(
                 {'error': 'This reservation is not in a cancellable state.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         
         if  Notification.objects.filter(reservation=reservation, is_cancel_req=True).exists():
-            reservation.status = 'Cancelled'
+            reservation.status = 'CA'
             reservation.save()
             dict = serializer.data
             dict['Message'] = 'Reservation has been cancelled'

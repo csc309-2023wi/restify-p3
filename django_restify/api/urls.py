@@ -19,10 +19,7 @@ urlpatterns = [
     path("reservation/cancel/request/<int:pk>/", views.ReservationHostCancelView.as_view(), name="cancel_request"),
     path("reservation/<int:id>/", views.ReservationRetrieveUpdateDestroyView.as_view(), name="reservation_two"),
     path('notifications/', views.NotificationsView.as_view(), name='notifications'),
-    path('notifications/<int:id>/read/',
-         views.NotificationReadView.as_view(), name='read_notification'),
-    path('notifications/<int:id>/clear/',
-         views.NotificationClearedView.as_view(), name='clear_notification'),
+    path('notifications/read/<int:id>', views.NotificationReadView.as_view(), name='read_notification'),
     
     # path("user/", views.__.as_view(), name="user"),
 ]
