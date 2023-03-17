@@ -208,7 +208,6 @@
                 "guests": 2,
                 "from_date": "March 3, 2025",
                 "to_date": "March 28, 2025"
-                }
             }
         ]
         ```
@@ -346,12 +345,11 @@
                 "notification_id": 5874,
                 "user_id": 6113,
                 "reservation_id": 6000,
-                "created_at": March 1, 2025 8:43 PM,
+                "created_at": 'March 1, 2025 8:43 PM',
                 "is_read": false,
                 "is_cancel_req": false,
                 "is_cleared": false,
                 "content": "Hello"
-                }
             }
         ]
         ```
@@ -381,7 +379,6 @@
                 "is_cancel_req": false,
                 "is_cleared": true,
                 "content": "Hello"
-                }
             }
         ]
         ```
