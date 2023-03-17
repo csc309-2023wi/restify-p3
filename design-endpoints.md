@@ -323,7 +323,7 @@
         Valid status changes for host:
 
         -   `Pending` -> `Approved` || `Denied`,
-        -   `Approved` -> `Terminated` || 'Cancelled'
+        -   `Approved` -> `Terminated` || `Cancelled`
 
         Valid status changes for guest:
 
