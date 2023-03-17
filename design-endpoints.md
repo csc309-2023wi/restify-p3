@@ -191,10 +191,10 @@
         **Query Params** (at least one must be specified)
 
         -   `guest_id`: user ID of the guest that initiated the reservation
-        -   `property_id`: propety ID of the property that the reservation is about
-        -   `status`: one of `Pending`, `Denied`, `Expired`, `Approved`, `Completed`, `Cancelled`, `Terminated`
-        -   `from_date`: start date on or before all returned reservations
-        -   `to_date`: end date on or after all returned reservations
+        -   `host_id`: user ID of the host that owns the property
+        -   `status`: one of `reservation_pending`, `reserved`, `reservation_denied`, `cancellation_pending`, `cancelled`, `cancellation_denied`, `expired`, `terminated`
+        -   `from`: start date on or before all returned reservations
+        -   `to`: end date on or after all returned reservations
 
         **Response**
 
@@ -203,11 +203,13 @@
             {
                 "reservation_id": 5874,
                 "guest_id": 6113,
-                "status": "Pending",
+                "host_id": 9945,
+                "status": "reservation_pending",
                 "property_id": 6532,
                 "guests": 2,
-                "from_date": "March 3, 2025",
-                "to_date": "March 28, 2025"
+                "duration": {
+                    "from": "March 3, 2025",
+                    "to": "March 28, 2025"
                 }
             }
         ]
@@ -219,21 +221,22 @@
         -   `401`: user not logged in
         -   `403`: user is not participant of any reservation (must either be guest or host)
 
--   ### `/reservation/create/<id>/`
-
-    -   #### `POST`: create a new reservation request
+    -   #### `PUT`: create a new reservation request
 
         **JSON Body**
 
         ```json
         {
+            "property_id": 6532,
             "guests": 2,
-            "from_date": "March 3, 2025",
-            "to_date": "March 28, 2025"
+            "duration": {
+                "from": "March 3, 2025",
+                "to": "March 28, 2025"
+            }
         }
         ```
 
-        Guest ID inferred from logged in user. The default status is `pending`. Property ID is inferred from the URL
+        Guest ID inferred from logged in user. The default status is `pending`.
 
         **Response** (the entire saved reservation object)
 
@@ -241,11 +244,14 @@
         {
             "reservation_id": 5874,
             "guest_id": 6113,
-            "status": "Pending",
+            "host_id": 9945,
+            "status": "reservation_pending",
             "property_id": 6532,
             "guests": 2,
-            "from": "March 3, 2025",
-            "to": "March 28, 2025"
+            "duration": {
+                "from": "March 3, 2025",
+                "to": "March 28, 2025"
+            }
         }
         ```
 
@@ -254,10 +260,9 @@
         -   `400`: incorrect data format
         -   `401`: user not logged in
 
+-   ### `/reservation/<id>/`
 
--   ### `/reservation/update/<id>/`
-
-    -   #### `PUT`: Allows the host of a property to update the reservation status of pending reservations to 'Approved' or 'Denied.
+    -   #### `GET`: return a specific reservation
 
         **Response** (the entire saved reservation object)
 
@@ -265,38 +270,52 @@
         {
             "reservation_id": 5874,
             "guest_id": 6113,
-            "status": "Approved",
+            "host_id": 9945,
+            "status": "reservation_pending",
             "property_id": 6532,
             "guests": 2,
-            "from": "March 3, 2025",
-            "to": "March 28, 2025"
+            "duration": {
+                "from": "March 3, 2025",
+                "to": "March 28, 2025"
+            }
         }
         ```
 
         **Error Codes**
 
         -   `401`: user not logged in
-        -   `403`: user is not the host of the property that is trying to be reserved or the reservation has a non pending status
+        -   `403`: user is not a participant of the reservation (must either be guest or host)
         -   `404`: nonexistent reservation ID
 
--   ### `/reservation/cancel/<id>/`
-
-    -   #### `GET`: Allows the user who initiated the reservation to cancel the reservation if status is pending or request cancellation using notification if status is approved.
+    -   #### `POST`: modify a specific reservation
 
         **JSON Body**
 
         ```json
         {
-            "status": "Cancelled",
+            "status": "approved",
             "guests": 2,
-            "from": "March 3, 2025",
-            "to": "March 28, 2025"
+            "duration": {
+                "from": "March 3, 2025",
+                "to": "March 28, 2025"
+            }
         }
         ```
 
--   ### `/reservation/cancel/request/<id>/`
+        Valid status changes for host:
 
-    -   #### `GET`: Allows the host of a property that is in the reservation process to cancel any reservation. If cancellation was first requested by user then status is cancelled otherwise status is terminated.
+        -   `reservation_pending` -> `reserved` || `reservation_denied`,
+        -   `cancellation_pending` -> `cancelled` || `cancellation_denied`,
+        -   `reserved` -> `terminated`
+
+        Valid status changes for guest:
+
+        -   `reservation_pending` -> `cancelled`
+        -   `reserved` -> `cancellation_pending`
+
+        Automatic status changes:
+
+        -   `reservation_pending` || `cancellation_pending` -> `expired`
 
         **Response** (the entire updated reservation object)
 
@@ -304,11 +323,14 @@
         {
             "reservation_id": 5874,
             "guest_id": 6113,
-            "status": "Terminated",
+            "host_id": 9945,
+            "status": "pending",
             "property_id": 6532,
             "guests": 2,
-            "from": "March 3, 2025",
-            "to": "March 28, 2025"
+            "duration": {
+                "from": "March 3, 2025",
+                "to": "March 28, 2025"
+            }
         }
         ```
 
@@ -318,76 +340,3 @@
         -   `401`: user not logged in
         -   `403`: user is not a participant of the reservation (must either be guest or host), or user status change not valid
         -   `404`: nonexistent reservation ID
-
-
-        Valid status changes for host:
-
-        -   `Pending` -> `Approved` || `Denied`,
-        -   `Approved` -> `Terminated` || `Cancelled`
-
-        Valid status changes for guest:
-
-        -   `Pending` -> `Cancelled`
-
-
-## 👍 Notifications
-
--   ### `/notifications/`
-
-    -   #### `GET`: return a list of all uncleared notifications for a user
-
-       The user is inferred from logged in user.
-
-        **Response**
-
-        ```json
-        [
-            {
-                "notification_id": 5874,
-                "user_id": 6113,
-                "reservation_id": 6000,
-                "created_at": March 1, 2025 8:43 PM,
-                "is_read": false,
-                "is_cancel_req": false,
-                "is_cleared": false,
-                "content": "Hello"
-                }
-            }
-        ]
-        ```
-
-        **Error Codes**
-
-        -   `400`: incorrect parameters
-        -   `401`: user not logged in
-        -   `403`: user is not participant of any reservation (must either be guest or host)
-
--   ### `/notifications/read/<id>/`
-
-    -   #### `GET`: returns the notification with notifcation id = <id> and marks is_read and is_cleared to true
-
-       The user is inferred from logged in user.
-
-        **Response**
-
-        ```json
-        [
-            {
-                "notification_id": 5874,
-                "user_id": 6113,
-                "reservation_id": 6000,
-                "created_at": March 1, 2025 8:43 PM,
-                "is_read": true,
-                "is_cancel_req": false,
-                "is_cleared": true,
-                "content": "Hello"
-                }
-            }
-        ]
-        ```
-
-        **Error Codes**
-
-        -   `400`: incorrect parameters
-        -   `401`: user not logged in
-        -   `403`: user is not participant of any reservation (must either be guest or host)
