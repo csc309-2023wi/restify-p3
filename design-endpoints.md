@@ -328,3 +328,66 @@
         Valid status changes for guest:
 
         -   `Pending` -> `Cancelled`
+
+
+## 👍 Notifications
+
+-   ### `/notifications/`
+
+    -   #### `GET`: return a list of all uncleared notifications for a user
+
+       The user is inferred from logged in user.
+
+        **Response**
+
+        ```json
+        [
+            {
+                "notification_id": 5874,
+                "user_id": 6113,
+                "reservation_id": 6000,
+                "created_at": March 1, 2025 8:43 PM,
+                "is_read": false,
+                "is_cancel_req": false,
+                "is_cleared": false,
+                "content": "Hello"
+                }
+            }
+        ]
+        ```
+
+        **Error Codes**
+
+        -   `400`: incorrect parameters
+        -   `401`: user not logged in
+        -   `403`: user is not participant of any reservation (must either be guest or host)
+
+-   ### `/notifications/read/<id>/`
+
+    -   #### `GET`: returns the notification with notifcation id = <id> and marks is_read and is_cleared to true
+
+       The user is inferred from logged in user.
+
+        **Response**
+
+        ```json
+        [
+            {
+                "notification_id": 5874,
+                "user_id": 6113,
+                "reservation_id": 6000,
+                "created_at": March 1, 2025 8:43 PM,
+                "is_read": true,
+                "is_cancel_req": false,
+                "is_cleared": true,
+                "content": "Hello"
+                }
+            }
+        ]
+        ```
+
+        **Error Codes**
+
+        -   `400`: incorrect parameters
+        -   `401`: user not logged in
+        -   `403`: user is not participant of any reservation (must either be guest or host)
