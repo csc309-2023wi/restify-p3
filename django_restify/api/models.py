@@ -1,9 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.contenttypes.models import ContentType
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class User(AbstractUser):
-    pass
+    email = models.EmailField(null=False)
+    first_name = models.CharField(max_length=150, null=False)
+    last_name = models.CharField(max_length=150, null=False)
+    phone_number = models.IntegerField(null=True)
+    avatar = models.TextField(null=True)
 
 
 class Property(models.Model):
