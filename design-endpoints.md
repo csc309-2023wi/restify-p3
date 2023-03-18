@@ -216,7 +216,6 @@
 
         -   `400`: incorrect parameters
         -   `401`: user not logged in
-        -   `403`: user is not participant of any reservation (must either be guest or host)
 
 -   ### `/reservation/create/<id>/`
 
@@ -250,8 +249,9 @@
 
         **Error Codes**
 
-        -   `400`: incorrect data format
         -   `401`: user not logged in
+        -   `403`: invalid values for from and to dates
+        -   `404`: nonexistent property ID
 
 
 -   ### `/reservation/update/<id>/`
@@ -273,7 +273,7 @@
         ```
 
         **Error Codes**
-
+        -   `400`: incorrect parameters
         -   `401`: user not logged in
         -   `403`: user is not the host of the property that is trying to be reserved or the reservation has a non pending status
         -   `404`: nonexistent reservation ID
@@ -292,6 +292,11 @@
             "to": "2025-03-08"
         }
         ```
+        
+        **Error Codes**
+        -   `401`: user not logged in
+        -   `403`: user does not have permission to cancel this reservation or has a non cancellable status
+        -   `404`: nonexistent reservation ID
 
 -   ### `/reservation/cancel/request/<id>/`
 
@@ -313,9 +318,8 @@
 
         **Error Codes**
 
-        -   `400`: incorrect data format
         -   `401`: user not logged in
-        -   `403`: user is not a participant of the reservation (must either be guest or host), or user status change not valid
+        -   `403`: user is not the host of the reservation property, or reservation has a non cancellable status
         -   `404`: nonexistent reservation ID
 
 
@@ -354,12 +358,6 @@
         ]
         ```
 
-        **Error Codes**
-
-        -   `400`: incorrect parameters
-        -   `401`: user not logged in
-        -   `403`: user is not participant of any reservation (must either be guest or host)
-
 -   ### `/notifications/read/<id>/`
 
     -   #### `GET`: returns the notification with notifcation id = <id> and marks is_read and is_cleared to true
@@ -385,6 +383,6 @@
 
         **Error Codes**
 
-        -   `400`: incorrect parameters
         -   `401`: user not logged in
-        -   `403`: user is not participant of any reservation (must either be guest or host)
+        -   `403`: user tries to access a notification of a different user or tries to read a notification that has already been cleared
+        -   `404`: nonexistent notification id
