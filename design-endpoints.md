@@ -337,53 +337,53 @@
 
 -   ### `/notifications/`
 
-  -   #### `GET`: return a list of all uncleared notifications for a user
+    -   #### `GET`: return a list of all uncleared notifications for a user
 
        The user is inferred from logged in user.
 
-        **Response**
+       **Response**
 
-        ```json
-        [
-            {
-                "notification_id": 5874,
-                "user_id": 6113,
-                "reservation_id": 6000,
-                "created_at": "2025-03-01T20:43:20",
-                "is_read": false,
-                "is_cancel_req": false,
-                "is_cleared": false,
-                "content": "Hello"
-            }
-        ]
-        ```
+       ```json
+       [
+           {
+               "notification_id": 5874,
+               "user_id": 6113,
+               "reservation_id": 6000,
+               "created_at": "2025-03-01T20:43:20",
+               "is_read": false,
+               "is_cancel_req": false,
+               "is_cleared": false,
+               "content": "Hello"
+           }
+       ]
+       ```
 
 -   ### `/notifications/read/<id>/`
 
-  -   #### `GET`: returns the notification with notifcation id and marks is_read and is_cleared to true
+    -   #### `GET`: returns the notification with notifcation id and marks is_read and is_cleared to true
 
        The user is inferred from logged in user.
 
-        **Response**
+       **Response**
 
-        ```json
-        [
-            {
-                "notification_id": 5874,
-                "user_id": 6113,
-                "reservation_id": 6000,
-                "created_at": "2025-03-01T20:43:20",
-                "is_read": true,
-                "is_cancel_req": false,
-                "is_cleared": true,
-                "content": "Hello"
-            }
-        ]
-        ```
+       ```json
+       [
+           {
+               "notification_id": 5874,
+               "user_id": 6113,
+               "reservation_id": 6000,
+               "created_at": "2025-03-01T20:43:20",
+               "is_read": true,
+               "is_cancel_req": false,
+               "is_cleared": true,
+               "content": "Hello"
+           }
+       ]
+       ```
         
 
-        **Error Codes**
+       **Error Codes**
 
-        -   `401`: user not logged in
-        -   `403`: user tries to access a notification of a different user or tries to read a notification that has already been cleared
-        -   `404`: nonexistent notification id
+       -   `401`: user not logged in
+       -   `403`: user tries to access a notification of a different user or tries to read a notification that has already been cleared
+       -   `404`: nonexistent notification id
