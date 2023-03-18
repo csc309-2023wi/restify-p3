@@ -1,5 +1,5 @@
 from random import randrange
-from django.db.models import F, Value, Min, DateField
+from django.db.models import F, Q, Value, Min, DateField
 from django.db.models.functions import Cast
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.serializers import (
@@ -10,6 +10,8 @@ from rest_framework.serializers import (
 )
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import filters, permissions
+from functools import reduce
+from operator import and_
 
 from ..models import Property
 
@@ -66,9 +68,20 @@ class PropertyListCreateView(ListCreateAPIView):
         if location is not None:
             queryset = queryset.filter(address__icontains=location)
 
-        guests_allowed = self.request.query_params.get("guests_allowed")
-        if location is not None:
-            queryset = queryset.filter(guest_capacity__gte=guests_allowed)
+        num_guests = self.request.query_params.get("num_guests")
+        if num_guests is not None:
+            queryset = queryset.filter(guest_capacity__gte=num_guests)
+
+        amenities_q = self.request.query_params.get("amenities")
+        if amenities_q is not None:
+            # Split query param into list of amenities
+            amenities = amenities_q.split(",")
+            queryset = queryset.filter(
+                reduce(
+                    and_,
+                    (Q(amenities__icontains=term) for term in amenities),
+                )
+            )
 
         # annotate rating
         queryset = queryset.annotate(rating=F("id") + Value(randrange(1, 6)))
