@@ -1,5 +1,5 @@
 from random import randrange
-from django.db.models import F, Value, Min, DateField
+from django.db.models import F, Q, Value, Min, DateField
 from django.db.models.functions import Cast
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.serializers import (
@@ -8,7 +8,10 @@ from rest_framework.serializers import (
     IntegerField,
     CurrentUserDefault,
 )
+from rest_framework.pagination import PageNumberPagination
 from rest_framework import filters, permissions
+from functools import reduce
+from operator import and_
 
 from ..models import Property
 
@@ -34,8 +37,15 @@ class PropertySerializer(ModelSerializer):
         ]
 
 
+class PropertyPagination(PageNumberPagination):
+    page_size = 9
+    page_size_query_param = "page_size"
+    max_page_size = 36
+
+
 class PropertyListCreateView(ListCreateAPIView):
     serializer_class = PropertySerializer
+    pagination_class = PropertyPagination
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ["address", "description", "amenities"]
@@ -47,9 +57,31 @@ class PropertyListCreateView(ListCreateAPIView):
         the user as determined by the username portion of the URL.
         """
         queryset = Property.objects.all()
+
+        # GET query parameters
+
         host_id = self.request.query_params.get("host_id")
         if host_id is not None:
             queryset = queryset.filter(host__id=host_id)
+
+        location = self.request.query_params.get("location")
+        if location is not None:
+            queryset = queryset.filter(address__icontains=location)
+
+        num_guests = self.request.query_params.get("num_guests")
+        if num_guests is not None:
+            queryset = queryset.filter(guest_capacity__gte=num_guests)
+
+        amenities_q = self.request.query_params.get("amenities")
+        if amenities_q is not None:
+            # Split query param into list of amenities
+            amenities = amenities_q.split(",")
+            queryset = queryset.filter(
+                reduce(
+                    and_,
+                    (Q(amenities__icontains=term) for term in amenities),
+                )
+            )
 
         # annotate rating
         queryset = queryset.annotate(rating=F("id") + Value(randrange(1, 6)))
