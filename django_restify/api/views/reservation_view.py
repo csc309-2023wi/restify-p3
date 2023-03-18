@@ -209,6 +209,7 @@ class ReservationHostCancelView(APIView):
             return Response(
                 {'error': 'This reservation is not in a cancellable state.'},
                 status=status.HTTP_403_FORBIDDEN
+
             )
         
         if  reservation.status == 'PC':
