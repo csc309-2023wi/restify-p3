@@ -337,7 +337,7 @@
 
 -   ### `/notifications/`
 
-    -   #### `GET`: return a list of all uncleared notifications for a user
+  -   #### `GET`: return a list of all uncleared notifications for a user
 
        The user is inferred from logged in user.
 
@@ -360,7 +360,7 @@
 
 -   ### `/notifications/read/<id>/`
 
-    -   #### `GET`: returns the notification with notifcation id = <id> and marks is_read and is_cleared to true
+  -   #### `GET`: returns the notification with notifcation id and marks is_read and is_cleared to true
 
        The user is inferred from logged in user.
 
@@ -380,6 +380,7 @@
             }
         ]
         ```
+        
 
         **Error Codes**
 
