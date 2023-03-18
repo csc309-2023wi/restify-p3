@@ -8,6 +8,7 @@ from rest_framework.serializers import (
     IntegerField,
     CurrentUserDefault,
 )
+from rest_framework.pagination import PageNumberPagination
 from rest_framework import filters, permissions
 
 from ..models import Property
@@ -34,8 +35,15 @@ class PropertySerializer(ModelSerializer):
         ]
 
 
+class PropertyPagination(PageNumberPagination):
+    page_size = 9
+    page_size_query_param = "page_size"
+    max_page_size = 36
+
+
 class PropertyListCreateView(ListCreateAPIView):
     serializer_class = PropertySerializer
+    pagination_class = PropertyPagination
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ["address", "description", "amenities"]
@@ -47,9 +55,20 @@ class PropertyListCreateView(ListCreateAPIView):
         the user as determined by the username portion of the URL.
         """
         queryset = Property.objects.all()
+
+        # GET query parameters
+
         host_id = self.request.query_params.get("host_id")
         if host_id is not None:
             queryset = queryset.filter(host__id=host_id)
+
+        location = self.request.query_params.get("location")
+        if location is not None:
+            queryset = queryset.filter(address__icontains=location)
+
+        guests_allowed = self.request.query_params.get("guests_allowed")
+        if location is not None:
+            queryset = queryset.filter(guest_capacity__gte=guests_allowed)
 
         # annotate rating
         queryset = queryset.annotate(rating=F("id") + Value(randrange(1, 6)))
