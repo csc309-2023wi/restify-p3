@@ -26,44 +26,29 @@ class NotificationPagination(PageNumberPagination):
     page_size = 5
 
 class NotificationsView(ListAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     serializer_class = NotificationSerializer
     pagination_class = NotificationPagination
 
     def get_queryset(self):
-        user_id = self.request.query_params.get("user_id")
+        user_id = self.request.user.id
         user = get_object_or_404(User, id=user_id)
-        # user = get_object_or_404(User, id=self.request.user.id)
         query_set = Notification.objects.filter(user=user, is_cleared=False)
         return query_set
 
 
 class NotificationReadView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     serializer_class = NotificationSerializer
 
     def get(self, request, id):
         notification = get_object_or_404(Notification, id=self.kwargs.get('id'))
-        user = get_object_or_404(User, id=self.request.query_params.get('user_id'))
+        user = get_object_or_404(User, id=self.request.user.id)
         if notification.user != user:
             return Response(status=status.HTTP_403_FORBIDDEN)
         if notification.is_cleared:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         notification.is_read = True
-        notification.is_cleared = True
-        notification.save()
-        serializer = NotificationSerializer(notification)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class NotificationClearedView(UpdateAPIView):
-    # permission_classes = [IsAuthenticated]
-    serializer_class = NotificationSerializer
-
-    def put(self, request, id):
-        notification = get_object_or_404(Notification, id=self.kwargs[id])
-        if notification.user != self.request.user:
-            return Response(status=status.HTTP_403_FORBIDDEN)
         notification.is_cleared = True
         notification.save()
         serializer = NotificationSerializer(notification)

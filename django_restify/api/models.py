@@ -3,8 +3,11 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    pass
-
+    email = models.EmailField(null=False)
+    first_name = models.CharField(max_length=150, null=False)
+    last_name = models.CharField(max_length=150, null=False)
+    phone_number = models.IntegerField(null=True)
+    avatar = models.TextField(null=True)
 
 class Property(models.Model):
     host = models.ForeignKey(

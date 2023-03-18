@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path("", views.HelloView.as_view(), name="hello"),
@@ -17,9 +18,14 @@ urlpatterns = [
     path("reservation/cancel/<int:pk>/", views.ReservationCancelView.as_view(), name="cancel_reservation"),
     path("reservation/update/<int:pk>/", views.ReservationUpdateView.as_view(), name="pending_request"),
     path("reservation/cancel/request/<int:pk>/", views.ReservationHostCancelView.as_view(), name="cancel_request"),
-    path("reservation/<int:id>/", views.ReservationRetrieveUpdateDestroyView.as_view(), name="reservation_two"),
+
+    # path("reservation/<int:id>/", views.ReservationRetrieveUpdateDestroyView.as_view(), name="reservation_two"),
+
     path('notifications/', views.NotificationsView.as_view(), name='notifications'),
-    path('notifications/read/<int:id>', views.NotificationReadView.as_view(), name='read_notification'),
+    path('notifications/read/<int:id>/', views.NotificationReadView.as_view(), name='read_notification'),
     
-    # path("user/", views.__.as_view(), name="user"),
+    path("signup/", views.SignUpView.as_view(), name="signup"),
+    path("login/", TokenObtainPairView.as_view(), name="login"),
+    path("refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("user/profile/", views.ProfileView.as_view(), name="profile")
 ]
