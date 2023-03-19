@@ -65,7 +65,6 @@ class ProfileUpdateSerializer(ModelSerializer):
             "password"
         ]
 
-
 class SignUpView(CreateAPIView):
     serializer_class = UserCreateSerializer
     queryset = User.objects.all()
@@ -93,5 +92,3 @@ class ProfileView(RetrieveUpdateAPIView):
             return Response({'Profile': 'Updated successfully'}, status=status.HTTP_200_OK)
         
         return Response({'error': 'Invalid data'}, status=status.HTTP_403_FORBIDDEN)
-        
-

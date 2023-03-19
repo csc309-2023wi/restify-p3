@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-
 class User(AbstractUser):
     email = models.EmailField(null=False)
     first_name = models.CharField(max_length=150, null=False)
@@ -20,7 +19,6 @@ class Property(models.Model):
     availability = models.JSONField(null=False, default=list)  # list of objects
     amenities = models.JSONField(null=False, default=list)  # list of strings
     images = models.JSONField(null=False, default=list)  # list of strings (image hashes)
-
 
 class Reservation(models.Model):
     PENDING = 'PE'
