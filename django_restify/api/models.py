@@ -62,7 +62,8 @@ class Notification(models.Model):
 class Comment(models.Model):
     commenter = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField(null=True)
-
+    posted_at = models.DateTimeField(auto_now_add=True)
+    
     class Meta:
         abstract = True
 

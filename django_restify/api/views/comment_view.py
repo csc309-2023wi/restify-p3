@@ -7,37 +7,57 @@ from rest_framework.serializers import (
 )
 from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from ..models import User, Comment, PropertyComment, UserComment, Reply, Property, Reservation
+from ..models import User, Comment, PropertyComment, UserComment, Reply, Property, Reservation, Notification
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.serializers import (
     ModelSerializer,
     PrimaryKeyRelatedField,
     IntegerField,
     CurrentUserDefault,
+    Serializer,
+    CharField,
+    DateTimeField
 )
 from django.db.models import Q
 
-class CommentSerializer(ModelSerializer):
-    commenter = PrimaryKeyRelatedField(
-        source="user.id", many=False, default=CurrentUserDefault(), read_only=True
-    )
-    comment_for = PrimaryKeyRelatedField(
-        source="parent.id", many=False, read_only=True
-    )
+class CommentSerializer(Serializer):
+    commenter = PrimaryKeyRelatedField(many=False, read_only=True)
+    content = CharField()
+    # comment_for = PrimaryKeyRelatedField(
+    #     source="parent.id", many=False, read_only=True
+    # )
     class Meta:
-        model = PropertyComment
         fields = [
             "commenter",
-            "comment_for",
             "content",
-            "rating",
         ]
+
+class PropertyCommentSerializer(CommentSerializer, ModelSerializer):
+    comment_for = PrimaryKeyRelatedField(many=False, read_only=True)
+
+    class Meta:
+        model = PropertyComment
+        fields = CommentSerializer.Meta.fields + ['comment_for', 'rating']
+
+class UserCommentSerializer(CommentSerializer, ModelSerializer):
+    comment_for = PrimaryKeyRelatedField(many=False, read_only=True)
+
+    class Meta:
+        model = UserComment
+        fields = CommentSerializer.Meta.fields + ['comment_for', 'rating']
+
+class ReplySerializer(CommentSerializer, ModelSerializer):
+    comment_for = PrimaryKeyRelatedField(many=False, read_only=True)
+
+    class Meta:
+        model = Reply
+        fields = CommentSerializer.Meta.fields + ['comment_for']
 
 class CommentPagination(PageNumberPagination):
     page_size = 5
 
 class PropertyCommentListView(ListCreateAPIView):
-    serializer_class = CommentSerializer
+    serializer_class = PropertyCommentSerializer
     permission_classes = (AllowAny, IsAuthenticated)
     pagination_class = CommentPagination
 
@@ -49,10 +69,10 @@ class PropertyCommentListView(ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         property_commented = get_object_or_404(Property, pk=self.kwargs['pk'])
 
-        already_commented = PropertyComment.objects.filter(comment_of=property_commented,
+        already_commented = PropertyComment.objects.filter(comment_for=property_commented,
                                                            commenter=request.user)
         if already_commented:
-            return Response({'error': 'You have already left a comment/rating for this property.'})
+            return Response({'error': 'You have already left a comment/rating for this property.'}, status=status.HTTP_403_FORBIDDEN)
         
         reservation = Reservation.objects.filter(property=property_commented, 
                                                   guest=request.user).filter(
@@ -63,6 +83,7 @@ class PropertyCommentListView(ListCreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
+        
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -71,7 +92,7 @@ class PropertyCommentListView(ListCreateAPIView):
         serializer.save(commenter=self.request.user, comment_for=property)
 
 class UserCommentListView(ListCreateAPIView):
-    serializer_class = CommentSerializer
+    serializer_class = UserCommentSerializer
     permission_classes = (AllowAny, IsAuthenticated)
     pagination_class = CommentPagination
 
@@ -95,11 +116,11 @@ class UserCommentListView(ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         user = get_object_or_404(User, pk=self.kwargs['pk'])
 
-        already_commented = UserComment.objects.filter(comment_of=user, commenter=request.user)
+        already_commented = UserComment.objects.filter(comment_for=user, commenter=request.user)
         if already_commented:
             return Response({'error': 'You have already rated this user'}, status=status.HTTP_403_FORBIDDEN)
 
-        reservation = Reservation.objects.filter(host=request.user, guest=user, status='CO')
+        reservation = Reservation.objects.filter(property__host=request.user, guest=user, status='CO')
         if not reservation:
             return Response({'error': 'You do not have permission to rate this user.'},
                             status=status.HTTP_403_FORBIDDEN)
@@ -115,7 +136,7 @@ class UserCommentListView(ListCreateAPIView):
         serializer.save(commenter=self.request.user, comment_for=user)
 
 class ReplyListView(ListCreateAPIView):
-    serializer_class = CommentSerializer
+    serializer_class = ReplySerializer
     permission_classes = (AllowAny, IsAuthenticated)
     pagination_class = CommentPagination
 

@@ -6,8 +6,8 @@ urlpatterns = [
     path("", views.HelloView.as_view(), name="hello"),
     # path("comment/", views.__.as_view(), name="comment"),
     path("comment/property/<int:pk>/", views.PropertyCommentListView.as_view(), name="comment_property"),
-    path("comment/user/<int:pk>/", views.PropertyCommentListView.as_view(), name="comment_property"),
-    path("comment/property/reply/<int:pk>/", views.PropertyCommentListView.as_view(), name="comment_property"),
+    path("comment/user/<int:pk>/", views.UserCommentListView.as_view(), name="comment_user"),
+    path("comment/property/reply/<int:pk>/", views.ReplyListView.as_view(), name="reply"),
     # path("image/", views.__.as_view(), name="image"),
     
     path("signup/", views.SignUpView.as_view(), name="signup"),
