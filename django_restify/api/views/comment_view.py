@@ -41,6 +41,7 @@ class CommentSerializer(Serializer):
 
     class Meta:
         fields = [
+            "id",
             "commenter",
             "content",
         ]
@@ -189,13 +190,13 @@ class ReplyListView(ListCreateAPIView):
         if comment.comment_for.host == request.user:
             if replies.count() % 2 != 0:
                 return Response(
-                    {"error": "You have already replied to this reply/comment."},
+                    {"error": "You can't reply to your own comment/reply."},
                     status=status.HTTP_403_FORBIDDEN,
                 )
         elif comment.commenter == request.user:
             if replies.count() % 2 == 0:
                 return Response(
-                    {"error": "You have already replied to this reply/comment."},
+                    {"error": "You can't reply to your own comment/reply."},
                     status=status.HTTP_403_FORBIDDEN,
                 )
         else:

@@ -12,23 +12,23 @@
 
     -   #### `POST`: create a new user
 
-        **Query Params**
+        **JSON Body**
 
-        -   `username`: new user's username
-
-        -   `email`: new user's email
-
-        -   `first_name`: new user's first name
-
-        -   `last_name`: new user's last name
-
-        -   `password`: new user's password
-
-        -   `password2`: password confirmation
-
-        -   `phone_number`: (OPTIONAL) new user's phone number
-
-        -   `avatar`: (OPTIONAL) new user's avatar as an image file
+        ```json
+        [
+            {
+                "username": "JohnD123",
+                "first_name": "John",
+                "last_name": "Doe",
+                "email": "johndoe@gmail.com",
+                "password": "pass123",
+                "password2": "pass123",
+                "phone_number": 180012345678,
+                "avatar": "profile_pic.png"
+            }
+        ]
+        ```
+        -   `phone_number` and `avatar` are optional
 
         **Response**
 
@@ -52,11 +52,16 @@
 
     -   #### `POST`: login user using JWT
 
-        **Query Params**
+        **JSON Body**
 
-        -   `username`: existing user's username
-
-        -   `password`: existing user's password
+        ```json
+        [
+            {
+                "username": "JohnD123",
+                "password": "pass123"
+            }
+        ]
+        ```
 
         **Response**
 
@@ -76,9 +81,17 @@
 
     -   #### `POST`: get a new refresh token
 
-        **Query Params**
+        **JSON Body**
 
-        -   `refresh`: a valid JWT refresh token
+        ```json
+        [
+            {
+                "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
+            }
+        ]
+        ```
+
+        -   `refresh` is a valid JWT refresh token
 
         **Response**
 
@@ -125,22 +138,22 @@
     
     -   #### `PUT`: update user field(s) 
         
-        **Query Params** (All Optional)
+        **JSON Body**
 
-        -   `username`: new username
-
-        -   `email`: new email
-
-        -   `first_name`: new first name
-
-        -   `last_name`: new last name
-
-        -   `password`: new password
-
-        -   `phone_number`: new phone number
-
-        -   `avatar`: new avatar as an image file
-        
+        ```json
+        [
+            {
+                "username": "JohnD123",
+                "first_name": "John",
+                "last_name": "Doe",
+                "email": "johndoe@gmail.com",
+                "password": "pass123",
+                "phone_number": 180012345678,
+                "avatar": "profile_pic.png"
+            }
+        ]
+        ```
+        -   All fields are optional
 
         **Response**
 
@@ -496,156 +509,192 @@
 -   ### `/comment/property/id/`
 
     -   #### `GET`: return all the comments/ratings for property with property id
-    
-    Supports pagination.
+        
+        Supports pagination.
 
-    **Response**
+        **Response**
 
-    ```json
-    [
-        {
-            "commenter": 1,
-            "content": "Wow!",
-            "comment_for": 2,
-            "rating": 5,
-            "posted_at": "2023-03-19T01:49:40.841989Z"
-        }
-    ]
-    ```
+        ```json
+        [
+            {
+                "id": 1,
+                "commenter": 1,
+                "content": "Wow!",
+                "comment_for": 2,
+                "rating": 5,
+                "posted_at": "2023-03-19T01:49:40.841989Z"
+            }
+        ]
+        ```
 
-    **Error Codes**
+        **Error Codes**
 
-    -   `401`: user is not logged in
-    -   `404`: invalid property id
+        -   `401`: user is not logged in
+        -   `404`: invalid property id
 
     -   #### `POST`: make a comment/rate the property with property id
 
-    **Query Params**
+        **JSON Body**
+        
+        ```json
+        [
+            {
+                "content": "Wow!",
+                "rating": 5
+            }
+        ]
+        ```
 
-    -   `content`: (OPTIONAL) the comment text
+        -   Content is optional
 
-    -   `rating`: a rating from 1 to 5
+        -   Rating must be between 1 and 5
 
-     ```json
-    [
-        {
-            "commenter": 1,
-            "content": "Wow!",
-            "comment_for": 2,
-            "rating": 5,
-            "posted_at": "2023-03-19T01:49:40.841989Z"
-        }
-    ]
-    ```
+        **Response**
 
-    **Error Codes**
+        ```json
+        [
+            {
+                "id": 1,
+                "commenter": 1,
+                "content": "Wow!",
+                "comment_for": 2,
+                "rating": 5,
+                "posted_at": "2023-03-19T01:49:40.841989Z"
+            }
+        ]
+        ```
 
-    -   `400`: invalid request data
-    -   `401`: user is not logged in
-    -   `403`: does not meet criteria to leave a comment
-    -   `404`: invalid property id
+        **Error Codes**
+
+        -   `400`: invalid request data
+        -   `401`: user is not logged in
+        -   `403`: does not meet criteria to leave a comment
+        -   `404`: invalid property id
 
 -   ### `/comment/user/id/`
 
     -   #### `GET`: return all the comments/ratings for user with user id
-    
-    Supports pagination.
 
-    **Response**
+        Supports pagination.
 
-    ```json
-    [
-        {
-            "commenter": 1,
-            "content": "Wow!",
-            "comment_for": 2,
-            "rating": 5,
-            "posted_at": "2023-03-19T01:49:40.841989Z"
-        }
-    ]
-    ```
+        **Response**
 
-    **Error Codes**
+        ```json
+        [
+            {
+                "id": 1,
+                "commenter": 1,
+                "content": "Wow!",
+                "comment_for": 2,
+                "rating": 5,
+                "posted_at": "2023-03-19T01:49:40.841989Z"
+            }
+        ]
+        ```
 
-    -   `401`: user is not logged in
-    -   `404`: invalid user id
+        **Error Codes**
+
+        -   `401`: user is not logged in
+        -   `404`: invalid user id
 
     -   #### `POST`: make a comment/rate the user with user id
 
-    **Query Params**
+        **JSON Body**
+        
+        ```json
+        [
+            {
+                "content": "Wow!",
+                "rating": 5
+            }
+        ]
+        ```
 
-    -   `content`: (OPTIONAL) the comment text
+        -   Content is optional
 
-    -   `rating`: a rating from 1 to 5, default of 1
+        -   Rating must be between 1 and 5
 
-     ```json
-    [
-        {
-            "commenter": 1,
-            "content": "Wow!",
-            "comment_for": 2,
-            "rating": 5,
-            "posted_at": "2023-03-19T01:49:40.841989Z"
-        }
-    ]
-    ```
+        **Response**
 
-    **Error Codes**
+        ```json
+        [
+            {
+                "id": 1,
+                "commenter": 1,
+                "content": "Wow!",
+                "comment_for": 2,
+                "rating": 5,
+                "posted_at": "2023-03-19T01:49:40.841989Z"
+            }
+        ]
+        ```
 
-    -   `400`: invalid request data
-    -   `401`: user is not logged in
-    -   `403`: does not meet criteria to leave a comment
-    -   `404`: invalid user id
+        **Error Codes**
+
+        -   `400`: invalid request data
+        -   `401`: user is not logged in
+        -   `403`: does not meet criteria to leave a comment
+        -   `404`: invalid user id
 
 -   ### `/comment/property/reply/id/`
 
     -   #### `GET`: return all the replies for the comment with comment id
-    
-    Supports pagination.
 
-    **Response**
+        Supports pagination.
 
-    ```json
-    [
-        {
-            "commenter": 1,
-            "content": "Wow!",
-            "comment_for": 2,
-            "posted_at": "2023-03-19T01:49:40.841989Z"
-        }
-    ]
-    ```
+        **Response**
 
-    **Error Codes**
+        ```json
+        [
+            {
+                "id": 1,
+                "commenter": 1,
+                "content": "Wow!",
+                "comment_for": 2,
+                "posted_at": "2023-03-19T01:49:40.841989Z"
+            }
+        ]
+        ```
 
-    -   `401`: user is not logged in
-    -   `404`: invalid comment id
+        **Error Codes**
+
+        -   `401`: user is not logged in
+        -   `404`: invalid comment id
 
     -   #### `POST`: reply to a comment with comment id
 
-    **Query Params**
+        **JSON Body**
+        
+        ```json
+        [
+            {
+                "content": "Wow!"
+            }
+        ]
+        ```
 
-    -   `content`: the reply text
+        **Response**
 
-     ```json
-    [
-        {
-            "commenter": 1,
-            "content": "Wow!",
-            "comment_for": 2,
-            "posted_at": "2023-03-19T01:49:40.841989Z"
-        }
-    ]
-    ```
+        ```json
+        [
+            {
+                "id": 1,
+                "commenter": 1,
+                "content": "Wow!",
+                "comment_for": 2,
+                "posted_at": "2023-03-19T01:49:40.841989Z"
+            }
+        ]
+        ```
 
-    **Error Codes**
+        **Error Codes**
 
-    -   `400`: invalid request data
-    -   `401`: user is not logged in
-    -   `403`: does not meet criteria to leave a reply
-    -   `404`: invalid comment id
+        -   `400`: invalid request data
+        -   `401`: user is not logged in
+        -   `403`: does not meet criteria to leave a reply
+        -   `404`: invalid comment id
 
----
+    ---
 
 ## 👍 Notifications
 
