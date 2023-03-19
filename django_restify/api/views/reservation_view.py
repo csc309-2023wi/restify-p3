@@ -56,6 +56,8 @@ class ReservationListView(ListAPIView):
         user_type = self.request.query_params.get('type')
         if user_type != 'host' and user_type != 'guest':
             return Response({'error': 'Invalid Query Paramater - type'}, status=status.HTTP_400_BAD_REQUEST)
+
+
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -75,6 +77,15 @@ class ReservationListView(ListAPIView):
         if state is not None:
             queryset = queryset.filter(status=state)
         
+        for reservation in queryset:
+            start_date = reservation.from_date
+            end_date = reservation.to_date
+            if reservation.status == 'PE' and start_date < date.today():
+                reservation.status = 'EX'
+                reservation.save()
+            if reservation.status == 'AP' and end_date < date.today():
+                reservation.status = 'CO'
+                reservation.save()    
         return queryset
 
 class ReservationCreateView(CreateAPIView):
