@@ -147,7 +147,12 @@
         ```json
         [
             {
-                "Profile": "Updated successfully"
+                "username": "JohnD123",
+                "first_name": "John",
+                "last_name": "Doe",
+                "email": "johndoe@gmail.com",
+                "phone_number": 180012345678,
+                "avatar": "profile_pic.png"
             }
         ]
         ```
