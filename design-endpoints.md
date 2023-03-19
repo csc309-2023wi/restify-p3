@@ -190,7 +190,7 @@
 
         **Query Params** (at least one must be specified)
 
-        -   `status`: one of `PE`, `DE`, `EX`, `AP`, `CA`, `TE`, `CO`
+        -   `status`: one of `PE`, `DE`, `EX`, `AP`, `CA`, `TE`, `CO`, `PC`
         -   `type`: one of `guest`, `host`
 
         **Response**
@@ -200,7 +200,7 @@
             {
                 "reservation_id": 5874,
                 "guest_id": 6113,
-                "status": "Pending",
+                "status": "PE",
                 "property_id": 6532,
                 "guests": 2,
                 "from_date": "2025-03-05",
@@ -236,7 +236,7 @@
         {
             "reservation_id": 5874,
             "guest_id": 6113,
-            "status": "Pending",
+            "status": "PE",
             "property_id": 6532,
             "guests": 2,
             "from_date": "2025-03-05",
@@ -260,7 +260,7 @@
         {
             "reservation_id": 5874,
             "guest_id": 6113,
-            "status": "Approved",
+            "status": "AP",
             "property_id": 6532,
             "guests": 2,
             "from_date": "2025-03-05",
@@ -283,7 +283,7 @@
 
         ```json
         {
-            "status": "Cancelled",
+            "status": "CA",
             "guests": 2,
             "from_date": "2025-03-05",
             "to_date": "2025-03-08"
@@ -306,7 +306,7 @@
         {
             "reservation_id": 5874,
             "guest_id": 6113,
-            "status": "Terminated",
+            "status": "TE",
             "property_id": 6532,
             "guests": 2,
             "from_date": "2025-03-05",
