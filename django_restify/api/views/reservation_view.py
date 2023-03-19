@@ -135,14 +135,19 @@ class ReservationUpdateView(UpdateAPIView):
                 return Response({'error': 'Status is required.'}, status=status.HTTP_400_BAD_REQUEST)
             return Response({'error': 'Invalid status. Reservation must be approved or denied.'}, status=status.HTTP_400_BAD_REQUEST)
         
+        if state == 'AP':
+            for res in Reservation.objects.filter(property_id = property.id, status='AP'):
+                if res.from_date <= reservation.to_date or res.to_date >= reservation.from_date:
+                    return Response({'error': 'This property already has an approved reservation overlapping with these dates'}, status=status.HTTP_403_FORBIDDEN)
+
         reservation.status = state
         reservation.save()
         serializer = self.serializer_class(reservation)
         if state == 'AP':
-            for res in Reservation.objects.filter(property_id = property.id, status='PE'):
-                if res.from_date <= reservation.to_date or res.to_date >= reservation.from_date:
-                    res.status = 'DE'
-                    res.save()
+            # for res in Reservation.objects.filter(property_id = property.id, status='PE'):
+            #     if res.from_date <= reservation.to_date or res.to_date >= reservation.from_date:
+            #         res.status = 'DE'
+            #         res.save()
             notification = Notification.objects.create(
                 user = reservation.guest,
                 reservation = reservation,
