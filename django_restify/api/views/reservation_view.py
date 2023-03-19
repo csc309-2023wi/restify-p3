@@ -28,7 +28,8 @@ class ReservationSerializer(ModelSerializer):
             "from_date",
             "to_date",
         ]
-        read_only_fields = ["status", "property_id", "guest_id"]
+        read_only_fields = ["status", "guest_id"]
+        # read_only_fields = ["status", "property_id", "guest_id"]
 
 class ReservationHostSerializer(ModelSerializer):
     class Meta:
@@ -99,7 +100,8 @@ class ReservationCreateView(CreateAPIView):
 
         start_date = serializer.validated_data['from_date']
         end_date = serializer.validated_data['to_date']
-        property = get_object_or_404(Property, id=self.kwargs['property_id'])
+        property_id = serializer.validated_data['property_id']
+        property = property_id
         user_id = self.request.user.id
         user = get_object_or_404(User, id=user_id)
 
@@ -117,7 +119,7 @@ class ReservationCreateView(CreateAPIView):
         if conflicts:
             return Response({'error': 'This property is unavailable during the request time period!'}, status=status.HTTP_403_FORBIDDEN)
 
-        serializer.save(status="PE", property_id=property, guest_id=user)
+        serializer.save(status="PE", guest_id=user)
 
         notification = Notification.objects.create(
             user_id = property.host,
