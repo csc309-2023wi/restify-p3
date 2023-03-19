@@ -188,7 +188,7 @@
 
     -   #### `GET`: return a list of reservations, limited by query parameters
 
-        **Query Params** (at least one must be specified)
+        **Query Params** (type must be specified)
 
         -   `status`: one of `PE`, `DE`, `EX`, `AP`, `CA`, `TE`, `CO`, `PC`
         -   `type`: one of `guest`, `host`
@@ -300,6 +300,10 @@
 
     -   #### `GET`: Allows the host of a property that is in the reservation process to cancel any reservation. If cancellation was first requested by user then status is cancelled otherwise status is terminated.
 
+        **Query Params**
+
+        -   `cancel`: one of `true` or `false`
+
         **Response** (the entire updated reservation object)
 
         ```json
@@ -315,7 +319,8 @@
         ```
 
         **Error Codes**
-
+        
+        -   `400`: Invalid value of cancel parameter has been specificed when dealing with a pending cancellation request
         -   `401`: user not logged in
         -   `403`: user is not the host of the reservation property, or reservation has a non cancellable status
         -   `404`: nonexistent reservation ID
