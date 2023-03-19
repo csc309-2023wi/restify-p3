@@ -295,7 +295,7 @@
             "id": 5874,
             "guest_id": 6113,
             "property_id": 6532,
-            "status": "AP",
+            "status": "CA",
             "guest_count": 2,
             "from_date": "2025-03-05",
             "to_date": "2025-03-08",
