@@ -57,13 +57,14 @@ class Reservation(models.Model):
         max_length=20, null=False, default=PENDING, choices=STATUS_CHOICES
     )
     guest_count = models.PositiveIntegerField(null=False, default=1)
-    from_date = models.DateField(null=True)
-    to_date = models.DateField(null=True)
+    from_date = models.DateField(null=False)
+    to_date = models.DateField(null=False)
 
 
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
-    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, default=None)
+    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, default=None, null=True, blank=False)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, default=None)
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
     is_cancel_req = models.BooleanField(default=False)

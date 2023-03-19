@@ -19,7 +19,7 @@ class NotificationSerializer(ModelSerializer):
 
     class Meta:
         model = Notification
-        fields = ['user', 'reservation', 'content', 'is_read', 'is_cleared', 'created_at', 'is_cancel_req']
+        fields = ['user', 'reservation', "property", 'content', 'is_read', 'is_cleared', 'created_at', 'is_cancel_req']
         read_only_fields = ['content', 'is_read', 'is_cleared']
 
 class NotificationPagination(PageNumberPagination):

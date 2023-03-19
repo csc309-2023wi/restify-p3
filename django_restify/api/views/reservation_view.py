@@ -109,6 +109,7 @@ class ReservationCreateView(CreateAPIView):
         notification = Notification.objects.create(
             user = property.host,
             reservation = serializer.instance,
+            property = property,
             content=f"{user.username} has requested to reserve the property {property.address} from {start_date} to {end_date}."
         )
 
@@ -121,28 +122,32 @@ class ReservationUpdateView(UpdateAPIView):
 
     def put(self, request, *args, **kwargs):
         reservation = get_object_or_404(Reservation, id=self.kwargs.get('pk'))
+        property = reservation.property
         user_id = self.request.user.id
         user = get_object_or_404(User, id=user_id)
 
-        if user != reservation.property.host or reservation.status != 'PE':
+        if user != property.host or reservation.status != 'PE':
             return Response({'error': 'You are not authorized to perform this action.'}, status=status.HTTP_403_FORBIDDEN)
 
         state = request.data.get('status')
         if state not in ('AP', 'DE'):
+            if state is None:
+                return Response({'error': 'Status is required.'}, status=status.HTTP_400_BAD_REQUEST)
             return Response({'error': 'Invalid status. Reservation must be approved or denied.'}, status=status.HTTP_400_BAD_REQUEST)
         
         reservation.status = state
         reservation.save()
         serializer = self.serializer_class(reservation)
         if state == 'AP':
-            for res in Reservation.objects.filter(property_id = reservation.property.id, status='PE'):
+            for res in Reservation.objects.filter(property_id = property.id, status='PE'):
                 if res.from_date <= reservation.to_date or res.to_date >= reservation.from_date:
                     res.status = 'DE'
                     res.save()
             notification = Notification.objects.create(
                 user = reservation.guest,
                 reservation = reservation,
-                content=f"Your reservation request for {reservation.property.address} from {reservation.from_date} to {reservation.to_date} has been approved."
+                property = property,
+                content=f"Your reservation request for {property.address} from {reservation.from_date} to {reservation.to_date} has been approved."
             )
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -153,6 +158,7 @@ class ReservationCancelView(APIView):
 
     def get(self, request, *args, **kwargs):
         reservation = get_object_or_404(Reservation, id=self.kwargs.get('pk'))
+        property = reservation.property
         serializer = ReservationSerializer(reservation)
         user_id = self.request.user.id
         user = get_object_or_404(User, id=user_id)
@@ -180,10 +186,11 @@ class ReservationCancelView(APIView):
             reservation.save()
 
             notification = Notification.objects.create(
-            user = reservation.property.host,
+            user = property.host,
             reservation=reservation,
+            property=property,
             is_cancel_req=True,
-            content=f"{user.username} has requested to cancel their reservation of the property {reservation.property.address}"
+            content=f"{user.username} has requested to cancel their reservation of the property {property.address}"
             )
             dict = serializer.data
             dict['Message'] = 'Request for cancellation has been sent to host'
@@ -195,11 +202,12 @@ class ReservationHostCancelView(APIView):
 
     def get(self, request, *args, **kwargs):
         reservation = get_object_or_404(Reservation, id=self.kwargs.get('pk'))
+        property = reservation.property
         serializer = ReservationSerializer(reservation)
         user_id = self.request.user.id
         user = get_object_or_404(User, id=user_id)
 
-        if reservation.property.host != user:
+        if property.host != user:
             return Response(
                 {'error': 'You do not have permission to cancel this reservation.'},
                 status=status.HTTP_403_FORBIDDEN
@@ -221,7 +229,8 @@ class ReservationHostCancelView(APIView):
             notification = Notification.objects.create(
             user = reservation.guest,
             reservation=reservation,
-            content=f"You request to cancel the reservation of the property {reservation.property.address} has been approved.")
+            property=property,
+            content=f"You request to cancel the reservation of the property {property.address} has been approved.")
             return Response(dict, status=status.HTTP_200_OK)
         else:
             reservation.status = 'TE'
