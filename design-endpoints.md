@@ -190,11 +190,8 @@
 
         **Query Params** (at least one must be specified)
 
-        -   `guest_id`: user ID of the guest that initiated the reservation
-        -   `property_id`: propety ID of the property that the reservation is about
-        -   `status`: one of `Pending`, `Denied`, `Expired`, `Approved`, `Completed`, `Cancelled`, `Terminated`
-        -   `from_date`: start date on or before all returned reservations
-        -   `to_date`: end date on or after all returned reservations
+        -   `status`: one of `PE`, `DE`, `EX`, `AP`, `CA`, `TE`, `CO`
+        -   `type`: one of `guest`, `host`
 
         **Response**
 
@@ -214,7 +211,7 @@
 
         **Error Codes**
 
-        -   `400`: incorrect parameters
+        -   `400`: If type query parameter is not present or is not valid
         -   `401`: user not logged in
 
 -   ### `/reservation/create/<id>/`
