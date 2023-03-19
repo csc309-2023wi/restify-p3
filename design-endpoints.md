@@ -279,7 +279,7 @@
 
     -   #### `GET`: Allows the user who initiated the reservation to cancel the reservation if status is pending or request cancellation using notification if status is approved.
 
-        **JSON Body**
+        **Response**
 
         ```json
         {
