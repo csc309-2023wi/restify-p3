@@ -137,7 +137,7 @@ class ReservationUpdateView(UpdateAPIView):
         
         if state == 'AP':
             for res in Reservation.objects.filter(property_id = property.id, status='AP'):
-                if res.from_date <= reservation.to_date or res.to_date >= reservation.from_date:
+                if res.from_date <= reservation.to_date and res.to_date >= reservation.from_date:
                     return Response({'error': 'This property already has an approved reservation overlapping with these dates'}, status=status.HTTP_403_FORBIDDEN)
 
         reservation.status = state
