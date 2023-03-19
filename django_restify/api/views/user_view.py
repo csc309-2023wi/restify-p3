@@ -82,7 +82,6 @@ class ProfileView(RetrieveUpdateAPIView):
     
     def update(self, request, *args, **kwargs):
         self.object = self.get_object()
-        print(self.object.get_username())
         serializer = self.get_serializer(request.user, data=request.data, partial=True)
         
         if serializer.is_valid():

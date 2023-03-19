@@ -2,19 +2,17 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-class User(AbstractUser):
-    email = models.EmailField(null=False)
-    first_name = models.CharField(max_length=150, null=False)
-    last_name = models.CharField(max_length=150, null=False)
-    phone_number = models.IntegerField(null=True)
-    avatar = models.TextField(null=True)
-
-
 class Image(models.Model):
     h = models.CharField(primary_key=True, max_length=32)
     extension = models.CharField(max_length=10)
     data = models.BinaryField()
 
+class User(AbstractUser):
+    email = models.EmailField(null=False)
+    first_name = models.CharField(max_length=150, null=False)
+    last_name = models.CharField(max_length=150, null=False)
+    phone_number = models.IntegerField(null=True)
+    avatar = models.ImageField(default='default_avatar.png')
 
 class Property(models.Model):
     host = models.ForeignKey(
