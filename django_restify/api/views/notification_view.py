@@ -1,4 +1,9 @@
-from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import (
+    ListAPIView,
+    CreateAPIView,
+    UpdateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -15,15 +20,25 @@ from datetime import date
 from django.db.models import Q
 from ..models import User, Property, Reservation, Notification
 
-class NotificationSerializer(ModelSerializer):
 
+class NotificationSerializer(ModelSerializer):
     class Meta:
         model = Notification
-        fields = ['user', 'reservation', 'content', 'is_read', 'is_cleared', 'created_at', 'is_cancel_req']
-        read_only_fields = ['content', 'is_read', 'is_cleared']
+        fields = [
+            "user",
+            "reservation",
+            "content",
+            "is_read",
+            "is_cleared",
+            "created_at",
+            "is_cancel_req",
+        ]
+        read_only_fields = ["content", "is_read", "is_cleared"]
+
 
 class NotificationPagination(PageNumberPagination):
     page_size = 5
+
 
 class NotificationsView(ListAPIView):
     permission_classes = [IsAuthenticated]
@@ -42,7 +57,7 @@ class NotificationReadView(APIView):
     serializer_class = NotificationSerializer
 
     def get(self, request, id):
-        notification = get_object_or_404(Notification, id=self.kwargs.get('id'))
+        notification = get_object_or_404(Notification, id=self.kwargs.get("id"))
         user = get_object_or_404(User, id=self.request.user.id)
         if notification.user != user:
             return Response(status=status.HTTP_403_FORBIDDEN)
