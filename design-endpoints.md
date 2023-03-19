@@ -190,11 +190,8 @@
 
         **Query Params** (at least one must be specified)
 
-        -   `guest_id`: user ID of the guest that initiated the reservation
-        -   `property_id`: propety ID of the property that the reservation is about
-        -   `status`: one of `Pending`, `Denied`, `Expired`, `Approved`, `Completed`, `Cancelled`, `Terminated`
-        -   `from_date`: start date on or before all returned reservations
-        -   `to_date`: end date on or after all returned reservations
+        -   `status`: one of `PE`, `DE`, `EX`, `AP`, `CA`, `TE`, `CO`, `PC`
+        -   `type`: one of `guest`, `host`
 
         **Response**
 
@@ -203,18 +200,18 @@
             {
                 "reservation_id": 5874,
                 "guest_id": 6113,
-                "status": "Pending",
+                "status": "PE",
                 "property_id": 6532,
                 "guests": 2,
-                "from": "2025-03-05",
-                "to": "2025-03-08"
+                "from_date": "2025-03-05",
+                "to_date": "2025-03-08"
             }
         ]
         ```
 
         **Error Codes**
 
-        -   `400`: incorrect parameters
+        -   `400`: If type query parameter is not present or is not valid
         -   `401`: user not logged in
 
 -   ### `/reservation/create/<id>/`
@@ -226,8 +223,8 @@
         ```json
         {
             "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08"
         }
         ```
 
@@ -239,11 +236,11 @@
         {
             "reservation_id": 5874,
             "guest_id": 6113,
-            "status": "Pending",
+            "status": "PE",
             "property_id": 6532,
             "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08"
         }
         ```
 
@@ -263,11 +260,11 @@
         {
             "reservation_id": 5874,
             "guest_id": 6113,
-            "status": "Approved",
+            "status": "AP",
             "property_id": 6532,
             "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08"
         }
         ```
 
@@ -282,14 +279,14 @@
 
     -   #### `GET`: Allows the user who initiated the reservation to cancel the reservation if status is pending or request cancellation using notification if status is approved.
 
-        **JSON Body**
+        **Response**
 
         ```json
         {
-            "status": "Cancelled",
+            "status": "CA",
             "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08"
         }
         ```
 
@@ -309,11 +306,11 @@
         {
             "reservation_id": 5874,
             "guest_id": 6113,
-            "status": "Terminated",
+            "status": "TE",
             "property_id": 6532,
             "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08"
         }
         ```
 
