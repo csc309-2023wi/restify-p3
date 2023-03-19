@@ -23,9 +23,7 @@ from django.db.models import Q
 class CommentSerializer(Serializer):
     commenter = PrimaryKeyRelatedField(many=False, read_only=True)
     content = CharField()
-    # comment_for = PrimaryKeyRelatedField(
-    #     source="parent.id", many=False, read_only=True
-    # )
+    
     class Meta:
         fields = [
             "commenter",
@@ -37,21 +35,21 @@ class PropertyCommentSerializer(CommentSerializer, ModelSerializer):
 
     class Meta:
         model = PropertyComment
-        fields = CommentSerializer.Meta.fields + ['comment_for', 'rating']
+        fields = CommentSerializer.Meta.fields + ['comment_for', 'rating', 'posted_at']
 
 class UserCommentSerializer(CommentSerializer, ModelSerializer):
     comment_for = PrimaryKeyRelatedField(many=False, read_only=True)
 
     class Meta:
         model = UserComment
-        fields = CommentSerializer.Meta.fields + ['comment_for', 'rating']
+        fields = CommentSerializer.Meta.fields + ['comment_for', 'rating', 'posted_at']
 
 class ReplySerializer(CommentSerializer, ModelSerializer):
     comment_for = PrimaryKeyRelatedField(many=False, read_only=True)
 
     class Meta:
         model = Reply
-        fields = CommentSerializer.Meta.fields + ['comment_for']
+        fields = CommentSerializer.Meta.fields + ['comment_for', 'posted_at']
 
 class CommentPagination(PageNumberPagination):
     page_size = 5
