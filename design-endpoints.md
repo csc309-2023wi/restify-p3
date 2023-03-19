@@ -198,11 +198,11 @@
         ```json
         [
             {
-                "reservation_id": 5874,
+                "id": 5874,
                 "guest_id": 6113,
-                "status": "PE",
                 "property_id": 6532,
-                "guests": 2,
+                "status": "PE",
+                "guest_count": 2,
                 "from_date": "2025-03-05",
                 "to_date": "2025-03-08"
             }
@@ -214,7 +214,7 @@
         -   `400`: If type query parameter is not present or is not valid
         -   `401`: user not logged in
 
--   ### `/reservation/create/<id>/`
+-   ### `/reservation/create/`
 
     -   #### `POST`: create a new reservation request
 
@@ -222,7 +222,8 @@
 
         ```json
         {
-            "guests": 2,
+            "property_id": 6532,
+            "guest_count": 2,
             "from_date": "2025-03-05",
             "to_date": "2025-03-08"
         }
@@ -234,11 +235,11 @@
 
         ```json
         {
-            "reservation_id": 5874,
+            "id": 5874,
             "guest_id": 6113,
-            "status": "PE",
             "property_id": 6532,
-            "guests": 2,
+            "status": "PE",
+            "guest_count": 2,
             "from_date": "2025-03-05",
             "to_date": "2025-03-08"
         }
@@ -254,15 +255,23 @@
 
     -   #### `PUT`: Allows the host of a property to update the reservation status of pending reservations to 'Approved' or 'Denied.
 
+        **JSON Body**
+
+        ```json
+        {
+            "status": "AP",
+        }
+        ```
+
         **Response** (the entire saved reservation object)
 
         ```json
         {
-            "reservation_id": 5874,
+            "id": 5874,
             "guest_id": 6113,
-            "status": "AP",
             "property_id": 6532,
-            "guests": 2,
+            "status": "AP",
+            "guest_count": 2,
             "from_date": "2025-03-05",
             "to_date": "2025-03-08"
         }
@@ -283,10 +292,14 @@
 
         ```json
         {
-            "status": "CA",
-            "guests": 2,
+            "id": 5874,
+            "guest_id": 6113,
+            "property_id": 6532,
+            "status": "AP",
+            "guest_count": 2,
             "from_date": "2025-03-05",
-            "to_date": "2025-03-08"
+            "to_date": "2025-03-08",
+            "Message": "Reservation has been cancelled"
         }
         ```
 
@@ -314,7 +327,9 @@
             "property_id": 6532,
             "guests": 2,
             "from_date": "2025-03-05",
-            "to_date": "2025-03-08"
+            "to_date": "2025-03-08",
+            "Message": "Reservation has been Terminated"
+            
         }
         ```
 
