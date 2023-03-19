@@ -22,7 +22,7 @@ from django.db.models import Q
 
 class CommentSerializer(Serializer):
     commenter = PrimaryKeyRelatedField(many=False, read_only=True)
-    content = CharField()
+    content = CharField(required=False)
     
     class Meta:
         fields = [

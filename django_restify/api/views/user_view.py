@@ -90,4 +90,4 @@ class ProfileView(RetrieveUpdateAPIView):
             self.object.save()
             return Response({'Profile': 'Updated successfully'}, status=status.HTTP_200_OK)
         
-        return Response({'error': 'Invalid data'}, status=status.HTTP_403_FORBIDDEN)
+        return Response({'error': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
