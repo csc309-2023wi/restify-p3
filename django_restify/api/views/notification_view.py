@@ -19,8 +19,8 @@ class NotificationSerializer(ModelSerializer):
 
     class Meta:
         model = Notification
-        fields = ['user', 'reservation', "property", 'content', 'is_read', 'is_cleared', 'created_at', 'is_cancel_req']
-        read_only_fields = ['content', 'is_read', 'is_cleared']
+        fields = ['id', 'user_id', 'reservation_id', "property_id", 'content', 'is_read', 'is_cleared', 'created_at', 'is_cancel_req']
+        fields = ['id', 'user_id', 'reservation_id', "property_id", 'content']
 
 class NotificationPagination(PageNumberPagination):
     page_size = 5
@@ -31,9 +31,13 @@ class NotificationsView(ListAPIView):
     pagination_class = NotificationPagination
 
     def get_queryset(self):
+        print('A')
         user_id = self.request.user.id
+        print('B')
         user = get_object_or_404(User, id=user_id)
-        query_set = Notification.objects.filter(user=user, is_cleared=False)
+        print('C')
+        query_set = Notification.objects.filter(user_id=user, is_cleared=False)
+        print('D')
         return query_set
 
 
@@ -44,7 +48,7 @@ class NotificationReadView(APIView):
     def get(self, request, id):
         notification = get_object_or_404(Notification, id=self.kwargs.get('id'))
         user = get_object_or_404(User, id=self.request.user.id)
-        if notification.user != user:
+        if notification.user_id != user:
             return Response(status=status.HTTP_403_FORBIDDEN)
         if notification.is_cleared:
             return Response(status=status.HTTP_403_FORBIDDEN)

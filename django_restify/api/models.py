@@ -47,10 +47,10 @@ class Reservation(models.Model):
         (CANCELED, "Cancelled"),
         (TERMINATED, "Terminated"),
     ]
-    guest = models.ForeignKey(
+    guest_id = models.ForeignKey(
         User, related_name="reservations_outgoing", null=False, on_delete=models.CASCADE
     )
-    property = models.ForeignKey(
+    property_id = models.ForeignKey(
         Property, related_name="reservations", null=False, on_delete=models.CASCADE
     )
     status = models.CharField(
@@ -62,9 +62,9 @@ class Reservation(models.Model):
 
 
 class Notification(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
-    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, default=None, null=True, blank=False)
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, default=None)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
+    reservation_id = models.ForeignKey(Reservation, on_delete=models.CASCADE, default=None, null=True, blank=False)
+    property_id = models.ForeignKey(Property, on_delete=models.CASCADE, default=None)
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
     is_cancel_req = models.BooleanField(default=False)
