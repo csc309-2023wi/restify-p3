@@ -279,7 +279,7 @@
 
         **Error Codes**
 
-        -   `400`: incorrect parameters
+        -   `400`: incorrect value of status. Status can only be updated by the host to Approved or Denied
         -   `401`: user not logged in
         -   `403`: user is not the host of the property that is trying to be reserved or the reservation has a non pending status
         -   `404`: nonexistent reservation ID
