@@ -5,6 +5,9 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 urlpatterns = [
     path("", views.HelloView.as_view(), name="hello"),
     # path("comment/", views.__.as_view(), name="comment"),
+    path("comment/property/<int:pk>/", views.PropertyCommentListView.as_view(), name="comment_property"),
+    path("comment/user/<int:pk>/", views.PropertyCommentListView.as_view(), name="comment_property"),
+    path("comment/property/reply/<int:pk>/", views.PropertyCommentListView.as_view(), name="comment_property"),
     # path("image/", views.__.as_view(), name="image"),
     path("reservation/", views.ReservationListView.as_view(), name="reservation"),
     path("reservation/create/<int:pk>/", views.ReservationCreateView.as_view(), name="create_reservation"),
@@ -19,5 +22,9 @@ urlpatterns = [
         views.PropertyRetrieveUpdateDestroyView.as_view(),
         name="property_one",
     ),
-    # path("user/", views.__.as_view(), name="user"),
+    path("signup/", views.SignUpView.as_view(), name="signup"),
+    path("login/", TokenObtainPairView.as_view(), name="login"),
+    path("refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("user/profile/", views.ProfileView.as_view(), name="profile"),
+    
 ]

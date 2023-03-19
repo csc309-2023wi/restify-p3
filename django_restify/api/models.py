@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class User(AbstractUser):
@@ -59,3 +60,21 @@ class Notification(models.Model):
     is_cancel_req = models.BooleanField(default=False)
     is_cleared = models.BooleanField(default=False)
     content = models.TextField(default=None)
+
+class Comment(models.Model):
+    commenter = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField(null=True)
+
+    class Meta:
+        abstract = True
+
+class PropertyComment(Comment):
+    comment_for = models.ForeignKey(Property, on_delete=models.CASCADE)
+    rating = models.IntegerField(null=False, default=1, validators=[MaxValueValidator(5), MinValueValidator(1)])
+
+class UserComment(Comment):
+    comment_for = models.ForeignKey(User, related_name="user_comments", on_delete=models.CASCADE)
+    rating = models.IntegerField(null=False, default=1, validators=[MaxValueValidator(5), MinValueValidator(1)])
+
+class Reply(Comment):
+    comment_for = models.ForeignKey(PropertyComment, on_delete=models.CASCADE)
