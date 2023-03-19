@@ -4,19 +4,25 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path("", views.HelloView.as_view(), name="hello"),
-    
-    path("comment/property/<int:pk>/", views.PropertyCommentListView.as_view(), name="comment_property"),
-    path("comment/user/<int:pk>/", views.UserCommentListView.as_view(), name="comment_user"),
-    path("comment/property/reply/<int:pk>/", views.ReplyListView.as_view(), name="reply"),
+    path(
+        "comment/property/<int:pk>/",
+        views.PropertyCommentListView.as_view(),
+        name="comment_property",
+    ),
+    path(
+        "comment/user/<int:pk>/",
+        views.UserCommentListView.as_view(),
+        name="comment_user",
+    ),
+    path(
+        "comment/property/reply/<int:pk>/", views.ReplyListView.as_view(), name="reply"
+    ),
     # path("image/", views.__.as_view(), name="image"),
-    
     path("image/<str:image_hash>", views.image_view, name="image_fetch"),
-
     path("signup/", views.SignUpView.as_view(), name="signup"),
     path("login/", TokenObtainPairView.as_view(), name="login"),
     path("refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("user/profile/", views.ProfileView.as_view(), name="profile"),
-
     path("reservation/", views.ReservationListView.as_view(), name="reservation"),
     path(
         "reservation/create/<int:pk>/",
@@ -54,5 +60,4 @@ urlpatterns = [
     path("login/", TokenObtainPairView.as_view(), name="login"),
     path("refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("user/profile/", views.ProfileView.as_view(), name="profile"),
-    
 ]
