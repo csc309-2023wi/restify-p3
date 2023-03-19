@@ -57,6 +57,7 @@ class ProfileUpdateSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = [
+            "username",
             "first_name",
             "last_name",
             "email",
@@ -84,10 +85,10 @@ class ProfileView(RetrieveUpdateAPIView):
         self.object = self.get_object()
         serializer = self.get_serializer(request.user, data=request.data, partial=True)
         
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
+            data = serializer.data
             self.object.set_password(serializer.data.get("password"))
             self.object.save()
-            return Response({'Profile': 'Updated successfully'}, status=status.HTTP_200_OK)
-        
-        return Response({'error': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+            data.pop("password")
+            return Response(data, status=status.HTTP_200_OK)
