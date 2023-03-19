@@ -15,34 +15,30 @@
         **JSON Body**
 
         ```json
-        [
-            {
-                "username": "JohnD123",
-                "first_name": "John",
-                "last_name": "Doe",
-                "email": "johndoe@gmail.com",
-                "password": "pass123",
-                "password2": "pass123",
-                "phone_number": 180012345678,
-                "avatar": "profile_pic.png"
-            }
-        ]
+        {
+            "username": "JohnD123",
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "johndoe@gmail.com",
+            "password": "pass123",
+            "password2": "pass123",
+            "phone_number": 180012345678,
+            "avatar": "profile_pic.png"
+        }
         ```
         -   `phone_number` and `avatar` are optional
 
         **Response**
 
         ```json
-        [
-            {
-                "username": "JohnD123",
-                "first_name": "John",
-                "last_name": "Doe",
-                "email": "johndoe@gmail.com",
-                "phone_number": 180012345678,
-                "avatar": "profile_pic.png"
-            }            
-        ]
+        {
+            "username": "JohnD123",
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "johndoe@gmail.com",
+            "phone_number": 180012345678,
+            "avatar": "profile_pic.png"
+        }            
         ```
 
         **Error Codes**
@@ -55,23 +51,19 @@
         **JSON Body**
 
         ```json
-        [
-            {
-                "username": "JohnD123",
-                "password": "pass123"
-            }
-        ]
+        {
+            "username": "JohnD123",
+            "password": "pass123"
+        }
         ```
 
         **Response**
 
         ```json
-        [
-            {
-                "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ...",
-                "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
-            }            
-        ]
+        {
+            "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ...",
+            "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
+        }            
         ```
 
         **Error Codes**
@@ -84,11 +76,9 @@
         **JSON Body**
 
         ```json
-        [
-            {
-                "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
-            }
-        ]
+        {
+            "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
+        }
         ```
 
         -   `refresh` is a valid JWT refresh token
@@ -96,11 +86,9 @@
         **Response**
 
         ```json
-        [
-            {
-                "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
-            }
-        ]
+        {
+            "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
+        }
         ```
 
         **Error Codes**
@@ -120,16 +108,14 @@
         **Response**
 
         ```json
-        [
-            {
-                "username": "JohnD123",
-                "first_name": "John",
-                "last_name": "Doe",
-                "email": "johndoe@gmail.com",
-                "phone_number": 180012345678,
-                "avatar": "profile_pic.png"
-            }
-        ]
+        {
+            "username": "JohnD123",
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "johndoe@gmail.com",
+            "phone_number": 180012345678,
+            "avatar": "profile_pic.png"
+        }
         ```
 
          **Error Codes**
@@ -141,33 +127,29 @@
         **JSON Body**
 
         ```json
-        [
-            {
-                "username": "JohnD123",
-                "first_name": "John",
-                "last_name": "Doe",
-                "email": "johndoe@gmail.com",
-                "password": "pass123",
-                "phone_number": 180012345678,
-                "avatar": "profile_pic.png"
-            }
-        ]
+        {
+            "username": "JohnD123",
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "johndoe@gmail.com",
+            "password": "pass123",
+            "phone_number": 180012345678,
+            "avatar": "profile_pic.png"
+        }
         ```
         -   All fields are optional
 
         **Response**
 
         ```json
-        [
-            {
-                "username": "JohnD123",
-                "first_name": "John",
-                "last_name": "Doe",
-                "email": "johndoe@gmail.com",
-                "phone_number": 180012345678,
-                "avatar": "profile_pic.png"
-            }
-        ]
+        {
+            "username": "JohnD123",
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "johndoe@gmail.com",
+            "phone_number": 180012345678,
+            "avatar": "profile_pic.png"
+        }
         ```
 
          **Error Codes**
@@ -537,12 +519,10 @@
         **JSON Body**
         
         ```json
-        [
-            {
-                "content": "Wow!",
-                "rating": 5
-            }
-        ]
+        {
+            "content": "Wow!",
+            "rating": 5
+        }
         ```
 
         -   Content is optional
@@ -552,16 +532,14 @@
         **Response**
 
         ```json
-        [
-            {
-                "id": 1,
-                "commenter": 1,
-                "content": "Wow!",
-                "comment_for": 2,
-                "rating": 5,
-                "posted_at": "2023-03-19T01:49:40.841989Z"
-            }
-        ]
+        {
+            "id": 1,
+            "commenter": 1,
+            "content": "Wow!",
+            "comment_for": 2,
+            "rating": 5,
+            "posted_at": "2023-03-19T01:49:40.841989Z"
+        }
         ```
 
         **Error Codes**
@@ -602,12 +580,10 @@
         **JSON Body**
         
         ```json
-        [
-            {
-                "content": "Wow!",
-                "rating": 5
-            }
-        ]
+        {
+            "content": "Wow!",
+            "rating": 5
+        }
         ```
 
         -   Content is optional
@@ -617,16 +593,14 @@
         **Response**
 
         ```json
-        [
-            {
-                "id": 1,
-                "commenter": 1,
-                "content": "Wow!",
-                "comment_for": 2,
-                "rating": 5,
-                "posted_at": "2023-03-19T01:49:40.841989Z"
-            }
-        ]
+        {
+            "id": 1,
+            "commenter": 1,
+            "content": "Wow!",
+            "comment_for": 2,
+            "rating": 5,
+            "posted_at": "2023-03-19T01:49:40.841989Z"
+        }
         ```
 
         **Error Codes**
@@ -666,25 +640,21 @@
         **JSON Body**
         
         ```json
-        [
-            {
-                "content": "Wow!"
-            }
-        ]
+        {
+            "content": "Wow!"
+        }
         ```
 
         **Response**
 
         ```json
-        [
-            {
-                "id": 1,
-                "commenter": 1,
-                "content": "Wow!",
-                "comment_for": 2,
-                "posted_at": "2023-03-19T01:49:40.841989Z"
-            }
-        ]
+        {
+            "id": 1,
+            "commenter": 1,
+            "content": "Wow!",
+            "comment_for": 2,
+            "posted_at": "2023-03-19T01:49:40.841989Z"
+        }
         ```
 
         **Error Codes**

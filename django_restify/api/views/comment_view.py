@@ -190,7 +190,7 @@ class ReplyListView(ListCreateAPIView):
         if comment.comment_for.host == request.user:
             if replies.count() % 2 != 0:
                 return Response(
-                    {"error": "You can't reply to your own comment/reply."},
+                    {"error": "You can't reply to your own reply."},
                     status=status.HTTP_403_FORBIDDEN,
                 )
         elif comment.commenter == request.user:
