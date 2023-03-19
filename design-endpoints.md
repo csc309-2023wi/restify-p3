@@ -203,8 +203,8 @@
                 "status": "Pending",
                 "property_id": 6532,
                 "guests": 2,
-                "from": "2025-03-05",
-                "to": "2025-03-08"
+                "from_date": "2025-03-05",
+                "to_date": "2025-03-08"
             }
         ]
         ```
@@ -223,8 +223,8 @@
         ```json
         {
             "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08"
         }
         ```
 
@@ -239,8 +239,8 @@
             "status": "Pending",
             "property_id": 6532,
             "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08"
         }
         ```
 
@@ -263,8 +263,8 @@
             "status": "Approved",
             "property_id": 6532,
             "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08"
         }
         ```
 
@@ -285,8 +285,8 @@
         {
             "status": "Cancelled",
             "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08"
         }
         ```
 
@@ -309,8 +309,8 @@
             "status": "Terminated",
             "property_id": 6532,
             "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08"
         }
         ```
 
