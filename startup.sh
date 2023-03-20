@@ -17,7 +17,7 @@ if [ ! -d "$VENV_PATH" ]; then
     echo "Python venv not found at $VENV_PATH, creating..."
     $PYTHON -m venv "$VENV_PATH"
     source "$VENV_PATH/bin/activate"
-    pip install -r requirements.txt
+    pip install -r $PROJECT_ROOT/requirements.txt
 else
     echo "$VENV_PATH folder found, activating..."
     source "$VENV_PATH/bin/activate"
