@@ -1,4 +1,9 @@
-from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import (
+    ListAPIView,
+    CreateAPIView,
+    UpdateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -15,15 +20,27 @@ from datetime import date
 from django.db.models import Q
 from ..models import User, Property, Reservation, Notification
 
-class NotificationSerializer(ModelSerializer):
 
+class NotificationSerializer(ModelSerializer):
     class Meta:
         model = Notification
-        fields = ['id', 'user_id', 'reservation_id', "property_id", 'content', 'is_read', 'is_cleared', 'created_at', 'is_cancel_req']
-        fields = ['id', 'user_id', 'reservation_id', "property_id", 'content']
+        fields = [
+            "id",
+            "user_id",
+            "reservation_id",
+            "property_id",
+            "content",
+            "is_read",
+            "is_cleared",
+            "created_at",
+            "is_cancel_req",
+        ]
+        fields = ["id", "user_id", "reservation_id", "property_id", "content"]
+
 
 class NotificationPagination(PageNumberPagination):
     page_size = 5
+
 
 class NotificationsView(ListAPIView):
     permission_classes = [IsAuthenticated]
@@ -31,13 +48,13 @@ class NotificationsView(ListAPIView):
     pagination_class = NotificationPagination
 
     def get_queryset(self):
-        print('A')
+        print("A")
         user_id = self.request.user.id
-        print('B')
+        print("B")
         user = get_object_or_404(User, id=user_id)
-        print('C')
+        print("C")
         query_set = Notification.objects.filter(user_id=user, is_cleared=False)
-        print('D')
+        print("D")
         return query_set
 
 
@@ -46,7 +63,7 @@ class NotificationReadView(APIView):
     serializer_class = NotificationSerializer
 
     def get(self, request, id):
-        notification = get_object_or_404(Notification, id=self.kwargs.get('id'))
+        notification = get_object_or_404(Notification, id=self.kwargs.get("id"))
         user = get_object_or_404(User, id=self.request.user.id)
         if notification.user_id != user:
             return Response(status=status.HTTP_403_FORBIDDEN)
