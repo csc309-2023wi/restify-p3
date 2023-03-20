@@ -6,6 +6,7 @@
 -   [Error status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
 
 ---
+
 ## 👍 Auth
 
 -   ### `/signup/`
@@ -26,6 +27,7 @@
             "avatar": "profile_pic.png"
         }
         ```
+
         -   `phone_number` and `avatar` are optional
 
         **Response**
@@ -38,10 +40,11 @@
             "email": "johndoe@gmail.com",
             "phone_number": 180012345678,
             "avatar": "profile_pic.png"
-        }            
+        }
         ```
 
         **Error Codes**
+
         -   `400`: missing or invalid request data
 
 -   ### `/login/`
@@ -63,10 +66,11 @@
         {
             "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ...",
             "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
-        }            
+        }
         ```
 
         **Error Codes**
+
         -   `400`: missing or invalid request data
 
 -   ### `/refresh/`
@@ -118,12 +122,12 @@
         }
         ```
 
-         **Error Codes**
+        **Error Codes**
 
-        -   `401`:  user is not logged in
-    
-    -   #### `PUT`: update user field(s) 
-        
+        -   `401`: user is not logged in
+
+    -   #### `PUT`: update user field(s)
+
         **JSON Body**
 
         ```json
@@ -137,6 +141,7 @@
             "avatar": "profile_pic.png"
         }
         ```
+
         -   All fields are optional
 
         **Response**
@@ -152,10 +157,10 @@
         }
         ```
 
-         **Error Codes**
+        **Error Codes**
 
         -   `400`: invalid request data
-        -   `401`:  user is not logged in
+        -   `401`: user is not logged in
 
 ---
 
@@ -165,36 +170,72 @@
 
     -   #### `GET`: return a list of properties, default to all properties, but possibly limited by query parameters
 
-        **Query Params**
+        **Query Params** (all optional)
 
         -   `host_id`: user ID of the host that owns the property
+        -   `location`: address of the property
+        -   `num_guests`: number of guests that need to be accommodated
+        -   `amenities`: a comma-separated string of amenities
+        -   `from`: the earliest that the property needs to be available until
+        -   `to`: the latest that the property needs to be available since
+        -   `search`: a string to search through properties that match the keywords in "address", "description", and "amenities"
+        -   `ordering`: way to order, or sort the results; `[-]{rating|earliest_availability}`
+        -   `page_size`: number of properties to return per request
+        -   `page`: page number, or the set of properties to navigate to
 
         **Response**
 
         ```json
-        [
-            {
-                "property_id": 6532,
-                "host_id": 9236,
-                "address": "123 Broadway, New York, NY, United States",
-                "description": "Natus id molestias corporis minima quisquam. Tempora dolor consectetur officia sequi veniam. Nostrum necessitatibus voluptatem et et. Voluptate veritatis minima ipsam aperiam eos dolor sint vero.",
-                "guests_allowed": 3,
-                "availability": [
-                    {
-                        "from": "March 1, 2025",
-                        "to": "March 1, 2026",
-                        "price": 500.34
-                    }
-                ],
-                "amenities": ["WiFi", "Pool", "Air conditioning"],
-                "images": ["7f46165474d11ee5836777d85df2cdab", "a4b46da106e59f424a2310cb7766366e"]
-            }
-        ]
+        {
+            "count": 3,
+            "next": "http://127.0.0.1:8000/api/property/?page=2&page_size=2",
+            "previous": null,
+            "results": [
+                {
+                    "id": 1,
+                    "host_id": 1,
+                    "address": "123 Broadway",
+                    "description": "Blah Blah",
+                    "guest_capacity": 3,
+                    "availability": [
+                        {
+                            "from": "2025-03-01",
+                            "price": 500.34,
+                            "to": "2026-03-01"
+                        }
+                    ],
+                    "amenities": ["WiFi", "Pool", "Air conditioning"],
+                    "images": ["a7ca66e6b4981d1189a926552494f757", "dc97cd047c1f4dcdecc93a48c69854ed"],
+                    "rating": 4
+                },
+                {
+                    "id": 3,
+                    "host_id": 1,
+                    "address": "456 Narrowalley",
+                    "description": "Beep boop",
+                    "guest_capacity": 5,
+                    "availability": [
+                        {
+                            "from": "2025-03-15",
+                            "price": 450.0,
+                            "to": "2025-04-26"
+                        },
+                        {
+                            "from": "2025-11-01",
+                            "price": 650.25,
+                            "to": "2026-02-05"
+                        }
+                    ],
+                    "amenities": ["WiFi", "Pool", "Air conditioning", "En-suite Laundry"],
+                    "images": [],
+                    "rating": 6
+                }
+            ]
+        }
         ```
 
         **Error Codes**
-
-        -   ...
+        None. If the query parameters are incorrect, then no results will be returned.
 
     -   #### `POST`: create a new property
 
@@ -204,23 +245,28 @@
         {
             "address": "123 Broadway, New York, NY, United States",
             "description": "Natus id molestias corporis minima quisquam. Tempora dolor consectetur officia sequi veniam. Nostrum necessitatibus voluptatem et et. Voluptate veritatis minima ipsam aperiam eos dolor sint vero.",
-            "guests_allowed": 3,
+            "guest_capacity": 3,
             "availability": [
                 {
-                    "from": "March 1, 2025",
-                    "to": "March 1, 2026",
-                    "price": 500.34
+                    "from": "2024-06-25",
+                    "to": "2025-05-31",
+                    "price": 123.45
+                },
+                {
+                    "from": "2023-05-25",
+                    "to": "2023-07-24",
+                    "price": 678.9
                 }
             ],
-            "amenities": ["WiFi", "Pool", "Air conditioning"],
+            "amenities": ["WiFi", "Pool"],
             "images": [
                 {
                     "ext": "png",
-                    "data": "iVBORw0KGgoAANSUhEAB4AAAAAC/kV7ZAAAAOXRFWHRTb..."
+                    "data": "iVBORw0KGgoAAAANSUhEUgAAABgAA..."
                 },
                 {
-                    "ext": "jpg",
-                    "data": "p1aS2M6tYsaJ++eUXtWzZ0uK+f/75R48++qhFvbXnLi4u..."
+                    "ext": "png",
+                    "data": "iVBORw0KGgoAAAANSUhEUgAAAFIAA..."
                 }
             ]
         }
@@ -240,7 +286,7 @@
         **Error Codes**
 
         -   `400`: required fields missing or incorrect data format
-        -   `401`: user not logged in
+        -   `401`: user not logged in (for POST only)
 
 -   ### `/property/<id>/`
 
@@ -250,20 +296,25 @@
 
         ```json
         {
-            "property_id": 6532,
-            "host_id": 9236,
-            "address": "123 Broadway, New York, NY, United States",
-            "description": "Natus id molestias corporis minima quisquam. Tempora dolor consectetur officia sequi veniam. Nostrum necessitatibus voluptatem et et. Voluptate veritatis minima ipsam aperiam eos dolor sint vero.",
-            "guests_allowed": 3,
+            "id": 7,
+            "host_id": 1,
+            "address": "098 Clown Town",
+            "description": "Freakshow. Totally.",
+            "guest_capacity": 1,
             "availability": [
                 {
-                    "from": "March 1, 2025",
-                    "to": "March 1, 2026",
-                    "price": 500.34
+                    "from": "2024-09-14",
+                    "to": "2024-09-30",
+                    "price": 123.45
+                },
+                {
+                    "from": "2024-10-31",
+                    "to": "2024-11-19",
+                    "price": 123.45
                 }
             ],
-            "amenities": ["WiFi", "Pool", "Air conditioning"],
-            "images": ["7f46165474d11ee5836777d85df2cdab", "a4b46da106e59f424a2310cb7766366e"]
+            "amenities": ["WiFi", "Pool"],
+            "images": ["a7ca66e6b4981d1189a926552494f757", "dc97cd047c1f4dcdecc93a48c69854ed"]
         }
         ```
 
@@ -275,26 +326,17 @@
     -   #### `PATCH`: update an existing property listing
 
         **JSON Body**
+        Can modify any existing fields, all optional.
+        `images` cannot be updated directly, and require the following special syntax, where image hashes are supplied in the "delete" array for deletion, and each image to be added in specified in the "add" array.
 
         ```json
         {
-            "address": "123 Broadway, New York, NY, United States",
-            "description": "Natus id molestias corporis minima quisquam. Tempora dolor consectetur officia sequi veniam. Nostrum necessitatibus voluptatem et et. Voluptate veritatis minima ipsam aperiam eos dolor sint vero.",
-            "guests_allowed": 3,
-            "availability": [
-                {
-                    "from": "March 1, 2025",
-                    "to": "March 1, 2026",
-                    "price": 500.34
-                }
-            ],
-            "amenities": ["WiFi", "Pool", "Air conditioning"],
             "image_ops": {
-                "delete": ["7f46165474d11ee5836777d85df2cdab"],
+                "delete": ["a7ca66e6b4981d1189a926552494f757"],
                 "add": [
                     {
                         "ext": "png",
-                        "data": "YYfK9AAAACXBIWXMAAC4jAAAuIwF4pT92AAEAAElEQ..."
+                        "data": "iVBORw0KGgoAAAANSUhEUgAAAFIAA..."
                     }
                 ]
             }
@@ -309,6 +351,12 @@
         -   `404`: nonexistent property ID
 
     -   #### `DELETE` delete a specific property
+
+        **Error Codes**
+
+        -   `401`: user not logged in
+        -   `403`: user is not the owner of property
+        -   `404`: nonexistent property ID
 
 ---
 
@@ -411,7 +459,7 @@
 
         ```json
         {
-            "status": "AP",
+            "status": "AP"
         }
         ```
 
@@ -481,12 +529,11 @@
             "from_date": "2025-03-05",
             "to_date": "2025-03-08",
             "Message": "Reservation has been Terminated"
-            
         }
         ```
 
         **Error Codes**
-        
+
         -   `400`: Invalid value of cancel parameter has been specificed when dealing with a pending cancellation request
         -   `401`: user not logged in
         -   `403`: user is not the host of the reservation property, or reservation has a non cancellable status
@@ -508,7 +555,7 @@
 -   ### `/comment/property/id/`
 
     -   #### `GET`: return all the comments/ratings for property with property id
-        
+
         Supports pagination.
 
         **Response**
@@ -534,7 +581,7 @@
     -   #### `POST`: make a comment/rate the property with property id
 
         **JSON Body**
-        
+
         ```json
         {
             "content": "Wow!",
@@ -595,7 +642,7 @@
     -   #### `POST`: make a comment/rate the user with user id
 
         **JSON Body**
-        
+
         ```json
         {
             "content": "Wow!",
@@ -655,7 +702,7 @@
     -   #### `POST`: reply to a comment with comment id
 
         **JSON Body**
-        
+
         ```json
         {
             "content": "Wow!"
@@ -681,7 +728,7 @@
         -   `403`: does not meet criteria to leave a reply
         -   `404`: invalid comment id
 
-    ---
+    ***
 
 ## 👍 Notifications
 
