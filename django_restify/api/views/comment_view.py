@@ -17,7 +17,7 @@ from rest_framework.serializers import (
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
-from ..models import User, PropertyComment, UserComment, Reply, Property, Reservation
+from ..models import User, PropertyComment, UserComment, Reply, Property, Reservation, Notification
 
 
 class CommentSerializer(Serializer):
