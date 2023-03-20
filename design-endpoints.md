@@ -340,36 +340,33 @@
 
     -   #### `GET`: return a list of reservations, limited by query parameters
 
-        **Query Params** (at least one must be specified)
+        **Query Params** (type must be specified)
 
-        -   `guest_id`: user ID of the guest that initiated the reservation
-        -   `property_id`: propety ID of the property that the reservation is about
-        -   `status`: one of `Pending`, `Denied`, `Expired`, `Approved`, `Completed`, `Cancelled`, `Terminated`
-        -   `from_date`: start date on or before all returned reservations
-        -   `to_date`: end date on or after all returned reservations
+        -   `status`: one of `PE`, `DE`, `EX`, `AP`, `CA`, `TE`, `CO`, `PC`
+        -   `type`: one of `guest`, `host`
 
         **Response**
 
         ```json
         [
             {
-                "reservation_id": 5874,
+                "id": 5874,
                 "guest_id": 6113,
-                "status": "Pending",
                 "property_id": 6532,
-                "guests": 2,
-                "from": "2025-03-05",
-                "to": "2025-03-08"
+                "status": "PE",
+                "guest_count": 2,
+                "from_date": "2025-03-05",
+                "to_date": "2025-03-08"
             }
         ]
         ```
 
         **Error Codes**
 
-        -   `400`: incorrect parameters
+        -   `400`: If type query parameter is not present or is not valid
         -   `401`: user not logged in
 
--   ### `/reservation/create/<id>/`
+-   ### `/reservation/create/`
 
     -   #### `POST`: create a new reservation request
 
@@ -377,9 +374,10 @@
 
         ```json
         {
-            "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "property_id": 6532,
+            "guest_count": 2,
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08"
         }
         ```
 
@@ -389,13 +387,13 @@
 
         ```json
         {
-            "reservation_id": 5874,
+            "id": 5874,
             "guest_id": 6113,
-            "status": "Pending",
             "property_id": 6532,
-            "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "status": "PE",
+            "guest_count": 2,
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08"
         }
         ```
 
@@ -409,23 +407,31 @@
 
     -   #### `PUT`: Allows the host of a property to update the reservation status of pending reservations to 'Approved' or 'Denied.
 
+        **JSON Body**
+
+        ```json
+        {
+            "status": "AP",
+        }
+        ```
+
         **Response** (the entire saved reservation object)
 
         ```json
         {
-            "reservation_id": 5874,
+            "id": 5874,
             "guest_id": 6113,
-            "status": "Approved",
             "property_id": 6532,
-            "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "status": "AP",
+            "guest_count": 2,
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08"
         }
         ```
 
         **Error Codes**
 
-        -   `400`: incorrect parameters
+        -   `400`: incorrect value of status. Status can only be updated by the host to Approved or Denied
         -   `401`: user not logged in
         -   `403`: user is not the host of the property that is trying to be reserved or the reservation has a non pending status
         -   `404`: nonexistent reservation ID
@@ -434,14 +440,18 @@
 
     -   #### `GET`: Allows the user who initiated the reservation to cancel the reservation if status is pending or request cancellation using notification if status is approved.
 
-        **JSON Body**
+        **Response**
 
         ```json
         {
-            "status": "Cancelled",
-            "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "id": 5874,
+            "guest_id": 6113,
+            "property_id": 6532,
+            "status": "CA",
+            "guest_count": 2,
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08",
+            "Message": "Reservation has been cancelled"
         }
         ```
 
@@ -455,22 +465,29 @@
 
     -   #### `GET`: Allows the host of a property that is in the reservation process to cancel any reservation. If cancellation was first requested by user then status is cancelled otherwise status is terminated.
 
+        **Query Params**
+
+        -   `cancel`: one of `true` or `false`
+
         **Response** (the entire updated reservation object)
 
         ```json
         {
             "reservation_id": 5874,
             "guest_id": 6113,
-            "status": "Terminated",
+            "status": "TE",
             "property_id": 6532,
             "guests": 2,
-            "from": "2025-03-05",
-            "to": "2025-03-08"
+            "from_date": "2025-03-05",
+            "to_date": "2025-03-08",
+            "Message": "Reservation has been Terminated"
+            
         }
         ```
 
         **Error Codes**
-
+        
+        -   `400`: Invalid value of cancel parameter has been specificed when dealing with a pending cancellation request
         -   `401`: user not logged in
         -   `403`: user is not the host of the reservation property, or reservation has a non cancellable status
         -   `404`: nonexistent reservation ID
@@ -682,6 +699,7 @@
             "notification_id": 5874,
             "user_id": 6113,
             "reservation_id": 6000,
+            "property_id": 5400,
             "created_at": "2025-03-01T20:43:20",
             "is_read": false,
             "is_cancel_req": false,
@@ -705,6 +723,7 @@
             "notification_id": 5874,
             "user_id": 6113,
             "reservation_id": 6000,
+            "property_id": 5400,
             "created_at": "2025-03-01T20:43:20",
             "is_read": true,
             "is_cancel_req": false,

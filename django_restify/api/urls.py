@@ -25,7 +25,7 @@ urlpatterns = [
     path("user/profile/", views.ProfileView.as_view(), name="profile"),
     path("reservation/", views.ReservationListView.as_view(), name="reservation"),
     path(
-        "reservation/create/<int:pk>/",
+        "reservation/create/",
         views.ReservationCreateView.as_view(),
         name="create_reservation",
     ),
