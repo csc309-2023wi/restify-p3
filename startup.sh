@@ -1,3 +1,5 @@
 #!/bin/bash
-bash ./backend/startup.sh
-bash ./frontend/startup.sh
+cd ./backend/ || exit 1
+bash ./startup.sh
+cd ../frontend/ || exit 1
+bash ./startup.sh

@@ -12,9 +12,9 @@ rm -f "./$MPROCS_TARBALL"
 cat << EOF > mprocs.yaml
 procs:
   backend:
-    shell: "bash backend/run.sh"
+    shell: "cd backend/ && bash ./run.sh"
   frontend:
-    shell: "bash frontend/run.sh"
+    shell: "cd frontend/ && bash ./run.sh"
 EOF
 
 ./mprocs
