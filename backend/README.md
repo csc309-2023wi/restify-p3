@@ -1,6 +1,4 @@
-# Restify
-
-An online marketplace where users can search, book, comment and rate short term lodging experiences. University of Toronto CSC309 project.
+# Restify Backend
 
 ## REST API Endpoint Spec
 
@@ -10,7 +8,7 @@ An online marketplace where users can search, book, comment and rate short term 
 
 ### Setup
 
-> When running on Linux, the following steps can simply be replaced by [`./startup.sh`](startup.sh)
+> When running on Linux, the following steps can simply be replaced by [`./startup.sh`](startup.sh) in the project root.
 
 1.  Create python virtual environment
 
@@ -47,7 +45,7 @@ An online marketplace where users can search, book, comment and rate short term 
 
 ### Running
 
-> When running on Linux, the following steps can simply be replaced by [`./run.sh`](run.sh)
+> When running on Linux, the following steps can simply be replaced by [`./run.sh`](run.sh) in the project root.
 
 1. [Activate the Python virtual environment](#setup).
 2. Run the development server:
