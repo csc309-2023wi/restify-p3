@@ -1,18 +1,20 @@
 #!/bin/bash
 
-PYTHON=python3.10
-VENV_PATH=".venv"
-PROJECT_ROOT="./"
+MPROCS_VERSION="0.6.4"
+MPROCS_TARBALL="mprocs-$MPROCS_VERSION-linux64.tar.gz"
 
-if [ ! -d "$VENV_PATH" ]; then
-    echo "Python venv not found at $VENV_PATH!"
-    echo "Must run startup.sh first."
-    exit 1
-else
-    source "$VENV_PATH/bin/activate"
-fi
+# download mprocs for linux64
+wget -c "https://github.com/pvolok/mprocs/releases/download/v$MPROCS_VERSION/$MPROCS_TARBALL"
+tar -xzvf "./$MPROCS_TARBALL"
+rm -f "./$MPROCS_TARBALL"
 
-# switch to the project's Django root directory
-cd "$PROJECT_ROOT/django_restify/" || exit 1
+# create mprocs configuration
+cat << EOF > mprocs.yaml
+procs:
+  backend:
+    shell: "bash backend/run.sh"
+  frontend:
+    shell: "bash frontend/run.sh"
+EOF
 
-$PYTHON ./manage.py runserver
+./mprocs
