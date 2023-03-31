@@ -2,16 +2,15 @@
 
 ## Code Organization
 
--   `public`: folder containing static assets that will be included in the build
+-   `public/`: folder containing static assets that will be included in the build
 
-    -   `favicon.ico`: the website icon
-    -   `index.html`: the main HTML file for the application
-    -   `logo192.png`: image used for mobile devices
-    -   `logo512.png`: image used for progressive web apps
-    -   `manifest.json`: metadata for the web app manifest
-    -   `robots.txt`: file for search engine crawlers
+    -   `icons/`: This folder contains SVG icons used throughout the web application.
+    -   `images/`: This folder contains various images (in PNG, WEBP, or ICO formats) used throughout the web application.
+    -   `index.html`: This is the main HTML file that gets served to the client, and serves as the entry point for the React application.
+    -   `manifest.json`: This is a web application manifest file that provides metadata about the application (such as its name, icons, and theme color) to the browser.
+    -   `robots.txt`: This is a file used to give instructions to web robots (such as search engine crawlers) about which pages or files to crawl or avoid.
 
--   `src`: folder containing source code for the React application
+-   `src/`: folder containing source code for the React application
 
     -   `components/`: folder containing reusable components
 
@@ -38,4 +37,34 @@
 
 ## Local Development
 
-> See also: [Create React App Tutorial](README_React.md)
+### Setup
+
+> When running on Linux, the following steps can simply be replaced by [`./startup.sh`](startup.sh) in the project root.
+
+Ensure that [Node.js](https://nodejs.org/en) version `19.8.1` is installed, and the [`npm` package manager](https://docs.npmjs.com/cli/v9/configuring-npm/install) is installed.
+
+I recommend using [the `n` node version manager](https://github.com/tj/n#installation) to manage local Node.js installations, but feel free to choose alternative methods of installation.
+
+After Node.js and `npm` are installed, change into the `frontend/` folder, and run:
+
+```bash
+npm install
+```
+
+This will install the requisite node packages necessary for local development.
+
+### Running
+
+> When running on Linux, the following steps can simply be replaced by [`./run.sh`](run.sh) in the project root.
+
+Simply execute the following command:
+
+```bash
+npm start
+```
+
+This should start a local development server and present the frontend at http://localhost:3000
+
+### See also
+
+[Create React App Tutorial](README_React.md)
