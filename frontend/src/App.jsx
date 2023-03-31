@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
+import Playground from "./pages/Playground";
 // import components
 import Footer from "./components/Footer";
 
@@ -18,6 +19,9 @@ function App() {
                     <Route path="auth" element={<Auth />} />
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="profile" element={<Profile />} />
+
+                    {/* Dummy page for experimenting with components */}
+                    <Route path="playground" element={<Playground />} />
 
                     {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit

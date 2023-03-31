@@ -65,6 +65,14 @@ npm start
 
 This should start a local development server and present the frontend at http://localhost:3000
 
+### Playground for Loose Components
+
+In the process of developing components, it may be beneficial to see what they look like on a page, without modifying a real page in the application.
+
+For this purpose, a `/playground` route and a corresponding `<Playground />` component is created. Insert any components you are developing into `frontend/src/pages/Playground/index.jsx`, and see it live at http://localhost:3000/playground
+
+This page should only be accessible by URL, and not linked anywhere within the main application.
+
 ### See also
 
 [Create React App Tutorial](README_React.md)
