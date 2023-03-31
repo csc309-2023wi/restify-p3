@@ -18,4 +18,4 @@ An online marketplace where users can search, book, comment and rate short term 
 
 #### Manual Setup
 
-See [frontend-/backend- specific READMEs](#Architecture).
+See [frontend-/backend- specific READMEs](#architecture).
