@@ -4,9 +4,9 @@ An online marketplace where users can search, book, comment and rate short term 
 
 ## Architecture
 
--   **👉 Backend:** Django, Django REST framework
+-   **👉 Backend:** [Django](https://www.djangoproject.com/), [Django REST framework](https://www.django-rest-framework.org/)
     -   [Backend README](backend/README.md)
--   **👉 Frontend:** React.js, [React Router]
+-   **👉 Frontend:** [React.js](https://react.dev/), [React Router](https://reactrouter.com/en/main)
     -   [Frontend README](frontend/README.md)
 
 ## Local Development
