@@ -1,0 +1,14 @@
+footer {
+    flex-grow: 0;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    clear: both;
+}
+
+footer .license {
+    font-weight: 300;
+}

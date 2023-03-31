@@ -1,0 +1,133 @@
+/* useful defaults */
+@import url("https://cdn.jsdelivr.net/gh/jgthms/minireset.css@master/minireset.min.css");
+
+/* UI font */
+@import url("https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap");
+
+/* CSS Variables: Colors, Radii, Shadows, Font Sizes */
+:root {
+    /* || Colors */
+    /* purples */
+    --clr-purple-primary: #2e1f5e;
+    --clr-purple-light: #e0d4f8;
+    --clr-purple-bg: #e7e2f1;
+    /* greens */
+    --clr-green-dark: #007d7e;
+    --clr-green-light: #b3e7e8;
+    --clr-green-bg: #d9f3f3;
+    /* grays */
+    --clr-gray-dark: #1a1a1a;
+    --clr-gray-mid-dark: #2b2b2b;
+    --clr-gray-mid-light: #cdcdcd;
+    --clr-gray-light: #eeeeee;
+    /* reds */
+    --clr-red-important: #ff3a5e;
+    /* beiges */
+    --clr-beige-bg: #fff9e3;
+
+    /* || Radii */
+    --rad-tny: 0.2rem;
+    --rad-sml: 0.5rem;
+    --rad-med: 1rem;
+    --rad-lrg: 2rem;
+
+    /* || Box Shadows */
+    --shadow-sml: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    --shadow-med: rgba(0, 0, 0, 0.15) 0 10px 15px -3px, rgba(0, 0, 0, 0.2) 0 4px 6px -2px;
+    --shadow-med-left: rgba(0, 0, 0, 0.15) -10px 0 12px -3px, rgba(0, 0, 0, 0.2) 0 4px 6px -2px;
+    --shadow-lrg: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.2) 0px 5px 10px, rgba(0, 0, 0, 0.4) 0px 15px 40px;
+
+    /* || Font Sizes */
+    --font-size-h1: 2.2rem;
+    --font-size-h2: 1.8rem;
+    --font-size-h3: 1.4rem;
+    --font-size-h4: 1.2rem;
+    --font-size-reg: 1rem;
+    --font-size-sml: 0.8rem;
+    --font-size-tny: 0.6rem;
+
+    /* || Transitions */
+    --tns-hov-quick: ease-in-out 0.1s;
+}
+
+html {
+    background-color: var(--clr-purple-primary);
+    color: white;
+    height: 100%;
+    font-family: "Kumbh Sans", "Inter", "Segoe UI", "SF Pro Text", "Roboto", "Cantarell", Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 16px; /* reference for 1rem */
+}
+
+body {
+    height: 100%;
+}
+
+#appRoot {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+/* Cannonical HTML Elements */
+
+h1 {
+    font-size: var(--font-size-h1);
+    font-weight: 600;
+}
+
+h2 {
+    font-size: var(--font-size-h2);
+    font-weight: 700;
+}
+
+h3 {
+    font-size: var(--font-size-h3);
+    font-weight: 700;
+}
+
+h4 {
+    font-size: var(--font-size-h4);
+    font-weight: 700;
+}
+
+p {
+    line-height: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+button {
+    background-color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    padding: 0;
+    border: solid 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+/* Common Layouts */
+
+main {
+    width: 100%;
+    flex-grow: 1;
+    flex-basis: 100%;
+    background-color: white;
+    color: var(--clr-gray-dark);
+    border-radius: 0 0 var(--rad-med) var(--rad-med);
+    box-shadow: var(--shadow-med);
+}
