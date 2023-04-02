@@ -1,0 +1,43 @@
+.flat::placeholder {
+    color: black;
+}
+
+.flat.center {
+    text-align: center;
+}
+
+input[type="text"].flat {
+    position: relative;
+    font-size: 14.5px;
+    border: 2px solid var(--clr-gray-dark);
+    border-left: none;
+    border-right: none;
+    background-color: transparent;
+    border-radius: 0%;
+    padding-left: 10px;
+    height: 33px;
+}
+
+button.btn-decrement {
+    width: 2.5rem;
+    height: 33px;
+    background-image: url("../../../public/icons/minus.svg");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: var(--clr-gray-dark);
+    border-bottom-left-radius: 50%;
+    border-top-left-radius: 50%;
+    border: none;
+}
+
+button.btn-increment {
+    width: 2.5rem;
+    background-image: url("../../../public/icons/plus.svg");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    height: 33px;
+    background-color: var(--clr-gray-dark);
+    border-bottom-right-radius: 50%;
+    border-top-right-radius: 50%;
+    border: none;
+}

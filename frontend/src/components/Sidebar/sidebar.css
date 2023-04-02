@@ -1,0 +1,47 @@
+aside.sidebar {
+    position: sticky;
+    top: 8rem;
+    left: 0;
+    max-width: 20rem;
+    min-width: 15rem;
+    min-height: 20rem;
+    height: fit-content;
+    background: var(--clr-green-bg);
+    margin-right: 3rem;
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    border-radius: 0 var(--rad-med) var(--rad-med) 0;
+    word-break: break-all;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 1rem;
+}
+aside.sidebar::before,
+aside.sidebar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    height: 2.94rem;
+    width: 2.94rem;
+    background: transparent;
+}
+aside.sidebar::before {
+    bottom: 100%;
+    border-bottom-left-radius: 50%;
+    box-shadow: 0 1.47rem 0 0 var(--clr-green-bg);
+}
+aside.sidebar::after {
+    top: 100%;
+    border-top-left-radius: 50%;
+    box-shadow: 0 -1.47rem 0 0 var(--clr-green-bg);
+}
+
+.sidebar-content {
+    padding: 0.5 rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    row-gap: 1rem;
+}
