@@ -1,10 +1,12 @@
 import React from "react";
 import "./action_btn.css";
 
-function ActionBtn({ className, text }) {
+function ActionBtn({ className, text, onClick }) {
     return (
         <>
-            <button className={`action-btn ${className}`}>{text}</button>
+            <button className={`action-btn ${className}`} onClick={onClick}>
+                {text}
+            </button>
         </> 
     )
 }
