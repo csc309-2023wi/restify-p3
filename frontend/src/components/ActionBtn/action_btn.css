@@ -1,0 +1,44 @@
+button.action-btn,
+a.action-btn {
+    border-radius: var(--rad-sml);
+    padding: 0.5rem 1rem;
+}
+button.action-btn:hover,
+a.action-btn:hover,
+button.action-btn:focus,
+a.action-btn:focus {
+    box-shadow: var(--shadow-sml);
+    transform: scale(1.01);
+}
+
+.action-btn.gray-dark {
+    background-color: var(--clr-gray-dark);
+    color: white;
+}
+.action-btn.purple-dark {
+    background-color: var(--clr-purple-primary);
+    color: white;
+}
+.action-btn.purple-light {
+    background-color: var(--clr-purple-light);
+    color: var(--clr-purple-primary);
+}
+.action-btn.green-dark {
+    background-color: var(--clr-green-dark);
+    color: white;
+}
+.action-btn.green-light {
+    background-color: var(--clr-green-light);
+    color: var(--clr-green-dark);
+}
+
+.action-btn.bordered-dark {
+    background-color: inherit;
+    color: white;
+    border: 2px solid white;
+}
+.action-btn.bordered-dark:hover,
+.action-btn.bordered-dark:focus {
+    background-color: white;
+    color: inherit;
+}
