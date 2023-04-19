@@ -134,6 +134,17 @@ input[type="file"] {
     margin-bottom: 0.5rem;
 }
 
+/* Any element that is against a dark background that should appear clickable */
+.clickable-on-dark {
+    background: transparent;
+    transition: background-color var(--tns-hov-quick);
+}
+.clickable-on-dark:hover,
+.clickable-on-dark:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+}
+
 /* Common Layouts */
 
 main {

@@ -36,6 +36,23 @@ img.logo-icon {
     padding-bottom: 0.2em;
 }
 
+input[type="text"].search {
+    align-self: center;
+    justify-self: center;
+    color: white;
+    box-sizing: border-box;
+    border: 2px solid white;
+    background-color: var(--clr-purple-primary);
+    background-image: url("../../../public/icons/search-purple-primary-bg-white.svg");
+    background-position: 110% 50%;
+    background-size: 30% 150%;
+    background-repeat: no-repeat;
+    margin-bottom: unset;
+    width: 20rem;
+    height: 2.5rem;
+    max-width: 90%;
+}
+
 span.tray-notif-avatar {
     grid-column: 3 / 4;
     display: inline-flex;
@@ -240,10 +257,11 @@ div.notif-strip-unread span.notif-time::after {
 div.notif-strip p.notif-preview {
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
     white-space: normal;
     word-break: break-all;
     margin-bottom: 0;
-    max-height: 3.5rem;
+    max-height: 6rem;
+    text-align: left;
 }
