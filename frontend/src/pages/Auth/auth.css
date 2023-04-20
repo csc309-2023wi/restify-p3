@@ -1,1 +1,62 @@
 /* css styles for auth */
+div.container {
+    margin: 2rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap-reverse;
+    justify-content: space-evenly;
+    row-gap: 3rem;
+    column-gap: 2rem;
+}
+.signup-m {
+    display: none;
+}
+
+div.sidebar {
+    padding: 1rem;
+    max-width: 21rem;
+    height: 20rem;
+    background-color: var(--clr-purple-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 1rem;
+}
+
+div.sidebar h2,
+div.sidebar h3 {
+    color: white;
+}
+
+.auth-form {
+    height: fit-content;
+    /* max-height: 20rem;
+    overflow-y: auto; */
+    color: var(--clr-gray-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    row-gap: 1rem;
+}
+a.forgot {
+    text-decoration: underline;
+}
+.red {
+    color: var(--clr-red-important);
+    background-color: transparent;
+}
+input {
+    width: 100%;
+    border: 1px solid #cdcdcd;
+}
+.auth-form .action-btn {
+    margin-left: 30%;
+    width: 40%;
+    border: 1px solid var(--clr-green-dark);
+}
+input[type="text"].rounded-r {
+    height: 36.5px;
+    padding: 0.5rem 1rem;
+    border: 1px solid #cdcdcd;
+}
