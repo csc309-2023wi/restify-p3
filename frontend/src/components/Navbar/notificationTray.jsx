@@ -36,15 +36,13 @@ function NotificationTray() {
                         className={"notif-strip " + (notification.is_read ? "notif-strip-read" : "notif-strip-unread")}>
                         <p className="notif-preview">{notification.content}</p>
                         <span className="notif-time">
-                            {/* TODO: consume date once it's enabled in backend */}
-                            {/* {new Date(notification.created_at)
+                            {new Date(notification.created_at)
                                 .toISOString()
                                 .split("T")
                                 .join(" ")
                                 .split(".")
                                 .slice(0, 1)
-                                .join("")} */}
-                            XXXX-XX-XX 11:22:33
+                                .join("")}
                         </span>
                     </div>
                 </Link>
