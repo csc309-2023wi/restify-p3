@@ -43,9 +43,9 @@ input[type="text"].search {
     box-sizing: border-box;
     border: 2px solid white;
     background-color: var(--clr-purple-primary);
-    background-image: url("../../../public/icons/search-purple-primary-bg-white.svg");
-    background-position: 110% 50%;
-    background-size: 30% 150%;
+    background-image: url("/src/assets/icons/search-purple-primary-bg-white.svg");
+    background-position: 100% 50%;
+    background-size: 18% 150%;
     background-repeat: no-repeat;
     margin-bottom: unset;
     width: 20rem;

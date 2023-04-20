@@ -3,6 +3,13 @@ import { Link } from "react-router-dom";
 
 import "./navbar.css";
 
+// import icons
+import bellFilledWhite from "../../assets/icons/bell-filled-white.svg";
+import logoIconGreenLight from "../../assets/icons/logo-icon-green-light.svg";
+import userAvaterDefault from "../../assets/images/user-avatar-default.png";
+import chevronIconGreenDark from "../../assets/icons/chevron-down-green-dark.svg";
+import logOutIcon from "../../assets/icons/log-out-dray-dark.svg";
+
 const dataNotifDemo = [
     {
         notification_id: 1,
@@ -49,7 +56,7 @@ function Navbar() {
             <span class="tray-notif-avatar">
                 <button class="btn-notif clickable-on-dark popup-parent">
                     {/* <!-- Bell Icon --> */}
-                    <img src="icons/bell-filled-white.svg" alt="Bell" />
+                    <img src={bellFilledWhite} alt="Bell" />
                     {/* <!-- Notification Popup --> */}
                     <PopupDrawerScrollable notifications={dataNotifDemo} />
                 </button>
@@ -63,7 +70,7 @@ function NavLogoLink() {
     return (
         <Link class="nav-logo-link" to="/">
             <span class="logo-combo clickable-on-dark" onclick="r">
-                <img class="logo-icon" src="icons/logo-icon-green-light.svg" alt="Logo Icon" />
+                <img class="logo-icon" src={logoIconGreenLight} alt="Logo Icon" />
                 <h1>Restify</h1>
             </span>
         </Link>
@@ -106,10 +113,10 @@ function AvaterWidget() {
         <button class="btn-avatar popup-parent">
             {/* <!-- Avatar Widget --> */}
             <span class="avatar-container">
-                <img class="avatar" src="images/user-avatar-default.png" alt="Avatar" />
+                <img class="avatar" src={userAvaterDefault} alt="Avatar" />
             </span>
             <span class="avatar-slideout">
-                <img src="icons/chevron-down-green-dark.svg" alt="▾" />
+                <img src={chevronIconGreenDark} alt="▾" />
             </span>
             {/* <!-- Avatar Menu Popup --> */}
             <div class="popup popup-fixed">
@@ -132,7 +139,7 @@ function AvaterWidget() {
                     <li>
                         <Link to="#">
                             <span>Log out</span>
-                            <img src="icons/log-out-dray-dark.svg" alt="Exit" />
+                            <img src={logOutIcon} alt="Exit" />
                         </Link>
                     </li>
                 </ul>
