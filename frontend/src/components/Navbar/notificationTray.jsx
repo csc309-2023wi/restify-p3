@@ -3,10 +3,6 @@ import { Link } from "react-router-dom";
 
 // TODO: leverage API context and authentication once it's implemented
 var apiBase = "http://127.0.0.1:8000/api";
-var u1Token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgyMTA5ODczLCJpYXQiOjE2ODIwMjM0NzMsImp0aSI6ImVhNTJmN2YwYzM0ZTQyYzk5OTE3NWYxN2MyYjMzNTEzIiwidXNlcl9pZCI6MX0.TAOIO1v5OrLb8GTNGWpen9iZNN3v9NsQxHswLfcOa8M";
-var u2Token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgyMTEwMDc1LCJpYXQiOjE2ODIwMjM2NzUsImp0aSI6IjNlNGI0ZGYzNzE2MzRjZGJhYjNkYWE2YWRkYWM0ZDBmIiwidXNlcl9pZCI6Mn0.58bZnSb0c-9KM0ld-ivSpuhrgSEO4zP3JF74zqBr37o";
 
 function NotificationTray() {
     const [notifications, setNotifications] = useState([]);
@@ -15,7 +11,7 @@ function NotificationTray() {
     useEffect(() => {
         fetch(`${apiBase}/notifications/`, {
             method: "GET",
-            headers: { Authorization: `Bearer ${u1Token}` },
+            headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
         })
             .then(async (response) => {
                 response.json().then((data) => {
