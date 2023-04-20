@@ -1,6 +1,6 @@
 button.btn-map {
     height: 33px;
-    background-image: url("../../../public/icons/map-pin.svg");
+    background-image: url("/src/assets/icons/map-pin.svg");
     background-repeat: no-repeat;
     background-position: 50% 50%;
     width: 45px;
