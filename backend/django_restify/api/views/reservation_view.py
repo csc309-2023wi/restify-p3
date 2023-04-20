@@ -84,7 +84,7 @@ class ReservationListView(ListAPIView):
         host_id = self.request.user.id
 
         if user_type == "host":
-            queryset = queryset.filter(property__host__id=host_id)
+            queryset = queryset.filter(property_id__host__id=host_id)
         elif user_type == "guest":
             user = get_object_or_404(User, id=host_id)
             queryset = user.reservations_outgoing.all()
