@@ -35,7 +35,6 @@ class NotificationSerializer(ModelSerializer):
             "created_at",
             "is_cancel_req",
         ]
-        fields = ["id", "user_id", "reservation_id", "property_id", "content"]
 
 
 class NotificationPagination(PageNumberPagination):
@@ -48,13 +47,9 @@ class NotificationsView(ListAPIView):
     pagination_class = NotificationPagination
 
     def get_queryset(self):
-        print("A")
         user_id = self.request.user.id
-        print("B")
         user = get_object_or_404(User, id=user_id)
-        print("C")
         query_set = Notification.objects.filter(user_id=user, is_cleared=False)
-        print("D")
         return query_set
 
 
