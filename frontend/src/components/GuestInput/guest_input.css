@@ -21,7 +21,7 @@ input[type="text"].flat {
 button.btn-decrement {
     width: 2.5rem;
     height: 33px;
-    background-image: url("../../../public/icons/minus.svg");
+    background-image: url("/src/assets/icons/minus.svg");
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-color: var(--clr-gray-dark);
@@ -32,7 +32,7 @@ button.btn-decrement {
 
 button.btn-increment {
     width: 2.5rem;
-    background-image: url("../../../public/icons/plus.svg");
+    background-image: url("/src/assets/icons/plus.svg");
     background-repeat: no-repeat;
     background-position: 50% 50%;
     height: 33px;

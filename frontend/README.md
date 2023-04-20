@@ -4,13 +4,16 @@
 
 -   `public/`: folder containing static assets that will be included in the build
 
-    -   `icons/`: This folder contains SVG icons used throughout the web application.
-    -   `images/`: This folder contains various images (in PNG, WEBP, or ICO formats) used throughout the web application.
     -   `index.html`: This is the main HTML file that gets served to the client, and serves as the entry point for the React application.
     -   `manifest.json`: This is a web application manifest file that provides metadata about the application (such as its name, icons, and theme color) to the browser.
     -   `robots.txt`: This is a file used to give instructions to web robots (such as search engine crawlers) about which pages or files to crawl or avoid.
 
 -   `src/`: folder containing source code for the React application
+
+    -   `assets/`: static assets like images and icons used in the React application; referenced as `/src/assets/...` inside the React codebase
+
+        -   `icons/`: This folder contains SVG icons used throughout the web application.
+        -   `images/`: This folder contains various images (in PNG, WEBP, or ICO formats) used throughout the web application.
 
     -   `components/`: folder containing reusable components
 
