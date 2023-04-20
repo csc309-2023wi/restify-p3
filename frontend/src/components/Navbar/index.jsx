@@ -54,7 +54,6 @@ function Navbar() {
         <nav className="nav-main">
             <NavLogoLink />
 
-            {/* <input type="text" name="search" class="search" placeholder="Search listings..." /> */}
             <SearchBar />
 
             <span className="tray-notif-avatar">

@@ -1,14 +1,27 @@
 .search-bar {
     display: flex;
-    border-radius: 2rem;
     border: 2px solid white;
+    border-radius: 2rem;
     margin: 0.25rem 0;
     padding: 0;
+    height: 3rem;
+    align-self: center;
+    justify-self: center;
+    width: 100%;
+    max-width: 45rem;
     overflow: hidden;
 }
 
+@media screen and (max-width: 45rem) {
+    .search-bar {
+        grid-row: 2;
+        grid-column: 1 / 4;
+        justify-self: center;
+    }
+}
+
 .search-bar input {
-    flex: 1;
+    flex: 1 0;
     border: none;
     outline: none;
     margin: 0;
