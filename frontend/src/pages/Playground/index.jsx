@@ -8,7 +8,7 @@ function Playground() {
     return (
         <>
             <Navbar />
-            <div class="container">
+            <div className="container">
                 <h1>Playground</h1>
                 <p style={{ marginBottom: "2rem" }}>Insert random components in this page for experimentation. </p>
                 <div

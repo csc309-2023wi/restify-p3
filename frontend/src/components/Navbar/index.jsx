@@ -10,6 +10,9 @@ import userAvaterDefault from "../../assets/images/user-avatar-default.png";
 import chevronIconGreenDark from "../../assets/icons/chevron-down-green-dark.svg";
 import logOutIcon from "../../assets/icons/log-out-dray-dark.svg";
 
+// import components
+import SearchBar from "./searchBar";
+
 const dataNotifDemo = [
     {
         notification_id: 1,
@@ -48,13 +51,14 @@ const dataNotifDemo = [
 
 function Navbar() {
     return (
-        <nav class="nav-main">
+        <nav className="nav-main">
             <NavLogoLink />
 
-            <input type="text" name="search" class="search" placeholder="Search listings..." />
+            {/* <input type="text" name="search" class="search" placeholder="Search listings..." /> */}
+            <SearchBar />
 
-            <span class="tray-notif-avatar">
-                <button class="btn-notif clickable-on-dark popup-parent">
+            <span className="tray-notif-avatar">
+                <button className="btn-notif clickable-on-dark popup-parent">
                     {/* <!-- Bell Icon --> */}
                     <img src={bellFilledWhite} alt="Bell" />
                     {/* <!-- Notification Popup --> */}
@@ -68,9 +72,9 @@ function Navbar() {
 
 function NavLogoLink() {
     return (
-        <Link class="nav-logo-link" to="/">
-            <span class="logo-combo clickable-on-dark" onclick="r">
-                <img class="logo-icon" src={logoIconGreenLight} alt="Logo Icon" />
+        <Link className="nav-logo-link" to="/">
+            <span className="logo-combo clickable-on-dark">
+                <img className="logo-icon" src={logoIconGreenLight} alt="Logo Icon" />
                 <h1>Restify</h1>
             </span>
         </Link>
@@ -102,7 +106,7 @@ function PopupDrawerScrollable({ notifications }) {
         ));
 
     return (
-        <div class="popup popup-drawer-scrollable">
+        <div className="popup popup-drawer-scrollable">
             <ul>{entries}</ul>
         </div>
     );
@@ -110,16 +114,16 @@ function PopupDrawerScrollable({ notifications }) {
 
 function AvaterWidget() {
     return (
-        <button class="btn-avatar popup-parent">
+        <button className="btn-avatar popup-parent">
             {/* <!-- Avatar Widget --> */}
-            <span class="avatar-container">
-                <img class="avatar" src={userAvaterDefault} alt="Avatar" />
+            <span className="avatar-container">
+                <img className="avatar" src={userAvaterDefault} alt="Avatar" />
             </span>
-            <span class="avatar-slideout">
+            <span className="avatar-slideout">
                 <img src={chevronIconGreenDark} alt="▾" />
             </span>
             {/* <!-- Avatar Menu Popup --> */}
-            <div class="popup popup-fixed">
+            <div className="popup popup-fixed">
                 <ul>
                     <li>
                         <Link to="/">

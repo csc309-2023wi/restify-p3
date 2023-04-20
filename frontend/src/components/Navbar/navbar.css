@@ -10,10 +10,6 @@ nav.nav-main {
     background-color: var(--clr-purple-primary);
     color: white;
     box-shadow: var(--shadow-med);
-    /* display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between; */
     display: grid;
     row-gap: 1rem;
     column-gap: 1rem;
@@ -34,23 +30,6 @@ span.logo-combo {
 img.logo-icon {
     width: 2rem;
     padding-bottom: 0.2em;
-}
-
-input[type="text"].search {
-    align-self: center;
-    justify-self: center;
-    color: white;
-    box-sizing: border-box;
-    border: 2px solid white;
-    background-color: var(--clr-purple-primary);
-    background-image: url("/src/assets/icons/search-purple-primary-bg-white.svg");
-    background-position: 100% 50%;
-    background-size: 18% 150%;
-    background-repeat: no-repeat;
-    margin-bottom: unset;
-    width: 20rem;
-    height: 2.5rem;
-    max-width: 90%;
 }
 
 span.tray-notif-avatar {

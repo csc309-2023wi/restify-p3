@@ -1,0 +1,32 @@
+.search-bar {
+    display: flex;
+    border-radius: 2rem;
+    border: 2px solid white;
+    margin: 0.25rem 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0.25rem 1rem;
+    color: white;
+    background-color: transparent;
+}
+
+.search-bar button {
+    border: none;
+    border-radius: 1.95rem;
+    min-width: 4rem;
+    background-color: white;
+    margin: 0;
+    padding: 0.25rem 0.5rem;
+    color: var(--clr-purple-bg);
+}
+
+.search-bar button:hover {
+    background-color: var(--clr-purple-light);
+}
