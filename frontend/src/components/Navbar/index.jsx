@@ -44,7 +44,7 @@ function NavAuthWidget({ isLoggedIn, setIsLoggedIn }) {
                     {/* <!-- Notification Popup --> */}
                     <NotificationTray />
                 </button>
-                <AvaterWidget setIsLoggedIn={setIsLoggedIn} />
+                <AvatarWidget setIsLoggedIn={setIsLoggedIn} />
             </span>
         );
     } else {
@@ -69,7 +69,7 @@ function NavLogoLink() {
     );
 }
 
-function AvaterWidget({ setIsLoggedIn }) {
+function AvatarWidget({ setIsLoggedIn }) {
     const logOut = () => {
         localStorage.removeItem("accessToken");
         setIsLoggedIn(false);
