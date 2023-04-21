@@ -1,22 +1,26 @@
 import React from "react";
 import ActionBtn from "../../components/ActionBtn";
 import Sidebar from "../../components/Sidebar";
+import Navbar from "../../components/Navbar";
 import "./playground.css";
 
 function Playground() {
     return (
         <>
-            <h1>Playground</h1>
-            <p style={{ marginBottom: "2rem" }}>Insert random components in this page for experimentation. </p>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    rowGap: "1rem",
-                }}>
-                <Sidebar />
-                <div>
-                    <ActionButtons />
+            <Navbar />
+            <div className="container">
+                <h1>Playground</h1>
+                <p style={{ marginBottom: "2rem" }}>Insert random components in this page for experimentation. </p>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        rowGap: "1rem",
+                    }}>
+                    <Sidebar />
+                    <div>
+                        <ActionButtons />
+                    </div>
                 </div>
             </div>
         </>
