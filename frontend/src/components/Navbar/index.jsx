@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import "./navbar.css";
@@ -15,18 +15,27 @@ import SearchBar from "./searchBar";
 import NotificationTray from "./notificationTray";
 
 function Navbar() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+        if (token && token.length > 0) {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
+        }
+    }, []);
+
     return (
         <nav className="nav-main">
             <NavLogoLink />
             <SearchBar />
-            <NavAuthWidget />
+            <NavAuthWidget isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         </nav>
     );
 }
 
-function NavAuthWidget() {
-    const token = localStorage.getItem("accessToken");
-    if (token && token.length > 0) {
+function NavAuthWidget({ isLoggedIn, setIsLoggedIn }) {
+    if (isLoggedIn) {
         return (
             <span className="tray-notif-avatar">
                 <button className="btn-notif clickable-on-dark popup-parent">
@@ -35,13 +44,13 @@ function NavAuthWidget() {
                     {/* <!-- Notification Popup --> */}
                     <NotificationTray />
                 </button>
-                <AvaterWidget />
+                <AvaterWidget setIsLoggedIn={setIsLoggedIn} />
             </span>
         );
     } else {
         return (
             <span className="tray-notif-avatar">
-                <Link className={"action-btn bordered-dark btn-nav-auth"} text="" to="/auth">
+                <Link className={"action-btn bordered-dark btn-nav-auth"} to="/auth">
                     Sign up | Log in
                 </Link>
             </span>
@@ -60,7 +69,11 @@ function NavLogoLink() {
     );
 }
 
-function AvaterWidget() {
+function AvaterWidget({ setIsLoggedIn }) {
+    const logOut = () => {
+        localStorage.removeItem("accessToken");
+        setIsLoggedIn(false);
+    };
     return (
         <button className="btn-avatar popup-parent">
             {/* <!-- Avatar Widget --> */}
@@ -89,8 +102,7 @@ function AvaterWidget() {
                         </Link>
                     </li>
                     <li>
-                        {/* TODO: implement logout */}
-                        <Link to="#">
+                        <Link onClick={logOut} to="/">
                             <span>Log out</span>
                             <img src={logOutIcon} alt="Exit" />
                         </Link>
