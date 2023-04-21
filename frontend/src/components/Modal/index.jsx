@@ -24,7 +24,7 @@ function Modal({
         </button>
     ) : null;
     return (
-        <div className="modal-backdrop" id={id} key={id} style={{ display: displayAttr }}>
+        <div className="modal-backdrop" id={"modal_" + id} key={id} style={{ display: displayAttr }}>
             <div className="modal-container">
                 <section className="modal-content">
                     {imageSection}

@@ -3,11 +3,18 @@ import ActionBtn from "../../components/ActionBtn";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
 import Modal from "../../components/Modal";
+import { ModalHostCreate, ModalHostExisting } from "../../components/ModalHost";
+import { ModalGuestUnbooked, ModalGuestBooked } from "../../components/ModalGuest";
 
 import "./playground.css";
 
 function Playground() {
     const [newModalShow, setNewModalShow] = useState(true);
+    const [newHostCreateModalShow, setNewHostCreateModalShow] = useState(false);
+    const [newHostExistingModalShow, setNewHExistingModalShow] = useState(false);
+    const [guestUnbookedModalShow, setGuestUnbookedModalShow] = useState(false);
+    const [guestBookedModalShow, setGuestBookedModalShow] = useState(false);
+
     return (
         <>
             <Navbar />
@@ -27,10 +34,18 @@ function Playground() {
                         <ActionButtons />
 
                         {/* DEMO: Modals */}
-                        <div className="modal-demos" style={{ margin: "2rem 0 1rem 0" }}>
+                        <div
+                            className="modal-demos"
+                            style={{
+                                margin: "2rem 0 1rem 0",
+                                display: "flex",
+                                flexDirection: "column",
+                                rowGap: "1rem",
+                            }}>
                             <h2 style={{ marginBottom: "1rem" }}>Modals demo</h2>
+                            {/* generic modal */}
                             <Modal
-                                id={"new"}
+                                id={"generic"}
                                 modalHeader={"Header of the modal"}
                                 displayState={newModalShow} // bool: whether the modal should be shown
                                 displayStateSetter={setNewModalShow} // function that sets whether the modal should be shown
@@ -41,8 +56,51 @@ function Playground() {
                             />
                             <ActionBtn
                                 className={"green-dark"}
-                                text="Show new modal"
+                                text="Show new generic modal"
                                 onClick={() => setNewModalShow(true)}
+                            />
+                            {/* host create modal */}
+                            <ModalHostCreate
+                                displayState={newHostCreateModalShow}
+                                displayStateSetter={setNewHostCreateModalShow}
+                            />
+                            <ActionBtn
+                                className={"purple-light"}
+                                text="Show new host-create modal"
+                                onClick={() => setNewHostCreateModalShow(true)}
+                            />
+                            {/* host existing modal */}
+                            <ModalHostExisting
+                                property_id={0}
+                                displayState={newHostExistingModalShow}
+                                displayStateSetter={setNewHExistingModalShow}
+                            />
+                            <ActionBtn
+                                className={"purple-light"}
+                                text="Show new host-existing modal"
+                                onClick={() => setNewHExistingModalShow(true)}
+                            />
+                            {/* guest unbooked modal */}
+                            <ModalGuestUnbooked
+                                property_id={0}
+                                displayState={guestUnbookedModalShow}
+                                displayStateSetter={setGuestUnbookedModalShow}
+                            />
+                            <ActionBtn
+                                className={"green-light"}
+                                text="Show guest-unbooked modal"
+                                onClick={() => setGuestUnbookedModalShow(true)}
+                            />
+                            {/* guest booked modal */}
+                            <ModalGuestBooked
+                                property_id={0}
+                                displayState={guestBookedModalShow}
+                                displayStateSetter={setGuestBookedModalShow}
+                            />
+                            <ActionBtn
+                                className={"green-light"}
+                                text="Show guest-booked modal"
+                                onClick={() => setGuestBookedModalShow(true)}
                             />
                         </div>
                     </div>
