@@ -6,13 +6,14 @@ import "./navbar.css";
 // import icons
 import bellFilledWhite from "../../assets/icons/bell-filled-white.svg";
 import logoIconGreenLight from "../../assets/icons/logo-icon-green-light.svg";
-import userAvatarDefault from "../../assets/images/user-avatar-default.png";
 import chevronIconGreenDark from "../../assets/icons/chevron-down-green-dark.svg";
 import logOutIcon from "../../assets/icons/log-out-dray-dark.svg";
 
 // import components
 import SearchBar from "./searchBar";
 import NotificationTray from "./notificationTray";
+
+var backendUrlBase = "http://localhost:8000";
 
 function Navbar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -74,11 +75,29 @@ function AvatarWidget({ setIsLoggedIn }) {
         localStorage.removeItem("accessToken");
         setIsLoggedIn(false);
     };
+
+    // fetch user avatar
+    const [avatarUrl, setAvatarUrl] = useState(backendUrlBase + "/images/default_avatar.png");
+    useEffect(() => {
+        fetch(`${backendUrlBase}/api/user/profile/`, {
+            method: "GET",
+            headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+        })
+            .then(async (response) => {
+                response.json().then((data) => {
+                    setAvatarUrl(backendUrlBase + data.avatar);
+                });
+            })
+            .catch((reason) => {
+                console.error(reason);
+            });
+    }, []);
+
     return (
         <button className="btn-avatar popup-parent">
             {/* <!-- Avatar Widget --> */}
             <span className="avatar-container">
-                <img className="avatar" src={userAvatarDefault} alt="Avatar" />
+                <img className="avatar" src={avatarUrl} alt="Avatar" />
             </span>
             <span className="avatar-slideout">
                 <img src={chevronIconGreenDark} alt="▾" />
