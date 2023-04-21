@@ -18,9 +18,16 @@ function Navbar() {
     return (
         <nav className="nav-main">
             <NavLogoLink />
-
             <SearchBar />
+            <NavAuthWidget />
+        </nav>
+    );
+}
 
+function NavAuthWidget() {
+    const token = localStorage.getItem("accessToken");
+    if (token && token.length > 0) {
+        return (
             <span className="tray-notif-avatar">
                 <button className="btn-notif clickable-on-dark popup-parent">
                     {/* <!-- Bell Icon --> */}
@@ -30,8 +37,16 @@ function Navbar() {
                 </button>
                 <AvaterWidget />
             </span>
-        </nav>
-    );
+        );
+    } else {
+        return (
+            <span className="tray-notif-avatar">
+                <Link className={"action-btn bordered-dark btn-nav-auth"} text="" to="/auth">
+                    Sign up | Log in
+                </Link>
+            </span>
+        );
+    }
 }
 
 function NavLogoLink() {
@@ -74,6 +89,7 @@ function AvaterWidget() {
                         </Link>
                     </li>
                     <li>
+                        {/* TODO: implement logout */}
                         <Link to="#">
                             <span>Log out</span>
                             <img src={logOutIcon} alt="Exit" />

@@ -39,6 +39,11 @@ span.tray-notif-avatar {
     align-items: center;
     justify-content: flex-end;
     column-gap: 1rem;
+    color: var(--clr-purple-primary);
+}
+
+a.btn-nav-auth {
+    margin-right: 0.5rem;
 }
 
 button.btn-notif {
