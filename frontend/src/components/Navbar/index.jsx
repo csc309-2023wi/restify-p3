@@ -6,7 +6,7 @@ import "./navbar.css";
 // import icons
 import bellFilledWhite from "../../assets/icons/bell-filled-white.svg";
 import logoIconGreenLight from "../../assets/icons/logo-icon-green-light.svg";
-import userAvaterDefault from "../../assets/images/user-avatar-default.png";
+import userAvatarDefault from "../../assets/images/user-avatar-default.png";
 import chevronIconGreenDark from "../../assets/icons/chevron-down-green-dark.svg";
 import logOutIcon from "../../assets/icons/log-out-dray-dark.svg";
 
@@ -78,7 +78,7 @@ function AvatarWidget({ setIsLoggedIn }) {
         <button className="btn-avatar popup-parent">
             {/* <!-- Avatar Widget --> */}
             <span className="avatar-container">
-                <img className="avatar" src={userAvaterDefault} alt="Avatar" />
+                <img className="avatar" src={userAvatarDefault} alt="Avatar" />
             </span>
             <span className="avatar-slideout">
                 <img src={chevronIconGreenDark} alt="▾" />

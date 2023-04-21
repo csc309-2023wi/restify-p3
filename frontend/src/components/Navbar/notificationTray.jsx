@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-// TODO: leverage API context and authentication once it's implemented
+// TODO: move this into a global constant
 var apiBase = "http://127.0.0.1:8000/api";
 
 function NotificationTray() {
