@@ -23,11 +23,37 @@ function NotificationTray() {
             });
     }, []);
 
+    const notifReader = (event) => {
+        const notifId = event.currentTarget.dataset.indexNumber;
+        fetch(`${apiBase}/notifications/read/${notifId}/`, {
+            method: "GET",
+            headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+        })
+            .then(async (response) => {
+                response.json().then(() => {
+                    const updatedNotifications = [...notifications];
+                    const notificationItemIdx = updatedNotifications.findIndex(
+                        (notification) => notification.id === parseInt(notifId)
+                    );
+                    if (notificationItemIdx !== -1) {
+                        updatedNotifications[notificationItemIdx].is_read = true;
+                        setNotifications(updatedNotifications);
+                    }
+                });
+            })
+            .catch((reason) => {
+                console.error(reason);
+            });
+    };
+
     const entries = notifications
         .filter((notification) => !notification.is_cleared)
         .map((notification) => (
             <li key={notification.id}>
-                <Link to={"/dashboard/?property_id=" + notification.property_id}>
+                <Link
+                    to={"/dashboard/?property_id=" + notification.property_id}
+                    data-index-number={notification.id}
+                    onClick={notifReader}>
                     <div
                         className={"notif-strip " + (notification.is_read ? "notif-strip-read" : "notif-strip-unread")}>
                         <p className="notif-preview">{notification.content}</p>
