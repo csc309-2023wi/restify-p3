@@ -198,6 +198,11 @@ class PropertyRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = PropertySerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    def get_queryset(self):
+        # annotate rating
+        queryset = super().get_queryset().annotate(rating=Avg("reviews__rating"))
+        return queryset
+
     def perform_update(self, serializer):
         instance = serializer.save()
 
