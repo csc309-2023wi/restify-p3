@@ -145,6 +145,12 @@ input[type="file"] {
     opacity: 0.7;
 }
 
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: 150%;
+}
+
 /* Any element that is against a dark background that should appear clickable */
 .clickable-on-dark {
     background: transparent;

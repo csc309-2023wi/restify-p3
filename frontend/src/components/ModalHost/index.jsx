@@ -22,6 +22,14 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
             </div>
 
             <div className="input-container">
+                <h4>Description:</h4>
+                <Input
+                    inputBody={<textarea className="description-text" placeholder="Enter description..."></textarea>}
+                    appendClassNames={"default"}
+                />
+            </div>
+
+            <div className="input-container">
                 <h4>Number of guests allowed:</h4>
                 <Input inputBody={<GuestInput />} appendClassNames={"guests"} />
             </div>
