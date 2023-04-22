@@ -132,7 +132,7 @@ function Auth() {
         return false
     }
     const validateAvatar = (avatar) => {
-        const validExtensions = ['png','jpeg','jpg']
+        const validExtensions = ['png', 'jpeg', 'jpg', 'webp']
         const fileExtension = avatar.split('/')[1]
         const isImage = validExtensions.includes(fileExtension)
         if (!isImage) {
