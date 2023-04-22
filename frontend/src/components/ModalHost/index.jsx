@@ -65,6 +65,8 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
                 response.json().then((newPropObj) => {
                     navigate("/dashboard/?property_id=" + newPropObj.id);
                 });
+            } else if (response.status === 401) {
+                navigate("/auth");
             } else {
                 console.error(response.status + response.statusText);
                 console.error(await response.json());
