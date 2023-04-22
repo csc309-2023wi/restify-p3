@@ -371,21 +371,23 @@ div.save-changes {
     z-index: 6;
     padding: 0.5rem;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .pos-relative button.del-img {
     top: -1.2rem;
     right: -1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: var(--clr-red-semiopaque);
-}
-.pos-relative button.del-img:hover {
-    background-color: var(--clr-red-important);
 }
 
 .pos-relative button.del-item {
     top: 0.1rem;
     right: 0.1rem;
+}
+
+.pos-relative button.del-img:hover,
+.pos-relative button.del-item:hover {
+    background-color: var(--clr-red-important);
 }
