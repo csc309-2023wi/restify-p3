@@ -1,1 +1,85 @@
 /* css styles for profile */
+main.profile {
+    background-color: var(--clr-purple-bg);
+}
+.profile input {
+    width: 100%;
+}
+
+.profile div.container {
+    width: 100%;
+    margin: 3rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.profile span.avatar-container-profile {
+    background-color: white;
+    width: 8rem;
+    height: 8rem;
+    border-radius: var(--rad-sml) var(--rad-sml) var(--rad-sml) var(--rad-sml);
+    box-shadow: var(--shadow-sml);
+}
+
+.profile .change-avatar {
+    width: 100%;
+    color: var(--clr-purple-primary);
+    text-decoration: underline;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 0.5rem;
+}
+
+.profile .icon {
+    max-height: 1.2rem;
+}
+
+.profile form {
+    width: 90%;
+    max-width: 20rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    row-gap: 1.5rem;
+    margin: 1rem auto;
+}
+.profile div.label-row {
+    font-weight: 600;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    padding: 0 1rem;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.profile input {
+    border: 1.5px solid #cdcdcd;
+}
+
+.profile .avatar-input {
+    display: none;
+}
+
+.profile .avatar-label {
+    cursor:pointer;
+    color:blue;
+    text-decoration:underline;
+}
+
+.profile .avatar-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+p.error {
+    color: var(--clr-red-important);
+    margin: 0;
+    text-align: center;
+    max-width: 21rem;
+}
