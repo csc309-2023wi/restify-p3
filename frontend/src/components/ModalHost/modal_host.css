@@ -360,8 +360,8 @@ div.save-changes {
 }
 
 .pos-relative button.del-img {
-    top: -1.5rem;
-    right: -1.5rem;
+    top: -1.2rem;
+    right: -1.2rem;
     display: flex;
     align-items: center;
     justify-content: center;
