@@ -128,11 +128,21 @@ input[type="date"],
 input[type="email"],
 input[type="tel"],
 input[type="file"] {
+    font-family: inherit;
     font-size: inherit;
     padding: 0.5rem 1rem;
     border-radius: 2.5rem;
     width: 100%;
     margin-bottom: 0.5rem;
+}
+
+::-webkit-input-placeholder {
+    color: inherit;
+    opacity: 0.7;
+}
+::placeholder {
+    color: inherit;
+    opacity: 0.7;
 }
 
 /* Any element that is against a dark background that should appear clickable */
