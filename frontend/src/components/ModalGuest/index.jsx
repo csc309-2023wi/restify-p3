@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Splide from "@splidejs/splide";
 import "./modal_guest.css";
 
 // import components
@@ -30,9 +31,34 @@ export function ModalGuestBooked({ property_id, displayState, displayStateSetter
 
 function ModalGuest({ property_id, displayState, displayStateSetter, actionCard }) {
     const modalHeader = "property address";
-    const mainImageContent = "property images";
+
+    // build the image carousel; ensure each carousel has a unique id
+    const [carouselId, setCarouselId] = useState(`splide_${property_id}_${Math.floor(Math.random() * 5)}`);
+    const mainImageContent = (
+        <div id={carouselId} className={`splide ${carouselId}`} aria-label="Property Images">
+            <div className="splide__track">
+                <ul className="splide__list">
+                    <li className="splide__slide">
+                        <img src="https://splidejs.com/images/slides/full/01.jpg" alt="" />
+                    </li>
+                    <li className="splide__slide">
+                        <img src="https://splidejs.com/images/slides/full/02.jpg" alt="" />
+                    </li>
+                    <li className="splide__slide">
+                        <img src="https://splidejs.com/images/slides/full/03.jpg" alt="" />
+                    </li>
+                </ul>
+            </div>
+        </div>
+    );
+
     const mainInfoContent = "property info";
     const hostInfo = "host info";
+
+    // register the image carousel widget
+    useEffect(() => {
+        new Splide(`.splide.${carouselId}`).mount();
+    }, [carouselId]);
 
     return (
         <Modal
