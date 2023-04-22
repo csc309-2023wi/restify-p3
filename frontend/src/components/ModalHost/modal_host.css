@@ -38,27 +38,6 @@ button.send-arrow {
     width: 100%;
 }
 
-button.action-btn.create-listing {
-    position: absolute;
-    bottom: 1rem;
-    right: 1.5rem;
-    width: 4rem;
-    height: 4rem;
-    border-radius: var(--rad-med);
-    box-shadow: var(--shadow-sml);
-    overflow: hidden;
-    z-index: 7;
-}
-button.action-btn.create-listing:hover {
-    box-shadow: var(--shadow-med);
-}
-button.action-btn.create-listing img {
-    width: inherit;
-    height: inherit;
-    min-width: none;
-    min-height: none;
-}
-
 @media screen and (max-width: 860px) {
     .modal-content .image-selector {
         grid-template-columns: 1fr;
@@ -381,8 +360,15 @@ div.save-changes {
 }
 
 .pos-relative button.del-img {
-    top: -1.7rem;
-    right: -0.5rem;
+    top: -1.5rem;
+    right: -1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--clr-red-semiopaque);
+}
+.pos-relative button.del-img:hover {
+    background-color: var(--clr-red-important);
 }
 
 .pos-relative button.del-item {

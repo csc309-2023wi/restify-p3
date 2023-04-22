@@ -3,13 +3,29 @@ import "./modal_host.css";
 
 // import icons
 import xSmallWhite from "../../assets/icons/x-white-small.svg";
-import placeHolder from "../../assets/images/property-img.webp";
 
 // import components
 import Modal from "../Modal";
 import AddImageRegion from "../AddImageRegion";
 
 export function ModalHostCreate({ displayState, displayStateSetter }) {
+    const actionContent = "action";
+
+    return (
+        <Modal
+            id={"modal_new"}
+            modalHeader={"Create new listing"}
+            displayState={displayState} // bool: whether the modal should be shown
+            displayStateSetter={displayStateSetter} // function that sets whether the modal should be shown
+            mainImageContent={<PropertyImageUploader />} // content to put inside the image section on the left; put null to disable
+            mainInfoContent={null} // content to put inside the info section on the left; put null to disable
+            createNewAction={(event) => console.log("Host create!", event.currentTarget)} // what happens when you click the green submit button; put null to disable
+            actionContent={actionContent} // content to put inside the action column on the right; put null to disable
+        />
+    );
+}
+
+function PropertyImageUploader() {
     const [images, setImages] = useState([]);
 
     const fileHandler = (file) => {
@@ -23,7 +39,7 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
                 base64Rep: base64Rep,
                 previewURL: localPreviewURL,
             };
-            console.log(newImageObject);
+            // console.log(newImageObject);
             setImages((prevImages) => [...prevImages, newImageObject]);
         });
     };
@@ -49,26 +65,11 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
         </>
     );
 
-    const mainImageContent = (
+    return (
         <div className="image-selector">
             {imagePreviews}
             <AddImageRegion fileHandler={fileHandler} />
         </div>
-    );
-
-    const actionContent = "action";
-
-    return (
-        <Modal
-            id={"modal_new"}
-            modalHeader={"Create new listing"}
-            displayState={displayState} // bool: whether the modal should be shown
-            displayStateSetter={displayStateSetter} // function that sets whether the modal should be shown
-            mainImageContent={mainImageContent} // content to put inside the image section on the left; put null to disable
-            mainInfoContent={null} // content to put inside the info section on the left; put null to disable
-            createNewAction={(event) => console.log("Host create!", event.currentTarget)} // what happens when you click the green submit button; put null to disable
-            actionContent={actionContent} // content to put inside the action column on the right; put null to disable
-        />
     );
 }
 
