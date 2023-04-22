@@ -1,11 +1,43 @@
 import React, { useState, useEffect } from "react";
 import "./modal_host.css";
 
+// import icons
+import xSmallWhite from "../../assets/icons/x-white-small.svg";
+import placeHolder from "../../assets/images/property-img.webp";
+import imageUploadIcon from "../../assets/icons/upload-white.svg";
+
 // import components
 import Modal from "../Modal";
 
 export function ModalHostCreate({ displayState, displayStateSetter }) {
-    const mainImageContent = "images";
+    const mainImageContent = (
+        <>
+            <div className="pos-relative">
+                <button className="del-img clickable-on-dark">
+                    <img src={xSmallWhite} alt="x" />
+                </button>
+                <img className="propery-img" src={placeHolder} alt="property" />
+            </div>
+            <div className="pos-relative">
+                <button className="del-img clickable-on-dark">
+                    <img src={xSmallWhite} alt="x" />
+                </button>
+                <img className="propery-img" src={placeHolder} alt="property" />
+            </div>
+            <div className="pos-relative">
+                <button className="del-img clickable-on-dark">
+                    <img src={xSmallWhite} alt="x" />
+                </button>
+                <img className="propery-img" src={placeHolder} alt="property" />
+            </div>
+            <button className="add-image">
+                <div className="drag-area">
+                    <img src={imageUploadIcon} alt="drag and drop here to upload" />
+                    <h4>Upload Image</h4>
+                </div>
+            </button>
+        </>
+    );
     const actionContent = "action";
     return (
         <Modal
