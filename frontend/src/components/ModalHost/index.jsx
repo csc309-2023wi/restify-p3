@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./modal_host.css";
 
 // import icons
@@ -12,9 +13,11 @@ import Input from "../Input";
 import LocationInput from "../LocationInput";
 import GuestInput from "../GuestInput";
 
-export function ModalHostCreate({ displayState, displayStateSetter }) {
-    const valLogger = (e) => console.log(e.target.value);
+var backendUrlBase = "http://localhost:8000";
 
+export function ModalHostCreate({ displayState, displayStateSetter }) {
+    const navigate = useNavigate();
+    const [propertyImages, setPropertyImages] = useState([]);
     const [address, setAddress] = useState("");
     const [description, setDescription] = useState("");
     const [numGuests, setNumGuests] = useState(1);
@@ -31,10 +34,50 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
     // TODO: support adding amenities
     const [amenities, setAmenities] = useState([]);
 
+    const submitNewProperty = () => {
+        document.body.style.cursor = "progress";
+        const imagesForSubmission = propertyImages.map((imageObj) => ({
+            ext: imageObj.fileExtension,
+            data: imageObj.base64Rep,
+        }));
+        const createPropertyObj = {
+            address: address,
+            description: description,
+            guest_capacity: numGuests,
+            availability: availabilities,
+            amenities: amenities,
+            images: imagesForSubmission,
+        };
+
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+            document.body.style.cursor = "default";
+            navigate("/auth");
+        }
+
+        fetch(`${backendUrlBase}/api/property/`, {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+            body: JSON.stringify(createPropertyObj),
+        }).then(async (response) => {
+            document.body.style.cursor = "default";
+            if (response.ok) {
+                response.json().then((newPropObj) => {
+                    navigate("/dashboard/?property_id=" + newPropObj.id);
+                });
+            } else {
+                console.error(response.status + response.statusText);
+                console.error(await response.json());
+            }
+        });
+    };
+
     const actionContent = (
         <>
             <div className="input-container">
-                <h4>Address:</h4>
+                <h4>
+                    Address: <span className="field-required">*</span>
+                </h4>
                 <Input
                     inputBody={<LocationInput onChangeHandler={(e) => setAddress(e.target.value)} />}
                     appendClassNames={"default"}
@@ -42,7 +85,9 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
             </div>
 
             <div className="input-container">
-                <h4>Description:</h4>
+                <h4>
+                    Description: <span className="field-required">*</span>
+                </h4>
                 <Input
                     inputBody={
                         <textarea
@@ -100,9 +145,9 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
             modalHeader={"Create new listing"}
             displayState={displayState} // bool: whether the modal should be shown
             displayStateSetter={displayStateSetter} // function that sets whether the modal should be shown
-            mainImageContent={<PropertyImageSelector />} // content to put inside the image section on the left; put null to disable
+            mainImageContent={<PropertyImageSelector imageArrayReceiver={setPropertyImages} />} // content to put inside the image section on the left; put null to disable
             mainInfoContent={null} // content to put inside the info section on the left; put null to disable
-            createNewAction={(event) => console.log("Host create!", event.currentTarget)} // what happens when you click the green submit button; put null to disable
+            createNewAction={address && description ? submitNewProperty : null} // what happens when you click the green submit button; put null to disable
             actionContent={actionContent} // content to put inside the action column on the right; put null to disable
         />
     );

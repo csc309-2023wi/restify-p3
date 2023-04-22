@@ -391,3 +391,8 @@ div.save-changes {
 .pos-relative button.del-item:hover {
     background-color: var(--clr-red-important);
 }
+
+span.field-required {
+    color: var(--clr-red-important);
+    font-weight: bolder;
+}

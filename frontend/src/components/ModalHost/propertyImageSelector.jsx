@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // import icons
 import xSmallWhite from "../../assets/icons/x-white-small.svg";
@@ -6,7 +6,7 @@ import xSmallWhite from "../../assets/icons/x-white-small.svg";
 // import components
 import AddImageRegion from "../AddImageRegion";
 
-function PropertyImageSelector() {
+function PropertyImageSelector({ imageArrayReceiver }) {
     const [images, setImages] = useState([]);
 
     const fileHandler = (file) => {
@@ -32,6 +32,11 @@ function PropertyImageSelector() {
             return newImages;
         });
     };
+
+    // send image array to parent when updated
+    useEffect(() => {
+        imageArrayReceiver(images);
+    }, [imageArrayReceiver, images]);
 
     const imagePreviews = (
         <>
