@@ -1,12 +1,8 @@
 import React from "react";
 import "./input.css";
 
-function Input({ inputBody }) {
-    return (
-        <div className="filter-inputs">
-            {inputBody}
-        </div>
-    )
+function Input({ inputBody, appendClassNames }) {
+    return <div className={"filter-inputs " + appendClassNames}>{inputBody}</div>;
 }
 
-export default Input
+export default Input;
