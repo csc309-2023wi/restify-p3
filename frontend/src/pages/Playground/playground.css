@@ -1,6 +1,2 @@
 /* css styles for the playground */
-div.container {
-    display: flex;
-    flex-direction: column;
-    margin-top: 1rem;
-}
+
