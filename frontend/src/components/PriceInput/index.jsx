@@ -4,7 +4,7 @@ function PriceInput({ onChangeHandler }) {
     return (
         <>
             <button className="btn-price"></button>
-            <input type="number" className="rounded-r" onChange={onChangeHandler} />
+            <input type="number" step="0.01" className="rounded-r" onChange={onChangeHandler} />
         </>
     );
 }
