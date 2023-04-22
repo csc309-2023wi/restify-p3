@@ -10,30 +10,48 @@ import Modal from "../Modal";
 import AddImageRegion from "../AddImageRegion";
 
 export function ModalHostCreate({ displayState, displayStateSetter }) {
+    const [images, setImages] = useState([]);
+
     const fileHandler = (file) => {
-        console.log(URL.createObjectURL(file));
+        const localPreviewURL = URL.createObjectURL(file);
+        const fileExtension = file.name.match(/^.+(\.[^\.]+)$/)[1].split(".")[1];
+        fileToDataURL(file).then((dataURL) => {
+            const base64Rep = dataURL.split(",")[1];
+            const newImageObject = {
+                file: file,
+                fileExtension: fileExtension,
+                base64Rep: base64Rep,
+                previewURL: localPreviewURL,
+            };
+            console.log(newImageObject);
+            setImages((prevImages) => [...prevImages, newImageObject]);
+        });
     };
+
+    const handleDeleteImage = (index) => {
+        setImages((prevImages) => {
+            const newImages = [...prevImages];
+            newImages.splice(index, 1);
+            return newImages;
+        });
+    };
+
+    const imagePreviews = (
+        <>
+            {images.map((image, index) => (
+                <div className="pos-relative" key={"upload_" + index}>
+                    <button className="del-img clickable-on-dark" onClick={() => handleDeleteImage(index)}>
+                        <img src={xSmallWhite} alt="x" />
+                    </button>
+                    <img className="propery-img" src={image.previewURL} alt={`property image ${index}`} />
+                </div>
+            ))}
+        </>
+    );
 
     const mainImageContent = (
         <div className="image-selector">
-            <div className="pos-relative">
-                <button className="del-img clickable-on-dark">
-                    <img src={xSmallWhite} alt="x" />
-                </button>
-                <img className="propery-img" src={placeHolder} alt="property" />
-            </div>
-            <div className="pos-relative">
-                <button className="del-img clickable-on-dark">
-                    <img src={xSmallWhite} alt="x" />
-                </button>
-                <img className="propery-img" src={placeHolder} alt="property" />
-            </div>
-            <div className="pos-relative">
-                <button className="del-img clickable-on-dark">
-                    <img src={xSmallWhite} alt="x" />
-                </button>
-                <img className="propery-img" src={placeHolder} alt="property" />
-            </div>
+            {imagePreviews}
             <AddImageRegion fileHandler={fileHandler} />
         </div>
     );
@@ -52,6 +70,15 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
             actionContent={actionContent} // content to put inside the action column on the right; put null to disable
         />
     );
+}
+
+function fileToDataURL(file) {
+    return new Promise((resolve, reject) => {
+        let reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
 }
 
 export function ModalHostExisting({ property_id, displayState, displayStateSetter }) {
