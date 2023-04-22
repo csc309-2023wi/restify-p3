@@ -172,7 +172,7 @@ function Profile() {
     }, []);
     
     const changeAvatar = (e) => {
-        if (validateAvatar(e.target.value)) {
+        if (validateAvatar(e.target.files[0].type)) {
             setAvatarURL(URL.createObjectURL(e.target.files[0]));
             setAvatarImg(e.target.files[0])
         }
