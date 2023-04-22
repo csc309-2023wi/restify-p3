@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./auth.css";
+import Navbar from "../../components/Navbar";
 
 function Auth() {
     const [isLogin, setIsLogin] = useState(true)
@@ -219,7 +220,8 @@ function Auth() {
             })
     }
 
-    return <div className="container">
+    return <><Navbar />
+    <div className="container">
 
         <div className="sidebar">
             <h2>Welcome to Restify!</h2>
@@ -307,7 +309,7 @@ function Auth() {
             
         </div>
 
-    </div>;
+    </div></>;
     
 }
 

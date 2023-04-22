@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./profile.css";
+import Navbar from "../../components/Navbar";
 
 function Profile() {
 
@@ -12,7 +13,6 @@ function Profile() {
     const [avatarURL, setAvatarURL] = useState("");
     const [avatarImg, setAvatarImg] = useState(null);
 
-    const [usernameErr, setUsernameErr] = useState("")
     const [firstNameErr, setFirstNameErr] = useState("")
     const [lastNameErr, setLastNameErr] = useState("")
     const [emailErr, setEmailErr] = useState("")
@@ -22,17 +22,6 @@ function Profile() {
     const [password2Err, setPassword2Err] = useState("")
     const [genErr, setGenErr] = useState("")
 
-    const validateUsername = (username) => {
-        if (username.length < 6) {
-            setUsernameErr("Username must be at least 6 characters long.")
-        } else if (!(username.match(/^[a-zA-Z0-9_]*$/))) {
-            setUsernameErr("Username must be alphanumeric.")
-        } else {
-            setUsernameErr(" ")
-            return true
-        }
-        return false
-    }
     const validateFirstName = (firstName) => {
         setFirstName(firstName)
         if (firstName.length === 0) {
@@ -189,9 +178,9 @@ function Profile() {
         }
     }
 
-    return <> 
-    <main className="profile">
-        <div className="container">
+    return <>
+        <Navbar /> 
+        <div className="container profile">
             <span className="avatar-container avatar-container-profile">
                 <img className="avatar" src={avatarURL} alt="Avatar" />
             </span>
@@ -278,8 +267,6 @@ function Profile() {
                 <p className="error">{genErr}</p>
             </form>
         </div>
-    </main>
-    
     </>;
 }
 

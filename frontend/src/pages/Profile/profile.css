@@ -6,7 +6,7 @@ main.profile {
     width: 100%;
 }
 
-.profile div.container {
+div.container.profile {
     width: 100%;
     margin: 3rem auto;
     display: flex;
