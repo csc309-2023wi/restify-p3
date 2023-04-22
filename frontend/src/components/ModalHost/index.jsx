@@ -15,8 +15,11 @@ import GuestInput from "../GuestInput";
 export function ModalHostCreate({ displayState, displayStateSetter }) {
     const valLogger = (e) => console.log(e.target.value);
 
-    const [availabilities, setAvailabilities] = useState([]);
+    const [address, setAddress] = useState("");
+    const [description, setDescription] = useState("");
+    const [numGuests, setNumGuests] = useState(1);
 
+    const [availabilities, setAvailabilities] = useState([]);
     const handleAddAvailability = (newAvail) => setAvailabilities((prevAvails) => [...prevAvails, newAvail]);
     const handleDeleteAvailability = (i) => () =>
         setAvailabilities((prevAvails) => {
@@ -25,24 +28,38 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
             return updatedAvails;
         });
 
+    // TODO: support adding amenities
+    const [amenities, setAmenities] = useState([]);
+
     const actionContent = (
         <>
             <div className="input-container">
                 <h4>Address:</h4>
-                <Input inputBody={<LocationInput onChangeHandler={valLogger} />} appendClassNames={"default"} />
+                <Input
+                    inputBody={<LocationInput onChangeHandler={(e) => setAddress(e.target.value)} />}
+                    appendClassNames={"default"}
+                />
             </div>
 
             <div className="input-container">
                 <h4>Description:</h4>
                 <Input
-                    inputBody={<textarea className="description-text" placeholder="Enter description..."></textarea>}
+                    inputBody={
+                        <textarea
+                            className="description-text"
+                            placeholder="Enter description..."
+                            onChange={(e) => setDescription(e.target.value)}></textarea>
+                    }
                     appendClassNames={"default"}
                 />
             </div>
 
             <div className="input-container">
                 <h4>Number of guests allowed:</h4>
-                <Input inputBody={<GuestInput onChangeHandler={valLogger} />} appendClassNames={"guests"} />
+                <Input
+                    inputBody={<GuestInput onChangeHandler={(e) => setNumGuests(e.target.value)} />}
+                    appendClassNames={"guests"}
+                />
             </div>
 
             <div className="input-container">
