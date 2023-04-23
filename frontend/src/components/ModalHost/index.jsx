@@ -139,6 +139,90 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
 export function ModalHostExisting({ property_id, displayState, displayStateSetter }) {
     const navigate = useNavigate();
 
+    // fetch reservations
+    const [reservationLoaded, setReservationLoaded] = useState(false);
+    const [currentGuests, setCurrentGuests] = useState([]);
+    const [pastGuests, setPastGuests] = useState([]);
+    const [cancellationRequests, setCancellationRequests] = useState([]);
+    const [reservationRequests, setReservationRequests] = useState([]);
+    useEffect(() => {
+        setReservationLoaded(false);
+        const fetchPromises = ["AP", "TE", "CO", "PC", "PE"].map((rStatus) => {
+            return fetch(`${apiBase}/reservation/?page_size=99&type=host&status=${rStatus}`, {
+                method: "GET",
+                headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+            }).then((response) => {
+                if (response.ok) {
+                    return response.json().then((data) => {
+                        // filter reservations only for the current property
+                        const reservationsForProperty = data.results.filter(
+                            (reservation) => reservation.property_id === property_id
+                        );
+                        switch (rStatus) {
+                            case "AP":
+                                // current guests
+                                setCurrentGuests(reservationsForProperty);
+                                break;
+                            case "TE":
+                            case "CO":
+                                // past guests
+                                setPastGuests((existingPastGuests) => [
+                                    ...existingPastGuests,
+                                    ...reservationsForProperty,
+                                ]);
+                                break;
+                            case "PC":
+                                // cancellation requests
+                                setCancellationRequests(reservationsForProperty);
+                                break;
+                            case "PE":
+                                // reservation requests
+                                setReservationRequests(reservationsForProperty);
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                } else if (response.status === 401) {
+                    navigate("/auth");
+                } else {
+                    response.json().then((errorJson) => {
+                        console.error(response.status, response.statusText);
+                        console.error(errorJson);
+                    });
+                }
+            });
+        });
+
+        Promise.all(fetchPromises).then(() => {
+            setReservationLoaded(true);
+        });
+    }, [navigate]);
+
+    useEffect(() => {
+        if (reservationLoaded === true) {
+            console.info("Current", currentGuests);
+        }
+    }, [reservationLoaded]);
+
+    useEffect(() => {
+        if (reservationLoaded === true) {
+            console.info("Past", pastGuests);
+        }
+    }, [reservationLoaded]);
+
+    useEffect(() => {
+        if (reservationLoaded === true) {
+            console.info("Cancel", cancellationRequests);
+        }
+    }, [reservationLoaded]);
+
+    useEffect(() => {
+        if (reservationLoaded === true) {
+            console.info("ResReq", reservationRequests);
+        }
+    }, [reservationLoaded]);
+
     /* LEFT PANEL (Image Section & Property Info) */
 
     // fetch property data
@@ -159,7 +243,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                 console.error(await response.json());
             }
         });
-    }, [property_id, navigate]);
+    }, [navigate]);
 
     const [propertyData, setPropertyData] = useState(null);
     useEffect(() => {
@@ -255,55 +339,6 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
         });
     };
 
-    // fetch reservations
-    const [currentGuests, setCurrentGuests] = useState([]);
-    const [pastGuests, setPastGuests] = useState([]);
-    const [cancellationRequests, setCancellationRequests] = useState([]);
-    const [reservationRequests, setReservationRequests] = useState([]);
-    useEffect(() => {
-        ["AP", "TE", "CO", "PC", "PE"].forEach((rStatus) => {
-            fetch(`${apiBase}/reservation/?page_size=99&type=host&status=${rStatus}`, {
-                method: "GET",
-                headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
-            }).then(async (response) => {
-                if (response.ok) {
-                    response.json().then((data) => {
-                        // filter reservations only for the current property
-                        const reservationsForProperty = data.results.filter((reservation) => {
-                            return reservation.property_id === property_id;
-                        });
-                        switch (rStatus) {
-                            case "AP":
-                                // current guests
-                                setCurrentGuests(reservationsForProperty);
-                                break;
-                            case "TE":
-                            case "CO":
-                                // past guests
-                                setPastGuests((existingPastGuests) => [...existingPastGuests, reservationsForProperty]);
-                                break;
-                            case "PC":
-                                // cancellation requests
-                                setCancellationRequests(reservationsForProperty);
-                                break;
-                            case "PE":
-                                // reservation requests
-                                setReservationRequests(reservationsForProperty);
-                                break;
-                            default:
-                                break;
-                        }
-                    });
-                } else if (response.status === 401) {
-                    navigate("/auth");
-                } else {
-                    console.error(response.status, response.statusText);
-                    console.error(await response.json());
-                }
-            });
-        });
-    }, [property_id, navigate]);
-
     const mainInfoContent = (
         <>
             <article className="property-info">
@@ -373,7 +408,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
 
     const actionContent = (
         <div className="input-container">
-            <h3 className="request-heading">Current Guests</h3>
+            <h3 className="request-heading">Active Reservations</h3>
             <div className="request-container">
                 <div className="request-card has-ratings">
                     <div className="request-card-content">
