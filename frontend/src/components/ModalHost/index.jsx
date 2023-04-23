@@ -139,6 +139,8 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
 export function ModalHostExisting({ property_id, displayState, displayStateSetter }) {
     const navigate = useNavigate();
 
+    /* LEFT PANEL (Image Section & Property Info) */
+
     // fetch property data
     const [propertyDataLoad, setPropertyDataLoad] = useState(null);
     useEffect(() => {
@@ -149,7 +151,6 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
             if (response.ok) {
                 response.json().then((data) => {
                     setPropertyDataLoad(data);
-                    console.log(data);
                 });
             } else if (response.status === 401) {
                 navigate("/auth");
@@ -254,6 +255,55 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
         });
     };
 
+    // fetch reservations
+    const [currentGuests, setCurrentGuests] = useState([]);
+    const [pastGuests, setPastGuests] = useState([]);
+    const [cancellationRequests, setCancellationRequests] = useState([]);
+    const [reservationRequests, setReservationRequests] = useState([]);
+    useEffect(() => {
+        ["AP", "TE", "CO", "PC", "PE"].forEach((rStatus) => {
+            fetch(`${apiBase}/reservation/?page_size=99&type=host&status=${rStatus}`, {
+                method: "GET",
+                headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+            }).then(async (response) => {
+                if (response.ok) {
+                    response.json().then((data) => {
+                        // filter reservations only for the current property
+                        const reservationsForProperty = data.results.filter((reservation) => {
+                            return reservation.property_id === property_id;
+                        });
+                        switch (rStatus) {
+                            case "AP":
+                                // current guests
+                                setCurrentGuests(reservationsForProperty);
+                                break;
+                            case "TE":
+                            case "CO":
+                                // past guests
+                                setPastGuests((existingPastGuests) => [...existingPastGuests, reservationsForProperty]);
+                                break;
+                            case "PC":
+                                // cancellation requests
+                                setCancellationRequests(reservationsForProperty);
+                                break;
+                            case "PE":
+                                // reservation requests
+                                setReservationRequests(reservationsForProperty);
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                } else if (response.status === 401) {
+                    navigate("/auth");
+                } else {
+                    console.error(response.status, response.statusText);
+                    console.error(await response.json());
+                }
+            });
+        });
+    }, [property_id, navigate]);
+
     const mainInfoContent = (
         <>
             <article className="property-info">
@@ -319,7 +369,209 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
         </>
     );
 
-    const actionContent = "action";
+    /* RIGHT PANEL (Current Guests & Reservation Requests + Comments) */
+
+    const actionContent = (
+        <div className="input-container">
+            <h3 className="request-heading">Current Guests</h3>
+            <div className="request-container">
+                <div className="request-card has-ratings">
+                    <div className="request-card-content">
+                        <div className="request-card-info">
+                            <h4>John Doe</h4>
+                            <p>
+                                From <span className="date">March 5, 2025</span>
+                            </p>
+                            <p>
+                                To <span className="date">March 10, 2025</span>
+                            </p>
+                            <p className="price">$500</p>
+                        </div>
+                    </div>
+                    <div className="btn-container">
+                        <button className="action-btn gray-light">Terminate</button>
+                    </div>
+                </div>
+                <details>
+                    <summary
+                        className="comments-dropdown"
+                        comments-open="Hide Comments"
+                        comments-hidden="Show Comments"></summary>
+                    {/* <div className="request-card host-comment">
+                        <div className="request-card-content">
+                            <img src="/images/user-avatar-default.png" className="profile-img" />
+                            <div className="request-card-info">
+                                <h4>John Doe</h4>
+                                <div className="rating-container">
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                </div>
+                                <p>
+                                    <span className="date">March 1, 2025</span>
+                                </p>
+                            </div>
+                        </div>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua.
+                        </p>
+                    </div> */}
+                </details>
+            </div>
+
+            <h3 className="request-heading">Cancellation Requests</h3>
+            <div className="request-container">
+                <div className="request-card has-ratings">
+                    <div className="request-card-content">
+                        <div className="request-card-info">
+                            <h4>John Doe</h4>
+                            <p>
+                                From <span className="date">March 5, 2025</span>
+                            </p>
+                            <p>
+                                To <span className="date">March 10, 2025</span>
+                            </p>
+                            <p className="price">$500</p>
+                        </div>
+                    </div>
+                    <div className="btn-container">
+                        <button className="action-btn green-light">Accept</button>
+                        <button className="action-btn gray-light">Decline</button>
+                    </div>
+                </div>
+                <details>
+                    <summary
+                        className="comments-dropdown"
+                        comments-open="Hide Comments"
+                        comments-hidden="Show Comments"></summary>
+                    {/* <div className="request-card host-comment">
+                        <div className="request-card-content">
+                            <img src="/images/user-avatar-default.png" className="profile-img" />
+                            <div className="request-card-info">
+                                <h4>John Doe</h4>
+                                <div className="rating-container">
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                </div>
+                                <p>
+                                    <span className="date">March 1, 2025</span>
+                                </p>
+                            </div>
+                        </div>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua.
+                        </p>
+                    </div> */}
+                </details>
+            </div>
+
+            <h3 className="request-heading">Reservation Requests</h3>
+            <div className="request-container">
+                <div className="request-card has-ratings">
+                    <div className="request-card-content">
+                        <div className="request-card-info">
+                            <h4>John Doe</h4>
+                            <p>
+                                From <span className="date">March 5, 2025</span>
+                            </p>
+                            <p>
+                                To <span className="date">March 10, 2025</span>
+                            </p>
+                            <p className="price">$500</p>
+                        </div>
+                    </div>
+                    <div className="btn-container">
+                        <button className="action-btn green-light">Accept</button>
+                        <button className="action-btn gray-light">Decline</button>
+                    </div>
+                </div>
+                <details>
+                    <summary
+                        className="comments-dropdown"
+                        comments-open="Hide Comments"
+                        comments-hidden="Show Comments"></summary>
+                    {/* <div className="request-card host-comment">
+                        <div className="request-card-content">
+                            <img src="/images/user-avatar-default.png" className="profile-img" />
+                            <div className="request-card-info">
+                                <h4>John Doe</h4>
+                                <div className="rating-container">
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                </div>
+                                <p>
+                                    <span className="date">March 1, 2025</span>
+                                </p>
+                            </div>
+                        </div>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua.
+                        </p>
+                    </div> */}
+                </details>
+            </div>
+
+            <div className="request-container">
+                <div className="request-card has-ratings">
+                    <div className="request-card-content">
+                        <div className="request-card-info">
+                            <h4>John Doe</h4>
+                            <p>
+                                From <span className="date">March 5, 2025</span>
+                            </p>
+                            <p>
+                                To <span className="date">March 10, 2025</span>
+                            </p>
+                            <p className="price">$500</p>
+                        </div>
+                    </div>
+                    <div className="btn-container">
+                        <button className="action-btn green-light">Accept</button>
+                        <button className="action-btn gray-light">Decline</button>
+                    </div>
+                </div>
+                <details>
+                    <summary
+                        className="comments-dropdown"
+                        comments-open="Hide Comments"
+                        comments-hidden="Show Comments"></summary>
+                    {/* <div className="request-card host-comment">
+                        <div className="request-card-content">
+                            <img src="/images/user-avatar-default.png" className="profile-img" />
+                            <div className="request-card-info">
+                                <h4>John Doe</h4>
+                                <div className="rating-container">
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                    <img src="icons/star-filled.svg" alt="" />
+                                </div>
+                                <p>
+                                    <span className="date">March 1, 2025</span>
+                                </p>
+                            </div>
+                        </div>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua.
+                        </p>
+                    </div> */}
+                </details>
+            </div>
+        </div>
+    );
 
     return (
         <Modal
