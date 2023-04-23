@@ -1,89 +1,70 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import "../../styles/common.css"
+// import { Link } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import "../../styles/common.css";
 import "./property.css";
 
-var backendUrlBase = "http://localhost:8000"
+// var backendUrlBase = "http://localhost:8000";
 
 const PropertyListing = ({ property, handleCardClick }) => {
     const { id, host_id, address, description, guest_capacity, availability, amenities, images, rating } = property;
-    const [thumbnail, setThumbnail] = useState(null);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const renderPrice = () => {
-      if (availability[0]) {
-        return <h4 class="price">${availability[0].price} CAD/night</h4>;
-      }
-      else {
-        return <h4 class="price"></h4>;
-      }
+        if (availability[0]) {
+            return <h4 className="price">${availability[0].price} CAD/night</h4>;
+        } else {
+            return <h4 className="price"></h4>;
+        }
     };
-
-  //   useEffect(() => {
-  //     const fetchImage = async (image) => {
-  //       try {
-  //           // Construct the final URL with query parameters
-  //           let finalUrl = `http://localhost:8000/api/image/${image}?width=1920&ext=webp`;
-  
-  //           const response = await fetch(finalUrl);
-  //           setThumbnail(response.body);
-  //       } catch (error) {
-  //           console.error("Error fetching Image:", error);
-  //       }
-  //   };
-  //   if (images[0]) {
-  //   fetchImage(images[0]);
-  //   }
-  // }, [id]);
-
-
-
-  
     const renderAvailability = () => {
-      if (availability[0]) {
-        return <div>
-          {/* <h4 class="price">${availability[0].price} CAD/night</h4> */}
-          <div>
-              <h4>FROM</h4>
-              <p className="Date"> {availability[0].from} </p>
-          </div>
-          <br></br>
-          <div>
-              <h4>TO</h4>
-              <p className="Date"> {availability[0].to} </p>
-          </div>
-        </div>;
+        if (availability[0]) {
+            return (
+                <div>
+                    {/* <h4 class="price">${availability[0].price} CAD/night</h4> */}
+                    <div>
+                        <h4>FROM</h4>
+                        <p className="Date"> {availability[0].from} </p>
+                    </div>
+                    <br></br>
+                    <div>
+                        <h4>TO</h4>
+                        <p className="Date"> {availability[0].to} </p>
+                    </div>
+                </div>
+            );
 
-        // return availability.map(availability => (
-        //   <div key={availability.id}>
-        //     <h4 class="price">${availability.price} CAD/night</h4>
-        //     <div>
-        //       <h4>FROM</h4>
-        //       <p className="Date"> {availability.from} </p>
-        //     </div>
-        //     <div>
-        //       <h4>TO</h4>
-        //       <p className="Date"> {availability.to} </p>
-        //     </div>
-        //   </div>
-        // ));
-      } else {
-        return <div>
-        {/* <h4 class="price">${availability[0].price} CAD/night</h4> */}
-        <div>
-            <h4>FROM</h4>
-            <p className="Date"> Unavailable </p>
-        </div>
-        <br></br>
-        <div>
-            <h4>TO</h4>
-            <p className="Date"> Unavailable </p>
-        </div>
-      </div>;
-      }
+            // return availability.map(availability => (
+            //   <div key={availability.id}>
+            //     <h4 class="price">${availability.price} CAD/night</h4>
+            //     <div>
+            //       <h4>FROM</h4>
+            //       <p className="Date"> {availability.from} </p>
+            //     </div>
+            //     <div>
+            //       <h4>TO</h4>
+            //       <p className="Date"> {availability.to} </p>
+            //     </div>
+            //   </div>
+            // ));
+        } else {
+            return (
+                <div>
+                    {/* <h4 class="price">${availability[0].price} CAD/night</h4> */}
+                    <div>
+                        <h4>FROM</h4>
+                        <p className="Date"> Unavailable </p>
+                    </div>
+                    <br></br>
+                    <div>
+                        <h4>TO</h4>
+                        <p className="Date"> Unavailable </p>
+                    </div>
+                </div>
+            );
+        }
     };
-  
+
     // const handleCardClick = () => {
     //   navigate(`/property/${id}`);
     //   // Link to the property details page / Modal
@@ -116,11 +97,10 @@ const PropertyListing = ({ property, handleCardClick }) => {
             {renderPrice()}
           </div>
 
-          {renderAvailability()}
+                {renderAvailability()}
+            </div>
         </div>
-      </div>
     );
-  };
+};
 
 export default PropertyListing;
-
