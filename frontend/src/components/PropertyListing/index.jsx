@@ -50,7 +50,18 @@ const PropertyListing = ({ property }) => {
         //   </div>
         // ));
       } else {
-        return <div>No availability info</div>;
+        return <div>
+        {/* <h4 class="price">${availability[0].price} CAD/night</h4> */}
+        <div>
+            <h4>FROM</h4>
+            <p className="Date"> Unavailable </p>
+        </div>
+        <br></br>
+        <div>
+            <h4>TO</h4>
+            <p className="Date"> Unavailable </p>
+        </div>
+      </div>;
       }
     };
   
