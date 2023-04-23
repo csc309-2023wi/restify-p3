@@ -184,9 +184,8 @@ const Home = () => {
                         <PropertyListing
                             key={i}
                             property={property}
-                            onClick={() => {
-                                //Open Reservation Model
-                                navigate(`/property/${property.id}`);
+                            handleCardClick={() => {
+                                //Open Guest Unbooked Modal with property.id
                             }}
                         />
                     ))}
