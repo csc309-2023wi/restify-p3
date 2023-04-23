@@ -105,7 +105,6 @@ class ProfileView(RetrieveUpdateAPIView):
 class UserView(RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = (IsAuthenticated,)
 
     def get_object(self):
         return get_object_or_404(User, pk=self.kwargs["pk"])
