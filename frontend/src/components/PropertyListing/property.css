@@ -25,6 +25,13 @@ div.property-card {
     position: relative;
 }
 
+.property-img-img {
+    border-radius: var(--rad-med);
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
 .half_text{
     width: 65%;
 }

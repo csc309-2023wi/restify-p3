@@ -8,6 +8,7 @@ var backendUrlBase = "http://localhost:8000"
 
 const PropertyListing = ({ property, handleCardClick }) => {
     const { id, host_id, address, description, guest_capacity, availability, amenities, images, rating } = property;
+    const [thumbnail, setThumbnail] = useState(null);
     const navigate = useNavigate();
 
     const renderPrice = () => {
@@ -18,6 +19,25 @@ const PropertyListing = ({ property, handleCardClick }) => {
         return <h4 class="price"></h4>;
       }
     };
+
+  //   useEffect(() => {
+  //     const fetchImage = async (image) => {
+  //       try {
+  //           // Construct the final URL with query parameters
+  //           let finalUrl = `http://localhost:8000/api/image/${image}?width=1920&ext=webp`;
+  
+  //           const response = await fetch(finalUrl);
+  //           setThumbnail(response.body);
+  //       } catch (error) {
+  //           console.error("Error fetching Image:", error);
+  //       }
+  //   };
+  //   if (images[0]) {
+  //   fetchImage(images[0]);
+  //   }
+  // }, [id]);
+
+
 
   
     const renderAvailability = () => {
@@ -71,17 +91,21 @@ const PropertyListing = ({ property, handleCardClick }) => {
 
     return (
       <div className="property-card" onClick={handleCardClick}>
+        {/* {console.log(thumbnail)} */}
       {/* show the first image of the Property */}
-        <div
-          className="property-img"
-          style={{
-            backgroundImage:
-              images && images.length > 0
-                ? `url(${images[0].image})`
-                : "none",
-          }}
+      <div className="property-img">
+        <img
+          className="property-img-img"
+          src = {images !== null ? `http://localhost:8000/api/image/${images[0]}?width=1920&ext=webp` : "none"}
+          // style={{
+          //   backgroundImage:
+          //     images !== null
+          //       ? ``
+          //       : "none",
+          // }}
           alt={`Image of ${address}`}
-        ></div>
+        ></img>
+      </div>
   
         <div className="property-text">
           <div className="half_text">
