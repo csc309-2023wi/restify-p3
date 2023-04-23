@@ -23,6 +23,7 @@ urlpatterns = [
     path("login/", TokenObtainPairView.as_view(), name="login"),
     path("refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("user/profile/", views.ProfileView.as_view(), name="profile"),
+    path("user/<int:pk>/", views.UserView.as_view(), name="user"),
     path("reservation/", views.ReservationListView.as_view(), name="reservation"),
     path(
         "reservation/create/",
