@@ -19,11 +19,7 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
     /* LEFT PANEL (Image Section Only) */
 
     const [propertyImages, setPropertyImages] = useState([]);
-    const mainImageContent = (
-        <div className="image-section">
-            <PropertyImageSelector images={propertyImages} setImages={setPropertyImages} />
-        </div>
-    );
+    const mainImageContent = <PropertyImageSelector images={propertyImages} setImages={setPropertyImages} />;
 
     /* RIGHT PANEL (Property Creation Form) */
 
@@ -77,7 +73,7 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
     };
 
     const actionContent = (
-        <div className="info-section">
+        <>
             <div className="input-container">
                 <h4>
                     Address: <span className="field-required">*</span>
@@ -127,7 +123,7 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
                      */}
                 </div>
             </div>
-        </div>
+        </>
     );
 
     return (
@@ -172,10 +168,11 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
         setPropertyData({ availability: funcReturnsNewAvailabilities(propertyData?.availability) });
     };
 
-    const mainImageContent = "images";
+    const [propertyImages, setPropertyImages] = useState([]);
+    const mainImageContent = <PropertyImageSelector images={propertyImages} setImages={setPropertyImages} />;
 
     const mainInfoContent = (
-        <div className="info-section">
+        <>
             <article className="property-info">
                 <h3>Description</h3>
                 <textarea
@@ -209,7 +206,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                 <h3>Past Guests</h3>
                 <ul className="content-list content-list-comments"></ul>
             </article>
-        </div>
+        </>
     );
 
     const actionContent = "action";
