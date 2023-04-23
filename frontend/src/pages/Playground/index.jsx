@@ -9,7 +9,7 @@ import { ModalGuestUnbooked, ModalGuestBooked } from "../../components/ModalGues
 import "./playground.css";
 
 function Playground() {
-    const [newModalShow, setNewModalShow] = useState(false);
+    const [newModalShow, setNewModalShow] = useState(true);
     const [newHostCreateModalShow, setNewHostCreateModalShow] = useState(false);
     const [newHostExistingModalShow, setNewHExistingModalShow] = useState(false);
     const [guestUnbookedModalShow, setGuestUnbookedModalShow] = useState(false);
@@ -81,11 +81,11 @@ function Playground() {
                                 onClick={() => setNewHExistingModalShow(true)}
                             />
                             {/* guest unbooked modal */}
-                            <ModalGuestUnbooked
+                            {/* <ModalGuestUnbooked
                                 property_id={3}
                                 displayState={guestUnbookedModalShow}
                                 displayStateSetter={setGuestUnbookedModalShow}
-                            />
+                            /> */}
                             <ActionBtn
                                 className={"green-light"}
                                 text="Show guest-unbooked modal"
