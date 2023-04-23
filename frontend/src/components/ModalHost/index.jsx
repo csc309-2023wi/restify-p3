@@ -142,9 +142,9 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
 
 export function ModalHostExisting({ property_id, displayState, displayStateSetter }) {
     const navigate = useNavigate();
-    const [propertyData, setPropertyData] = useState(null);
 
     // fetch property data
+    const [propertyData, setPropertyData] = useState(null);
     useEffect(() => {
         fetch(`${apiBase}/property/${property_id}`, {
             method: "GET",
@@ -165,10 +165,24 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
     }, [property_id, navigate]);
 
     const setAvailabilities = (funcReturnsNewAvailabilities) => {
-        setPropertyData({ availability: funcReturnsNewAvailabilities(propertyData?.availability) });
+        setPropertyData({ ...propertyData, availability: funcReturnsNewAvailabilities(propertyData?.availability) });
     };
 
+    // construct image URLs
     const [propertyImages, setPropertyImages] = useState([]);
+    useEffect(() => {
+        const localImageObjs = propertyData?.images.map((imgHash) => {
+            return {
+                file: null,
+                fileExtension: "webp",
+                base64Rep: null,
+                previewURL: `${apiBase}/image/${imgHash}?width=1920&ext=webp`,
+            };
+        });
+        // console.log(localImageObjs);
+        setPropertyImages(localImageObjs);
+    }, [propertyData]);
+
     const mainImageContent = <PropertyImageSelector images={propertyImages} setImages={setPropertyImages} />;
 
     const mainInfoContent = (
@@ -179,7 +193,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                     className="description-text"
                     placeholder="Enter a description..."
                     value={propertyData?.description}
-                    onChange={(e) => setPropertyData({ description: e.target.value })}></textarea>
+                    onChange={(e) => setPropertyData({ ...propertyData, description: e.target.value })}></textarea>
 
                 <h3>Amenities</h3>
                 <div className="amenity-container">

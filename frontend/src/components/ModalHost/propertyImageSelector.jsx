@@ -33,7 +33,7 @@ function PropertyImageSelector({ images, setImages }) {
 
     const imagePreviews = (
         <>
-            {images.map((image, index) => (
+            {images?.map((image, index) => (
                 <div className="pos-relative" key={"upload_" + index}>
                     <button className="del-img clickable-on-dark" onClick={() => handleDeleteImage(index)}>
                         <img src={xSmallWhite} alt="x" />

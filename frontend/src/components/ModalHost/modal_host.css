@@ -396,3 +396,7 @@ span.field-required {
     color: var(--clr-red-important);
     font-weight: bolder;
 }
+
+.property-info h3 {
+    margin-bottom: 0.5rem;
+}
