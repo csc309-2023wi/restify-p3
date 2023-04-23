@@ -1,0 +1,99 @@
+/* Property Cards (Generic) */
+
+div.property-card {
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sml);
+    border-radius: var(--rad-med);
+    border: 1px var(--clr-gray-light) solid;
+    background-color: white;
+    width: 18rem;
+    height: 19rem;
+    position: relative;
+    transition: transform var(--tns-hov-quick), box-shadow var(--tns-hov-quick);
+}
+
+.property-card:hover {
+    box-shadow: var(--shadow-med);
+    cursor: pointer;
+    transform: scale(1.01);
+}
+
+.property-img {
+    border-radius: var(--rad-med);
+    width: 100%;
+    height: 60%;
+    position: relative;
+}
+
+.half_text{
+    width: 65%;
+}
+
+div.property-text {
+    width: 100%;
+    height: 33%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1rem;
+    padding-top: 0.5rem;
+    font-size: var(--font-size-sml);
+}
+
+.property-text p,
+.property-text h4 {
+    margin: 0;
+    padding: 0;
+    line-height: 1rem;
+    font-size: var(--font-size-sml);
+}
+
+.property-text h4.price {
+    color: var(--clr-purple-primary);
+    font-size: var(--font-size-reg);
+}
+
+.property-text p.date {
+    color: var(--clr-green-dark);
+}
+
+.property-card .property-rating {
+    background-color: var(--clr-beige-bg);
+    border-radius: var(--rad-sml);
+    padding: 0.2rem 0.3rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+}
+
+.property-card .comment-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--clr-green-bg);
+    color: var(--clr-green-dark);
+    font-size: var(--font-size-tny);
+    font-weight: 700;
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    border-radius: var(--rad-lrg);
+    padding-bottom: 0.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(../../assets/icons/comment-icon.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.comment-icon.no-comment {
+    background-color: var(--clr-gray-light);
+    color: var(--clr-gray-mid-dark);
+    background-image: url(../../assets/icons/comment-icon-dark.svg);
+}
+
+.property_card {
+    width: 30%;
+}
