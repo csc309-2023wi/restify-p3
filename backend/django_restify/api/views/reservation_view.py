@@ -92,7 +92,7 @@ class ReservationListView(ListAPIView):
             queryset = Reservation.objects.filter(guest_count__lte=0)
 
         state = self.request.query_params.get("status")
-        if state is not None and state != "all":
+        if state is not None:
             queryset = queryset.filter(status=state)
 
         for reservation in queryset:
