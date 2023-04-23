@@ -6,9 +6,7 @@ import xSmallWhite from "../../assets/icons/x-white-small.svg";
 // import components
 import AddImageRegion from "../AddImageRegion";
 
-function PropertyImageSelector({ imageArrayReceiver }) {
-    const [images, setImages] = useState([]);
-
+function PropertyImageSelector({ images, setImages }) {
     const fileHandler = (file) => {
         const localPreviewURL = URL.createObjectURL(file);
         const fileExtension = file.name.match(/^.+(\.[^\.]+)$/)[1].split(".")[1];
@@ -32,11 +30,6 @@ function PropertyImageSelector({ imageArrayReceiver }) {
             return newImages;
         });
     };
-
-    // send image array to parent when updated
-    useEffect(() => {
-        imageArrayReceiver(images);
-    }, [imageArrayReceiver, images]);
 
     const imagePreviews = (
         <>

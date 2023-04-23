@@ -71,7 +71,7 @@ function Playground() {
                             />
                             {/* host existing modal */}
                             <ModalHostExisting
-                                property_id={0}
+                                property_id={9}
                                 displayState={newHostExistingModalShow}
                                 displayStateSetter={setNewHExistingModalShow}
                             />

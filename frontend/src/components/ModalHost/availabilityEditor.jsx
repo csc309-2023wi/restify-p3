@@ -1,11 +1,45 @@
 import { useState } from "react";
 
+// import icons
+import xDark from "../../assets/icons/x-dark.svg";
+
 // import components
 import Input from "../Input";
 import DateInput from "../DateInput";
 import PriceInput from "../PriceInput";
 
-function AvailabilityAdder({ availabilityReceiver }) {
+export function AvailabilityShower({ availabilities, setAvailabilities }) {
+    const deleteAvailability = (i) => () =>
+        setAvailabilities((prevAvails) => {
+            const updatedAvails = [...prevAvails];
+            updatedAvails.splice(i, 1);
+            return updatedAvails;
+        });
+
+    return (
+        <ul className="content-list">
+            {availabilities?.map((avail, i) => (
+                <li className="availability-item card pos-relative" key={i}>
+                    <button className="action-btn del-item" onClick={deleteAvailability(i)}>
+                        <img src={xDark} alt="x" />
+                    </button>
+                    <p>
+                        From: <span className="date">{avail.from}</span>
+                    </p>
+                    <p>
+                        To: <span className="date">{avail.to}</span>
+                    </p>
+                    <p>
+                        Price: <span className="price">${avail.price.toFixed(2)}</span>
+                    </p>
+                </li>
+            ))}
+        </ul>
+    );
+}
+
+export function AvailabilityAdder({ setAvailabilities }) {
+    const addAvailability = (newAvail) => setAvailabilities((prevAvails) => [...prevAvails, newAvail]);
     const [tmpFromDate, setTmpFromDate] = useState(null);
     const [tmpToDate, setTmpToDate] = useState(null);
     const [tmpPrice, setTmpPrice] = useState(0);
@@ -36,7 +70,7 @@ function AvailabilityAdder({ availabilityReceiver }) {
                 to: toYYYYMMDD(new Date(tmpToDate)),
                 price: parseFloat(tmpPrice),
             };
-            availabilityReceiver(currAvailObj);
+            addAvailability(currAvailObj);
         } else {
             setTmpErrors(errors);
         }
@@ -76,5 +110,3 @@ function AvailabilityAdder({ availabilityReceiver }) {
 function toYYYYMMDD(dateObj) {
     return JSON.stringify(dateObj).split("T")[0].slice(1);
 }
-
-export default AvailabilityAdder;
