@@ -6,7 +6,12 @@ import xSmallWhite from "../../assets/icons/x-white-small.svg";
 // import components
 import AddImageRegion from "../AddImageRegion";
 
-function PropertyImageSelector({ images, setImages }) {
+export const imageObjToUploadFormat = (imageObj) => ({
+    ext: imageObj.fileExtension,
+    data: imageObj.base64Rep,
+});
+
+function PropertyImageSelector({ images, setImages, newImageReceiver, deleteImageReceiver }) {
     const fileHandler = (file) => {
         const localPreviewURL = URL.createObjectURL(file);
         const fileExtension = file.name.match(/^.+(\.[^\.]+)$/)[1].split(".")[1];
@@ -20,10 +25,16 @@ function PropertyImageSelector({ images, setImages }) {
             };
             // console.log(newImageObject);
             setImages((prevImages) => [...prevImages, newImageObject]);
+            if (newImageReceiver) {
+                newImageReceiver(newImageObject);
+            }
         });
     };
 
     const handleDeleteImage = (index) => {
+        if (deleteImageReceiver) {
+            deleteImageReceiver(images[index]);
+        }
         setImages((prevImages) => {
             const newImages = [...prevImages];
             newImages.splice(index, 1);
@@ -34,7 +45,7 @@ function PropertyImageSelector({ images, setImages }) {
     const imagePreviews = (
         <>
             {images?.map((image, index) => (
-                <div className="pos-relative" key={"upload_" + index}>
+                <div className="pos-relative" key={"image_" + index}>
                     <button className="del-img clickable-on-dark" onClick={() => handleDeleteImage(index)}>
                         <img src={xSmallWhite} alt="x" />
                     </button>

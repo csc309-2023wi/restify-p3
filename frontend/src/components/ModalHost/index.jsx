@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./modal_host.css";
 
-// import icons
-import xDark from "../../assets/icons/x-dark.svg";
-
 // import components
 import Modal from "../Modal";
-import PropertyImageSelector from "./propertyImageSelector";
+import PropertyImageSelector, { imageObjToUploadFormat } from "./propertyImageSelector";
 import { AvailabilityShower, AvailabilityAdder } from "./availabilityEditor";
 import Input from "../Input";
 import LocationInput from "../LocationInput";
@@ -34,10 +31,7 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
 
     const submitNewProperty = () => {
         document.body.style.cursor = "progress";
-        const imagesForSubmission = propertyImages.map((imageObj) => ({
-            ext: imageObj.fileExtension,
-            data: imageObj.base64Rep,
-        }));
+        const imagesForSubmission = propertyImages.map(imageObjToUploadFormat);
         const createPropertyObj = {
             address: address,
             description: description,
@@ -146,7 +140,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
     const navigate = useNavigate();
 
     // fetch property data
-    const [propertyData, setPropertyData] = useState(null);
+    const [propertyDataLoad, setPropertyDataLoad] = useState(null);
     useEffect(() => {
         fetch(`${apiBase}/property/${property_id}`, {
             method: "GET",
@@ -154,7 +148,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
         }).then(async (response) => {
             if (response.ok) {
                 response.json().then((data) => {
-                    setPropertyData(data);
+                    setPropertyDataLoad(data);
                     console.log(data);
                 });
             } else if (response.status === 401) {
@@ -166,6 +160,11 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
         });
     }, [property_id, navigate]);
 
+    const [propertyData, setPropertyData] = useState(null);
+    useEffect(() => {
+        setPropertyData(propertyDataLoad);
+    }, [propertyDataLoad]);
+
     const setAvailabilities = (funcReturnsNewAvailabilities) => {
         setPropertyData({ ...propertyData, availability: funcReturnsNewAvailabilities(propertyData?.availability) });
     };
@@ -173,7 +172,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
     // construct image URLs
     const [propertyImages, setPropertyImages] = useState([]);
     useEffect(() => {
-        const localImageObjs = propertyData?.images.map((imgHash) => {
+        const localImageObjs = propertyDataLoad?.images.map((imgHash) => {
             return {
                 file: null,
                 fileExtension: "webp",
@@ -183,10 +182,36 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
         });
         // console.log(localImageObjs);
         setPropertyImages(localImageObjs);
-    }, [propertyData]);
+    }, [propertyDataLoad]);
 
-    const mainImageContent = <PropertyImageSelector images={propertyImages} setImages={setPropertyImages} />;
+    // add or delete images
+    const [imageObjsToAdd, setImageObjsToAdd] = useState([]);
+    const [imageHashesToDelete, setImageHashesToDelete] = useState([]);
+    const newImageReceiver = (imageObj) => {
+        setImageObjsToAdd((prevImages) => [...prevImages, imageObj]);
+    };
+    const deleteImageReceiver = (imageObj) => {
+        // remove newly added images
+        setImageObjsToAdd((prevImages) =>
+            prevImages.filter((oldImageObj) => JSON.stringify(oldImageObj) !== JSON.stringify(imageObj))
+        );
+        // delete existing images
+        const hashToDelete = imageObj.previewURL.split("image/")[1]?.split("?")[0];
+        if (hashToDelete) {
+            setImageHashesToDelete((prevHashes) => [...prevHashes, hashToDelete]);
+        }
+    };
 
+    const mainImageContent = (
+        <PropertyImageSelector
+            images={propertyImages}
+            setImages={setPropertyImages}
+            newImageReceiver={newImageReceiver}
+            deleteImageReceiver={deleteImageReceiver}
+        />
+    );
+
+    // called when clicking the save button
     const updateProperty = () => {
         document.body.style.cursor = "progress";
 
@@ -196,6 +221,10 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
             guest_capacity: propertyData?.guest_capacity,
             availability: propertyData?.availability,
             amenities: propertyData?.amenities,
+            image_ops: {
+                add: imageObjsToAdd.map(imageObjToUploadFormat),
+                delete: imageHashesToDelete,
+            },
         };
 
         const token = localStorage.getItem("accessToken");
@@ -213,6 +242,8 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
             if (response.ok) {
                 response.json().then((newPropObj) => {
                     setPropertyData(newPropObj);
+                    setImageObjsToAdd([]);
+                    setImageHashesToDelete([]);
                 });
             } else if (response.status === 401) {
                 navigate("/auth");
