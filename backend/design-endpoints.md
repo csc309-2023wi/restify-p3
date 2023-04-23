@@ -113,6 +113,7 @@
 
         ```json
         {
+            "id": 1,
             "username": "JohnD123",
             "first_name": "John",
             "last_name": "Doe",

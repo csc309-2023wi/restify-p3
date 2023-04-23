@@ -1,6 +1,7 @@
 import React from "react";
 import "./location_input.css";
 
+
 const LocationInput = ({ onChangeHandler }) => {
     return (
         <>
