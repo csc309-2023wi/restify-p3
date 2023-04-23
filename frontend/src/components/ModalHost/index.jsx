@@ -257,7 +257,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
     const mainInfoContent = (
         <>
             <article className="property-info">
-                <h3>Address:</h3>
+                <h3>Address</h3>
                 <Input
                     inputBody={
                         <LocationInput
@@ -274,7 +274,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                     value={propertyData?.description}
                     onChange={(e) => setPropertyData({ ...propertyData, description: e.target.value })}></textarea>
 
-                <h3>Number of guests allowed:</h3>
+                <h3>Number of guests allowed</h3>
                 <div style={{ margin: "0 auto", maxWidth: "15rem" }}>
                     <Input
                         inputBody={
