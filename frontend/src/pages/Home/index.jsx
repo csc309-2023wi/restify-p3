@@ -3,6 +3,7 @@ import "./home.css";
 import Navbar from "../../components/Navbar";
 import PropertyListing from "../../components/PropertyListing";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 import { HomeContext } from "../../context/HomeContext";
 import Sidebar from "../../components/Sidebar";
 
@@ -13,6 +14,7 @@ const Home = () => {
     const [from, setFrom] = useState("");
     const [to, setTo] = useState("");
     const [propNext, setPropNext] = useState(null);
+    const [search, setSearch] = useState(null);
 
     const [sort, setSort] = useState("");
     const [order, setOrder] = useState("");
@@ -23,6 +25,7 @@ const Home = () => {
 
     const { propcards, setPropcards } = useContext(HomeContext);
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         fetchProperties();
@@ -31,6 +34,13 @@ const Home = () => {
     useEffect(() => {
         fetchProperties1();
     }, [page]);
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const param = searchParams.get('search');
+        setSearch(param);
+        fetchProperties();
+      }, [location]);
 
     const fetchProperties = async () => {
         try {
@@ -61,6 +71,10 @@ const Home = () => {
                         queryParams.push(`ordering=-${sort}`);
                     }
                 }
+            }
+            if (search) {
+                // queryParams.length = 0;
+                queryParams.push(`search=${search}`);
             }
 
             if (queryParams.length > 0) {

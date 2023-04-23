@@ -7,7 +7,6 @@ import "./property.css";
 var backendUrlBase = "http://localhost:8000"
 
 const PropertyListing = ({ property, handleCardClick }) => {
-  console.log("PropertyListing: property = ", property);
     const { id, host_id, address, description, guest_capacity, availability, amenities, images, rating } = property;
     const navigate = useNavigate();
 
