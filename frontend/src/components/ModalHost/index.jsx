@@ -79,7 +79,9 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
                     Address: <span className="field-required">*</span>
                 </h4>
                 <Input
-                    inputBody={<LocationInput onChangeHandler={(e) => setAddress(e.target.value)} />}
+                    inputBody={
+                        <LocationInput defaultValue={address} onChangeHandler={(e) => setAddress(e.target.value)} />
+                    }
                     appendClassNames={"default"}
                 />
             </div>
@@ -185,15 +187,76 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
 
     const mainImageContent = <PropertyImageSelector images={propertyImages} setImages={setPropertyImages} />;
 
+    const updateProperty = () => {
+        document.body.style.cursor = "progress";
+
+        const updateObj = {
+            address: propertyData?.address,
+            description: propertyData?.description,
+            guest_capacity: propertyData?.guest_capacity,
+            availability: propertyData?.availability,
+            amenities: propertyData?.amenities,
+        };
+
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+            document.body.style.cursor = "default";
+            navigate("/auth");
+        }
+
+        fetch(`${apiBase}/property/${propertyData.id}`, {
+            method: "PATCH",
+            headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+            body: JSON.stringify(updateObj),
+        }).then(async (response) => {
+            document.body.style.cursor = "default";
+            if (response.ok) {
+                response.json().then((newPropObj) => {
+                    setPropertyData(newPropObj);
+                });
+            } else if (response.status === 401) {
+                navigate("/auth");
+            } else {
+                console.error(response.status, response.statusText);
+                console.error(await response.json());
+            }
+        });
+    };
+
     const mainInfoContent = (
         <>
             <article className="property-info">
+                <h3>Address:</h3>
+                <Input
+                    inputBody={
+                        <LocationInput
+                            defaultValue={propertyData?.address ? propertyData.address : ""}
+                            onChangeHandler={(e) => setPropertyData({ ...propertyData, address: e.target.value })}
+                        />
+                    }
+                    appendClassNames={"default"}
+                />
                 <h3>Description</h3>
                 <textarea
                     className="description-text"
                     placeholder="Enter a description..."
                     value={propertyData?.description}
                     onChange={(e) => setPropertyData({ ...propertyData, description: e.target.value })}></textarea>
+
+                <h3>Number of guests allowed:</h3>
+                <div style={{ margin: "0 auto", maxWidth: "15rem" }}>
+                    <Input
+                        inputBody={
+                            <GuestInput
+                                defaultValue={propertyData?.guest_capacity}
+                                onChangeHandler={(e) =>
+                                    setPropertyData({ ...propertyData, guest_capacity: e.target.value })
+                                }
+                            />
+                        }
+                        appendClassNames={"guests"}
+                    />
+                </div>
 
                 <h3>Amenities</h3>
                 <div className="amenity-container">
@@ -212,7 +275,9 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                 </div>
 
                 <div className="save-changes">
-                    <button className="action-btn save-changes green-dark">Save Changes</button>
+                    <button className="action-btn save-changes green-dark" onClick={updateProperty}>
+                        Save Changes
+                    </button>
                 </div>
 
                 <h3>Comments and Ratings</h3>
