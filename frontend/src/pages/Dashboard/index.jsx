@@ -21,10 +21,6 @@ const Dashboard = () => {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [properties, setProperties] = useState([]);
-    // const { propcards, setPropcards } = useContext(HomeContext);
-
-    // const [count, setCount] = useState(0);
-    // const [cancelation, setCancelation] = useState(0);
     const access_token = localStorage.getItem("accessToken");
 
     useEffect(() => {
@@ -72,12 +68,10 @@ const Dashboard = () => {
                     };
                     let url = `http://localhost:8000/api/user/profile/`;
                     const response = await fetch(url, { headers });
-                    // const response = await axios.get(url, { headers });
 
                     const propertyResponse = await fetch(
                         `http://localhost:8000/api/property/?host_id=${(await response.json()).id}`
                     );
-                    // console.log(propertyResponse.data.results);
                     const resolvedProperties = await Promise.all((await propertyResponse.json()).results);
                     setProperties(resolvedProperties);
                 } catch (error) {
@@ -90,7 +84,7 @@ const Dashboard = () => {
         fetchProperties();
     }, [currentPage, access_token, navigate]);
 
-    const handleFilterChange = (e) => {
+    const handleFilterChange = (e) => { //This is still not implemented
         // const { name, value } = e.target;
         const { value } = e.target;
 
@@ -104,9 +98,6 @@ const Dashboard = () => {
         const { role, state } = filterState;
         let url = "http://localhost:8000/api/reservation/?page=1&type=guest";
         setCurrentPage(1);
-        // if (role !== "all") {
-        //   url += "&type=guest";
-        // }
         if (state !== "all") {
             url += `&status=${state.substring(0, 2).toUpperCase()}`;
         }
@@ -120,11 +111,6 @@ const Dashboard = () => {
         setPageCount(Math.ceil(data.count / 5));
         setReservation(data);
     };
-
-    // const handlePageClick = (e) => {
-    //     const newPage = Number(e.target.textContent);
-    //     setCurrentPage(newPage);
-    // };
 
     return (
         <>
