@@ -163,7 +163,7 @@ const Home = () => {
     return (
         <>
             <Navbar />
-            <div className="container">
+            <div className="container-home">
                 <Sidebar
                     location={address}
                     setAddress={setAddress}

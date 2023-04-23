@@ -1,5 +1,5 @@
 /* css styles for home */
-div.container {
+div.container-home {
     display: flex;
     flex-direction: row!important;
     justify-content: flex-start!important;
