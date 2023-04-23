@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
 import "../../styles/common.css";
 import "./property.css";
 
-// var backendUrlBase = "http://localhost:8000";
-
 const PropertyListing = ({ property, handleCardClick }) => {
     const { id, host_id, address, description, guest_capacity, availability, amenities, images, rating } = property;
-    // const navigate = useNavigate();
 
     const renderPrice = () => {
         if (availability[0]) {
@@ -21,7 +16,6 @@ const PropertyListing = ({ property, handleCardClick }) => {
         if (availability[0]) {
             return (
                 <div>
-                    {/* <h4 class="price">${availability[0].price} CAD/night</h4> */}
                     <div>
                         <h4>FROM</h4>
                         <p className="Date"> {availability[0].from} </p>
@@ -33,24 +27,9 @@ const PropertyListing = ({ property, handleCardClick }) => {
                     </div>
                 </div>
             );
-
-            // return availability.map(availability => (
-            //   <div key={availability.id}>
-            //     <h4 class="price">${availability.price} CAD/night</h4>
-            //     <div>
-            //       <h4>FROM</h4>
-            //       <p className="Date"> {availability.from} </p>
-            //     </div>
-            //     <div>
-            //       <h4>TO</h4>
-            //       <p className="Date"> {availability.to} </p>
-            //     </div>
-            //   </div>
-            // ));
         } else {
             return (
                 <div>
-                    {/* <h4 class="price">${availability[0].price} CAD/night</h4> */}
                     <div>
                         <h4>FROM</h4>
                         <p className="Date"> Unavailable </p>
@@ -65,11 +44,6 @@ const PropertyListing = ({ property, handleCardClick }) => {
         }
     };
 
-    // const handleCardClick = () => {
-    //   navigate(`/property/${id}`);
-    //   // Link to the property details page / Modal
-    // };
-
     return (
       <div className="property-card" onClick={handleCardClick}>
         {/* {console.log(thumbnail)} */}
@@ -78,12 +52,6 @@ const PropertyListing = ({ property, handleCardClick }) => {
         <img
           className="property-img-img"
           src = {images !== null ? `http://localhost:8000/api/image/${images[0]}?width=1920&ext=webp` : "none"}
-          // style={{
-          //   backgroundImage:
-          //     images !== null
-          //       ? ``
-          //       : "none",
-          // }}
           alt={`Image of ${address}`}
         ></img>
       </div>
