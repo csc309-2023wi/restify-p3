@@ -144,7 +144,7 @@ function UserCard (userId) {
                 </div>
                 <div class="reply-input-container">
                     <textarea placeholder="Leave a rating..." value={comment} onChange={(e) => (setComment(e.target.value))}></textarea>
-                    <button class="send-arrow">
+                    <button class="send-arrow" onClick={postComment}>
                         <img src={arrowRightPurp} alt=""/>
                     </button>
                 </div>
