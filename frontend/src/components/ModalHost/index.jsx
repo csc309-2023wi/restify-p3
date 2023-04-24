@@ -182,8 +182,10 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
     const [pastGuests, setPastGuests] = useState([]);
     const [cancellationRequests, setCancellationRequests] = useState([]);
     const [reservationRequests, setReservationRequests] = useState([]);
-    useEffect(() => {
+
+    const loadReservations = () => {
         setReservationLoaded(false);
+        console.warn("loading reservations...");
         const fetchPromises = ["AP", "TE", "CO", "PC", "PE"].map((rStatus) => {
             return fetch(`${apiBase}/reservation/?page_size=99&type=host&status=${rStatus}`, {
                 method: "GET",
@@ -235,7 +237,9 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
         Promise.all(fetchPromises).then(() => {
             setReservationLoaded(true);
         });
-    }, [navigate]);
+    };
+
+    useEffect(loadReservations, [navigate]);
 
     // how to get a user ID given a reservation object
     const reservationUserIdGetter = (r) => r.guest_id;
@@ -261,6 +265,32 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
             hydrateObjectsWithUserProfiles(reservationRequests, reservationUserIdGetter, setReservationRequests);
         }
     }, [reservationLoaded]);
+
+    const guestTermination = (resId, approveCancellation) => {
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+            navigate("/auth");
+        }
+
+        setReservationLoaded(false);
+
+        fetch(`${apiBase}/reservation/cancel/request/${resId}/?cancel=${approveCancellation}`, {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        }).then(async (response) => {
+            if (response.ok) {
+                response.json().then(() => {
+                    loadReservations();
+                });
+            } else if (response.status === 401) {
+                localStorage.removeItem("accessToken");
+                navigate("/auth");
+            } else {
+                console.error(response.status, response.statusText);
+                console.error(await response.json());
+            }
+        });
+    };
 
     /* LEFT PANEL (Image Section & Property Info) */
 
@@ -463,7 +493,9 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                             <RequestCardInfo reservationObj={r} />
                         </div>
                         <div className="btn-container">
-                            <button className="action-btn gray-light">Terminate</button>
+                            <button className="action-btn gray-light" onClick={() => guestTermination(r.id, true)}>
+                                Terminate
+                            </button>
                         </div>
                     </div>
                     <RequestCardComments />
@@ -478,8 +510,12 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                             <RequestCardInfo reservationObj={r} />
                         </div>
                         <div className="btn-container">
-                            <button className="action-btn green-light">Accept</button>
-                            <button className="action-btn gray-light">Decline</button>
+                            <button className="action-btn green-light" onClick={() => guestTermination(r.id, true)}>
+                                Accept
+                            </button>
+                            <button className="action-btn gray-light" onClick={() => guestTermination(r.id, false)}>
+                                Decline
+                            </button>
                         </div>
                     </div>
                     <RequestCardComments />
