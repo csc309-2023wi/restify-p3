@@ -9,7 +9,7 @@ import PropertyListing from "../../components/PropertyListing";
 import calendar_green from "../../assets/icons/calendar-green-dark.svg";
 import home_green from "../../assets/icons/home-green-dark.svg";
 import plus_white from "../../assets/icons/plus-circle-white.svg";
-import {ModalGuestBooked} from "../../components/ModalGuest";
+import { ModalGuestBooked } from "../../components/ModalGuest";
 
 const Dashboard = () => {
     const [reservations, setReservation] = useState([]);
@@ -89,11 +89,12 @@ const Dashboard = () => {
         fetchProperties();
     }, [currentPage, access_token, navigate]);
 
-    const handleFilterChange = (e) => { //This is still not implemented
+    const handleFilterChange = (e) => {
+        //This is still not implemented
         // const { name, value } = e.target;
         // const { value } = e.target;
 
-        setFilterState({role: "all", state: e.target.value})
+        setFilterState({ role: "all", state: e.target.value });
         // // setFilterState((prevState) => ({ ...prevState, [name]: value }));
         handleFilterSubmit(e);
     };
@@ -113,9 +114,7 @@ const Dashboard = () => {
             },
         });
         const reservationPromises = (await response.json()).results.map(async (reservation) => {
-            const propertyResponse = await fetch(
-                `http://localhost:8000/api/property/${reservation.property_id}`
-            );
+            const propertyResponse = await fetch(`http://localhost:8000/api/property/${reservation.property_id}`);
             return {
                 ...reservation,
                 property: await propertyResponse.json(),
@@ -170,12 +169,15 @@ const Dashboard = () => {
                     {loggedIn ? (
                         <div className="carousel">
                             <div className="carousel-cards">
-                                {reservations.map((reservation) => (
-                                    <ReservationCard reservation={reservation} 
-                                    handleCardClick={() => {
-                                        <ModalGuestBooked reservation={reservation}/>
-                                        //Open User Bookeed Modal with reservation
-                                    }}/>
+                                {reservations.map((reservation, i) => (
+                                    <ReservationCard
+                                        key={i}
+                                        reservation={reservation}
+                                        handleCardClick={() => {
+                                            <ModalGuestBooked reservation={reservation} />;
+                                            //Open User Bookeed Modal with reservation
+                                        }}
+                                    />
                                 ))}
                             </div>
                         </div>
@@ -197,8 +199,8 @@ const Dashboard = () => {
                     </header>
                     <div className="carousel">
                         <div className="carousel-cards">
-                            {properties.map((property) => (
-                                <PropertyListing property={property} />
+                            {properties.map((property, i) => (
+                                <PropertyListing key={i} property={property} />
                             ))}
                         </div>
                     </div>
