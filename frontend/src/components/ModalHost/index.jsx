@@ -6,7 +6,7 @@ import "./modal_host.css";
 import Modal from "../Modal";
 import PropertyImageSelector, { imageObjToUploadFormat } from "./propertyImageSelector";
 import { AvailabilityShower, AvailabilityAdder } from "./availabilityEditor";
-
+import ActionBtn from "../ActionBtn";
 import Input from "../Input";
 import LocationInput from "../LocationInput";
 import GuestInput from "../GuestInput";
@@ -437,6 +437,37 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
         });
     };
 
+    // called when clicking the delete button
+    const deleteProperty = () => {
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+            document.body.style.cursor = "default";
+            navigate("/auth");
+        }
+
+        const agreeToProceed = window.confirm(
+            "Are you sure you want to delete this property?\nThis action cannot be reversed. "
+        );
+        if (!agreeToProceed) {
+            return;
+        }
+
+        fetch(`${apiBase}/property/${propertyData.id}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        }).then(async (response) => {
+            if (response.ok) {
+                navigate("/dashboard");
+            } else if (response.status === 401) {
+                localStorage.removeItem("accessToken");
+                navigate("/auth");
+            } else {
+                console.error(response.status, response.statusText);
+                console.error(await response.json());
+            }
+        });
+    };
+
     const mainInfoContent = (
         <>
             <article className="property-info">
@@ -489,6 +520,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                 </div>
 
                 <div className="save-changes">
+                    <ActionBtn className={"red"} text="Delete property" onClick={deleteProperty} />
                     <button className="action-btn save-changes green-dark" onClick={updateProperty}>
                         Save Changes
                     </button>

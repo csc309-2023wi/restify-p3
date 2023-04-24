@@ -31,6 +31,10 @@ a.action-btn:focus {
     background-color: var(--clr-green-light);
     color: var(--clr-green-dark);
 }
+.action-btn.red {
+    background-color: #bf1f3c;
+    color: white;
+}
 
 .action-btn.bordered-dark {
     background-color: inherit;
