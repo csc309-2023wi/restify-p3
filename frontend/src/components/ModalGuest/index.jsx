@@ -45,7 +45,8 @@ else {
         {(obj.availability && obj.availability.length > 0) ? <li className="price">${obj.availability[0].price}/night</li> : <li className="price">Price is not known</li>}
         <li class="duration">{res.from_date} - {res.to_date}</li>
     </ul>
-    <button class="action-btn gray-dark">Cancel Reservation</button>
+    {(res.status == 'AP' || res.status == 'PC') ? <button class="action-btn gray-dark">Cancel Reservation</button> : 
+    (res.status == 'PE') ? <button class="action-btn green-light" disabled={true}>Cancellation Request Sent</button> : <div></div>}
     </div>);
 }
 };
