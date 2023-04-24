@@ -266,10 +266,19 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
         }
     }, [reservationLoaded]);
 
-    const guestTermination = (resId, approveCancellation) => {
+    const guestTermination = (resId, approveCancellation, doublecheck) => {
         const token = localStorage.getItem("accessToken");
         if (!token) {
             navigate("/auth");
+        }
+
+        if (approveCancellation && doublecheck) {
+            const agreeToProceed = window.confirm(
+                "Are you sure you want to terminate this tenant?\nThis action cannot be reversed. "
+            );
+            if (!agreeToProceed) {
+                return;
+            }
         }
 
         setReservationLoaded(false);
@@ -552,7 +561,9 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                             <RequestCardInfo reservationObj={r} />
                         </div>
                         <div className="btn-container">
-                            <button className="action-btn gray-light" onClick={() => guestTermination(r.id, true)}>
+                            <button
+                                className="action-btn gray-light"
+                                onClick={() => guestTermination(r.id, true, true)}>
                                 Terminate
                             </button>
                         </div>
@@ -569,10 +580,14 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                             <RequestCardInfo reservationObj={r} />
                         </div>
                         <div className="btn-container">
-                            <button className="action-btn green-light" onClick={() => guestTermination(r.id, true)}>
+                            <button
+                                className="action-btn green-light"
+                                onClick={() => guestTermination(r.id, true, false)}>
                                 Accept
                             </button>
-                            <button className="action-btn gray-light" onClick={() => guestTermination(r.id, false)}>
+                            <button
+                                className="action-btn gray-light"
+                                onClick={() => guestTermination(r.id, false, false)}>
                                 Decline
                             </button>
                         </div>
