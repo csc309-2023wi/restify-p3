@@ -249,3 +249,18 @@ class CommentCheck(APIView):
             )
         
         return Response({"message": "You can comment on this property."}, status=status.HTTP_200_OK)
+    
+class UserCommentCheck(APIView):
+    def get(self, request, pk):
+        user = get_object_or_404(User, pk=pk)
+        reservations = Reservation.objects.filter(
+            Q(status="PE") | Q(status="AP") | Q(status="TE") | Q(status="CO"),
+            guest_id=user,
+        )
+        if not reservations:
+            return Response(
+                {"error": "You do not have permission to view comments about this user"},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        return Response({"message": "You can comment on this user."}, status=status.HTTP_200_OK)

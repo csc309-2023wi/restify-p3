@@ -16,7 +16,7 @@ function CommentContainer({propertyId}) {
     const [star5, setStar5] = useState(starEmpty)
     const [rating, setRating] = useState(1)
     const [comment, setComment] = useState("")
-    
+
 
     const getComments = (page) => {
        fetch(`http://localhost:8000/api/comment/property/${propertyId}/?page=${page}`, {
@@ -32,7 +32,10 @@ function CommentContainer({propertyId}) {
     }
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/comment/property/${1}/check/`, {
+        if (!localStorage.getItem("accessToken")) {
+            return
+        }
+        fetch(`http://localhost:8000/api/comment/property/${propertyId}/check/`, {
             method: "GET",
             headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`,},
         })
@@ -43,6 +46,10 @@ function CommentContainer({propertyId}) {
             })
         getComments(1)
     }, []);
+
+    if (!localStorage.getItem("accessToken")) {
+        return <ul className="content-list content-list-comments"><h1>Login to view comments.</h1></ul>
+    }
 
     const star1Click = () => {
         setRating(1)
