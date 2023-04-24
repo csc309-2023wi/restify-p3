@@ -58,6 +58,7 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
                     navigate("/dashboard/?property_id=" + newPropObj.id);
                 });
             } else if (response.status === 401) {
+                localStorage.removeItem("accessToken");
                 navigate("/auth");
             } else {
                 console.error(response.status, response.statusText);
@@ -184,6 +185,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                         }
                     });
                 } else if (response.status === 401) {
+                    localStorage.removeItem("accessToken");
                     navigate("/auth");
                 } else {
                     response.json().then((errorJson) => {
@@ -237,6 +239,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                     setPropertyDataLoad(data);
                 });
             } else if (response.status === 401) {
+                localStorage.removeItem("accessToken");
                 navigate("/auth");
             } else {
                 console.error(response.status, response.statusText);
@@ -331,6 +334,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                     setImageHashesToDelete([]);
                 });
             } else if (response.status === 401) {
+                localStorage.removeItem("accessToken");
                 navigate("/auth");
             } else {
                 console.error(response.status, response.statusText);
