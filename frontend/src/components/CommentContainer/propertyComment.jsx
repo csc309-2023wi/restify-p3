@@ -30,7 +30,9 @@ function PropertyComment ({content}) {
                 }
             })
         
-        fetch(`http://localhost:8000/api/comment/property/reply/${content["id"]}/check/`)
+        fetch(`http://localhost:8000/api/comment/property/reply/${content["id"]}/check/`, {
+            headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`,}
+        })
             .then(async (response) => {
                 if(response.ok) {
                     let data = await response.json()
@@ -72,7 +74,10 @@ function PropertyComment ({content}) {
             })
     }, [canReply])
 
-
+    const canReplyFunc = (val) => {
+        setCanReply(val)
+        setCanReplyGen(val)
+    }
 
     for (let i = 0; i < content["rating"]; i++) {
         filledStars.push(<img src={starFilled} alt="" key={i}/>)
@@ -81,7 +86,7 @@ function PropertyComment ({content}) {
         emptyStars.push(<img src={starEmpty} alt="" key={i}/>)
     } 
     return <li>
-        <div className={`comment-card main-comment ${hasReply? "has-rating":""}`}>
+        <div className={`comment-card main-comment ${hasReply? "has-ratings":""}`}>
             <img className="profile-img" src={avatar} alt=""/>
             <div className="comment-info">
                 <h4>{name}</h4>
@@ -91,7 +96,11 @@ function PropertyComment ({content}) {
                 </div>
                 <p><span className="date">{date}, {time}</span></p>
                 <p>{content["content"]}</p>
-                <ReplyInput canReply={canReply} />
+                {canReply?
+                    <ReplyInput canReplyFunc={canReplyFunc} parentComment={content["id"]}/>
+                    : <></>
+                }
+                
             </div>
         </div>
         

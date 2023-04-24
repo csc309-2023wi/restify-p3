@@ -7,12 +7,14 @@ function ReplyInput ({canReplyFunc, parentComment}) {
     const handleReply = () => {
         fetch(`http://localhost:8000/api/comment/property/reply/${parentComment}/`, {
             method: "POST",
-            headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`,},
+            headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            'Content-Type': 'application/json; charset=UTF-8',},
             body: JSON.stringify({
                 content: replyContent
             })
         }).then(async (response) => {
             if (response.ok) {
+                console.log(canReplyFunc)
                 canReplyFunc(false)
             }
         })
