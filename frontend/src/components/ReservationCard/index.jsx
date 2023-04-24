@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../../styles/common.css"
-import "./reservation.css";
+import "./reservation.css"
+import {ModalGuestBooked} from "../ModalGuest";;
 
 
 
 const ReservationCard = ({ reservation}) => {
     const { id, guest_id, property_id, status, property, guest_count, from_date, to_date } = reservation;
+    const [display, setDisplay] = useState('None');
     const navigate = useNavigate();
     var state;
     if (status === "PE" || status === "PC") {
@@ -33,11 +35,17 @@ const ReservationCard = ({ reservation}) => {
     }
 
     const handleCardClick = () => {
-      navigate(`/reservation/${reservation.id}`);
-      // Link to the property details page / Modal
+      console.log("clicked");
+      setDisplay('flex');
     };
 
     return (
+      <>      
+        <ModalGuestBooked
+      reservation={reservation}
+      display={display}
+      setDisplay={setDisplay}
+       /> 
       <div className="property-card with-status" onClick={handleCardClick}>
       {/* show the first image of the Property */}
         <div
@@ -78,6 +86,7 @@ const ReservationCard = ({ reservation}) => {
         </div>
         </div>
       </div>
+      </>
     );
   };
 

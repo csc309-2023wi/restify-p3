@@ -43,19 +43,14 @@ else {
     <h3><img src={greencircle} alt="Reserved" />Booked!</h3>
     <ul class="booked-info">
         {(obj.availability && obj.availability.length > 0) ? <li className="price">${obj.availability[0].price}/night</li> : <li className="price">Price is not known</li>}
-        <li class="duration">{res.from} - {res.to}</li>
+        <li class="duration">{res.from_date} - {res.to_date}</li>
     </ul>
     <button class="action-btn gray-dark">Cancel Reservation</button>
     </div>);
 }
 };
 
-
-
-
-
-
-export function ModalGuestUnbooked({ property_id }) {
+export function ModalGuestUnbooked({ property_id, display, setDisplay }) {
     const actionCard = "unbooked"
     const [property, setProperty] = useState([]);
     const [host, setHost] = useState({});
@@ -80,13 +75,16 @@ export function ModalGuestUnbooked({ property_id }) {
         <ModalGuest
             property_id={property_id}
             actionCard={actionCard}
+            display={display}
+            setDisplay={setDisplay}
             obj={property}
             host={host}
         />
     );
 }
 
-export function ModalGuestBooked({ reservation }) {
+export function ModalGuestBooked({ reservation, display, setDisplay }) {
+    console.log(reservation);
     const actionCard = "booked";
     const { id, guest_id, property_id, status, property, guest_count, from_date, to_date } = reservation;
     const [host, setHost] = useState({});
@@ -106,16 +104,17 @@ export function ModalGuestBooked({ reservation }) {
             property_id={id}
             actionCard={actionCard}
             obj={property}
-            // host={host}
+            display={display}
+            setDisplay={setDisplay}
+            host={host}
             res = {reservation}
         />
     );
 }
 
 
-function ModalGuest({ property_id, actionCard, obj, host, res }) {
+function ModalGuest({ property_id, actionCard, obj, display, setDisplay, host, res }) {
     const modalHeader = "property address";
-    const [displayAttr, setDisplayAttr] = useState('flex');
     const [date_from, setFrom] = useState("");
     const [date_to, setTo] = useState("");
     const [guests_c, setGuests_c] = useState(1);
@@ -201,14 +200,14 @@ function ModalGuest({ property_id, actionCard, obj, host, res }) {
     }, [carouselId]);
 
     return (
-        <div className="modal-backdrop" id={"modal_guest" + property_id} key={property_id} style={{ display: displayAttr }}>
+        <div className="modal-backdrop" id={"modal_guest" + property_id} key={property_id} style={{ display: display}}>
             <div className="modal-container">
                 <section className="modal-content modal-content-g">
                     <div className="image-section">{mainImageContent}</div> 
                     <div className="info-section">{mainInfoContent}</div>
                 </section>
                 <aside className="modal-action with-action-widget">
-                    <button className="btn-modal-close clickable-on-dark" onClick={() => setDisplayAttr('None')}>
+                    <button className="btn-modal-close clickable-on-dark" onClick={() => setDisplay('None')}>
                         <img src={xWhite} alt="X" />
                     </button>
                     <div class="modal-header">

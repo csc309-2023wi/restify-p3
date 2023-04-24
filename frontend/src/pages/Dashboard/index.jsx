@@ -9,6 +9,7 @@ import PropertyListing from "../../components/PropertyListing";
 import calendar_green from "../../assets/icons/calendar-green-dark.svg";
 import home_green from "../../assets/icons/home-green-dark.svg";
 import plus_white from "../../assets/icons/plus-circle-white.svg";
+import {ModalGuestBooked} from "../../components/ModalGuest";
 
 const Dashboard = () => {
     const [reservations, setReservation] = useState([]);
@@ -158,7 +159,11 @@ const Dashboard = () => {
                         <div className="carousel">
                             <div className="carousel-cards">
                                 {reservations.map((reservation) => (
-                                    <ReservationCard reservation={reservation} />
+                                    <ReservationCard reservation={reservation} 
+                                    handleCardClick={() => {
+                                        <ModalGuestBooked reservation={reservation}/>
+                                        //Open User Bookeed Modal with reservation
+                                    }}/>
                                 ))}
                             </div>
                         </div>

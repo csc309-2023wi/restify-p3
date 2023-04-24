@@ -92,11 +92,11 @@ function Playground() {
                                 onClick={() => setGuestUnbookedModalShow(true)}
                             />
                             {/* guest booked modal */}
-                            <ModalGuestBooked
+                            {/* <ModalGuestBooked
                                 property_id={3}
                                 displayState={guestBookedModalShow}
                                 displayStateSetter={setGuestBookedModalShow}
-                            />
+                            /> */}
                             <ActionBtn
                                 className={"green-light"}
                                 text="Show guest-booked modal"
