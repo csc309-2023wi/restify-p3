@@ -2,19 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./modal_host.css";
 
-// import icons
-import iconStarEmpty from "../../assets/icons/star-empty.svg";
-import iconStarFilled from "../../assets/icons/star-filled.svg";
-import iconArrowRightPurple from "../../assets/icons/arrow-right-purple.svg";
-import userAvatarDefault from "../../assets/images/user-avatar-default.png";
-
 // import components
 import Modal from "../Modal";
 import PropertyImageSelector, { imageObjToUploadFormat } from "./propertyImageSelector";
 import { AvailabilityShower, AvailabilityAdder } from "./availabilityEditor";
+
 import Input from "../Input";
 import LocationInput from "../LocationInput";
 import GuestInput from "../GuestInput";
+
+// TODO: implement comment system in "commentUI.jsx"
+import {
+    CommentsAndRatings,
+    PastGuestCanStillComment,
+    PastGuestAlreadyCommented,
+    RequestCardComments,
+} from "./commentUI";
 
 var apiBase = "http://127.0.0.1:8000/api";
 
@@ -487,275 +490,6 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
     );
 }
 
-function CommentsAndRatings() {
-    return (
-        <>
-            <li>
-                <div class="comment-card main-comment has-ratings">
-                    <img class="profile-img" src={userAvatarDefault} alt="avatar" />
-                    <div class="comment-info">
-                        <h4>Jane Doe</h4>
-                        <div class="rating-container">
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                        </div>
-                        <p>
-                            Stayed From <span class="date">March 10, 2025</span> To{" "}
-                            <span class="date">March 15, 2025</span>
-                        </p>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </p>
-                    </div>
-                </div>
-
-                <details class="reply-container">
-                    <summary
-                        class="comments-dropdown"
-                        comments-open="Hide Replies"
-                        comments-hidden="Show Replies"></summary>
-                    <div class="comment-card reply host-reply">
-                        <img class="profile-img" src={userAvatarDefault} alt="avatar" />
-                        <div class="comment-info">
-                            <h4>John Doe</h4>
-                            <span class="date">March 10, 2025</span>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="comment-card reply">
-                        <img class="profile-img" src={userAvatarDefault} alt="avatar" />
-                        <div class="comment-info">
-                            <h4>Jane Doe</h4>
-                            <span class="date">March 10, 2025</span>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
-                            </p>
-                            <div class="reply-input-container">
-                                <textarea placeholder="Reply to comment..."></textarea>
-                                <button class="send-arrow">
-                                    <img src={iconArrowRightPurple} alt="Send reply" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </details>
-            </li>
-
-            <li>
-                <div class="comment-card main-comment">
-                    <img class="profile-img" src={userAvatarDefault} alt="avatar" />
-                    <div class="comment-info">
-                        <h4>Jane Doe</h4>
-                        <div class="rating-container">
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                        </div>
-                        <p>
-                            Stayed From <span class="date">March 10, 2025</span> To{" "}
-                            <span class="date">March 15, 2025</span>
-                        </p>
-                        <div class="reply-input-container">
-                            <textarea placeholder="Reply to comment..."></textarea>
-                            <button class="send-arrow">
-                                <img src={iconArrowRightPurple} alt="Send reply" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </li>
-
-            <li>
-                <div class="comment-card main-comment has-ratings">
-                    <img class="profile-img" src={userAvatarDefault} alt="avatar" />
-                    <div class="comment-info">
-                        <h4>Jane Doe</h4>
-                        <div class="rating-container">
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                        </div>
-                        <p>
-                            Stayed From <span class="date">March 10, 2025</span> To{" "}
-                            <span class="date">March 15, 2025</span>
-                        </p>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </p>
-                    </div>
-                </div>
-
-                <details class="reply-container">
-                    <summary
-                        class="comments-dropdown"
-                        comments-open="Hide Replies"
-                        comments-hidden="Show Replies"></summary>
-                    <div class="comment-card reply host-reply">
-                        <img class="profile-img" src={userAvatarDefault} alt="avatar" />
-                        <div class="comment-info">
-                            <h4>John Doe</h4>
-                            <span class="date">March 10, 2025</span>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
-                            </p>
-                        </div>
-                    </div>
-                </details>
-            </li>
-        </>
-    );
-}
-
-function PastGuestCanStillComment() {
-    return (
-        <li>
-            <div className="past-guest-card has-ratings">
-                <div className="guest-info">
-                    <img className="profile-img" src={userAvatarDefault} alt="avatar" />
-                    <h4>Jane Doe</h4>
-                </div>
-
-                <div className="rating-container">
-                    <img src={iconStarEmpty} alt="" />
-                    <img src={iconStarEmpty} alt="" />
-                    <img src={iconStarEmpty} alt="" />
-                    <img src={iconStarEmpty} alt="" />
-                    <img src={iconStarEmpty} alt="" />
-                </div>
-                <div className="reply-input-container">
-                    <textarea placeholder="Leave a rating..."></textarea>
-                    <button className="send-arrow">
-                        <img src={iconArrowRightPurple} alt="Send comment" />
-                    </button>
-                </div>
-            </div>
-            <details>
-                <summary
-                    className="comments-dropdown"
-                    comments-open="Hide Host Ratings"
-                    comments-hidden="Show Host Ratings"></summary>
-                <ul>
-                    <li>
-                        <div className="comment-card reply host-reply">
-                            <img className="profile-img" src={userAvatarDefault} alt="avatar" />
-                            <div className="comment-info">
-                                <h4>John Doe</h4>
-                                <div className="rating-container">
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                </div>
-                                <span className="date">March 10, 2025</span>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div className="comment-card reply host-reply">
-                            <img className="profile-img" src={userAvatarDefault} alt="avatar" />
-                            <div className="comment-info">
-                                <h4>John Doe</h4>
-                                <div className="rating-container">
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                </div>
-                                <span className="date">March 10, 2025</span>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </details>
-        </li>
-    );
-}
-
-function PastGuestAlreadyCommented() {
-    return (
-        <li>
-            <div className="past-guest-card has-ratings">
-                <div className="guest-info">
-                    <img className="profile-img" src={userAvatarDefault} alt="avatar" />
-                    <h4>Jane Doe</h4>
-                </div>
-            </div>
-            <details>
-                <summary
-                    className="comments-dropdown"
-                    comments-open="Hide Host Ratings"
-                    comments-hidden="Show Host Ratings"></summary>
-                <ul>
-                    <li>
-                        <div className="comment-card reply host-reply">
-                            <img className="profile-img" src={userAvatarDefault} alt="avatar" />
-                            <div className="comment-info">
-                                <h4>John Doe</h4>
-                                <div className="rating-container">
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                </div>
-                                <span className="date">March 10, 2025</span>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div className="comment-card reply host-reply">
-                            <img className="profile-img" src={userAvatarDefault} alt="avatar" />
-                            <div className="comment-info">
-                                <h4>John Doe</h4>
-                                <div className="rating-container">
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                    <img src={iconStarFilled} alt="" />
-                                </div>
-                                <span className="date">March 10, 2025</span>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </details>
-        </li>
-    );
-}
-
 function RequestCardInfo({ reservationObj }) {
     const r = reservationObj;
     return (
@@ -773,39 +507,5 @@ function RequestCardInfo({ reservationObj }) {
             {/* TODO: hydrate price based on availability */}
             {/* <p className="price">$500</p> */}
         </div>
-    );
-}
-
-// TODO: Implement Comments
-function RequestCardComments() {
-    return (
-        <details>
-            <summary
-                className="comments-dropdown"
-                comments-open="Hide Comments"
-                comments-hidden="Show Comments"></summary>
-            <div className="request-card host-comment">
-                <div className="request-card-content">
-                    <img src={userAvatarDefault} className="profile-img" alt="avatar" />
-                    <div className="request-card-info">
-                        <h4>John Doe</h4>
-                        <div className="rating-container">
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                            <img src={iconStarFilled} alt="" />
-                        </div>
-                        <p>
-                            <span className="date">March 1, 2025</span>
-                        </p>
-                    </div>
-                </div>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua.
-                </p>
-            </div>
-        </details>
     );
 }
