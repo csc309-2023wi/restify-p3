@@ -43,7 +43,7 @@ const Home = () => {
     const fetchProperties = async () => {
         try {
             // Construct the final URL with query parameters
-            let finalUrl = `http://localhost:8000/api/property/?page=${page}`;
+            let finalUrl = `http://localhost:8000/api/property/?page=${page}&page_size=99`;
             const queryParams = [];
 
             if (address) {

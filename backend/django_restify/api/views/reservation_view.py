@@ -60,7 +60,7 @@ class ReservationHostSerializer(ModelSerializer):
 
 
 class ReservationPagination(PageNumberPagination):
-    page_size = 5
+    page_size = 99
 
 
 class ReservationListView(ListAPIView):
