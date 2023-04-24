@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./profile.css";
 import Navbar from "../../components/Navbar";
 
 function Profile() {
+    const navigate = useNavigate();
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -123,6 +126,10 @@ function Profile() {
         };
 
         fetch("http://localhost:8000/api/user/profile/", requestOptions).then(async (response) => {
+            if (response.status === 401) {
+                localStorage.removeItem("accessToken");
+                navigate("/auth");
+            }
             if (!response.ok) {
                 console.log(response);
             }
@@ -166,6 +173,9 @@ function Profile() {
                 setEmail(data["email"]);
                 setPhoneNumber(data["phone_number"] ? data["phone_number"] : "");
                 setAvatarURL("http://localhost:8000" + data["avatar"]);
+            } else if (response.status === 401) {
+                localStorage.removeItem("accessToken");
+                navigate("/auth");
             }
         });
     }, []);

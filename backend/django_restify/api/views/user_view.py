@@ -101,10 +101,10 @@ class ProfileView(RetrieveUpdateAPIView):
             self.object.save()
             data.pop("password")
             return Response(data, status=status.HTTP_200_OK)
-        
-class UserView(RetrieveAPIView):
-     queryset = User.objects.all()
-     serializer_class = ProfileSerializer
 
-     def get_object(self):
-         return get_object_or_404(User, pk=self.kwargs["pk"])
+class UserView(RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = ProfileSerializer
+
+    def get_object(self):
+        return get_object_or_404(User, pk=self.kwargs["pk"])
