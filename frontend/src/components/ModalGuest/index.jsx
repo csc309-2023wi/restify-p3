@@ -40,7 +40,7 @@ const sidebarContent = ( modal_type, setFrom, setTo, setGuests_c, obj, res ) => 
 else {
     return (
     <div class="action-widget">
-    <h3><img src={greencircle} alt="Reserved" />Booked!</h3>
+    <h3><img src={greencircle} alt="Reserved" />Booking Details</h3>
     <ul class="booked-info">
         {(obj.availability && obj.availability.length > 0) ? <li className="price">${obj.availability[0].price}/night</li> : <li className="price">Price is not known</li>}
         <li class="duration">{res.from_date} - {res.to_date}</li>
