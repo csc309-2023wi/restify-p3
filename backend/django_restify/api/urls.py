@@ -9,6 +9,7 @@ urlpatterns = [
         views.PropertyCommentListView.as_view(),
         name="comment_property",
     ),
+    path("comment/property/<int:pk>/check/", views.CommentCheck.as_view(), name="comment_check"),
     path(
         "comment/user/<int:pk>/",
         views.UserCommentListView.as_view(),

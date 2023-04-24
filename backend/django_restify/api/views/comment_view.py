@@ -225,3 +225,27 @@ class ReplyCheck(APIView):
             ) 
         
         return Response({"reply_to": replies.count()}, status=status.HTTP_200_OK)
+
+class CommentCheck(APIView):
+    def get(self, request, pk):
+        property_commented = get_object_or_404(Property, pk=pk)
+
+        already_commented = PropertyComment.objects.filter(
+            comment_for=property_commented, commenter=request.user
+        )
+        if already_commented:
+            return Response(
+                {"error": "You have already left a comment/rating for this property."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        reservation = Reservation.objects.filter(
+            property_id=property_commented, guest_id=request.user
+        ).filter(Q(status="CO") | Q(status="TE"))
+        if not reservation:
+            return Response(
+                {"error": "You do not have permission to comment on this property."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+        
+        return Response({"message": "You can comment on this property."}, status=status.HTTP_200_OK)
