@@ -276,7 +276,34 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
 
         fetch(`${apiBase}/reservation/cancel/request/${resId}/?cancel=${approveCancellation}`, {
             method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+        }).then(async (response) => {
+            if (response.ok) {
+                response.json().then(() => {
+                    loadReservations();
+                });
+            } else if (response.status === 401) {
+                localStorage.removeItem("accessToken");
+                navigate("/auth");
+            } else {
+                console.error(response.status, response.statusText);
+                console.error(await response.json());
+            }
+        });
+    };
+
+    const reservationApproveDeny = (resId, approve) => {
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+            navigate("/auth");
+        }
+
+        setReservationLoaded(false);
+
+        fetch(`${apiBase}/reservation/update/${resId}/`, {
+            method: "PUT",
             headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+            body: JSON.stringify({ status: approve ? "AP" : "DE" }),
         }).then(async (response) => {
             if (response.ok) {
                 response.json().then(() => {
@@ -530,8 +557,16 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                             <RequestCardInfo reservationObj={r} />
                         </div>
                         <div className="btn-container">
-                            <button className="action-btn green-light">Accept</button>
-                            <button className="action-btn gray-light">Decline</button>
+                            <button
+                                className="action-btn green-light"
+                                onClick={() => reservationApproveDeny(r.id, true)}>
+                                Accept
+                            </button>
+                            <button
+                                className="action-btn gray-light"
+                                onClick={() => reservationApproveDeny(r.id, false)}>
+                                Decline
+                            </button>
                         </div>
                     </div>
                     <RequestCardComments />
