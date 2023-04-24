@@ -1,15 +1,38 @@
 import React, { useState, useEffect } from "react";
 import Splide from "@splidejs/splide";
 import "./modal_guest.css";
-
+import { useNavigate } from "react-router-dom";
 // import components
 import Modal from "../Modal";
 import xWhite from "../../assets/icons/x-white.svg";
 import greencalendar from "../../assets/icons/calendar-green-dark.svg";
 import greencircle from "../../assets/icons/check-circle-green-dark.svg";
 import GuestInput from "../GuestInput";
+import { data } from "jquery";
 
-const sidebarContent = ( modal_type, setFrom, setTo, setGuests_c, obj, res ) => {
+
+
+
+const sidebarContent = ( modal_type, setFrom, setTo, setGuests_c, obj, res, setButtonText, buttonText ) => {
+    const Cancel_Res = async () => {
+    const access_token = localStorage.getItem("accessToken");
+    const url = `http://localhost:8000/api/reservation/cancel/${res.id}/`;
+    if (access_token && (res.status === 'AP' || res.status === 'PE')) {
+    const headers = {
+        Authorization: `Bearer ${access_token}`,
+    };
+    const response = await fetch(url, { headers });
+    data = await response.json();
+    if (data.status === 'CA') {
+    setButtonText("Cancelled");
+    }
+    else {
+        setButtonText("Cancellation Request Sent");
+    }
+    }
+    }
+
+
     if (modal_type === 'unbooked') {
     return (<div class="action-widget">
     <h3><img src={greencalendar} alt="Calendar" />Make Reservation</h3>
@@ -45,8 +68,8 @@ else {
         {(obj.availability && obj.availability.length > 0) ? <li className="price">${obj.availability[0].price}/night</li> : <li className="price">Price is not known</li>}
         <li class="duration">{res.from_date} - {res.to_date}</li>
     </ul>
-    {(res.status == 'AP' || res.status == 'PC') ? <button class="action-btn gray-dark">Cancel Reservation</button> : 
-    (res.status == 'PE') ? <button class="action-btn green-light" disabled={true}>Cancellation Request Sent</button> : <div></div>}
+    {(res.status == 'AP' || res.status == 'PE') ? <button class="action-btn gray-dark" onClick={Cancel_Res}>{buttonText}</button> : 
+    (res.status == 'PC') ? <button class="action-btn green-light" disabled={true}>Cancellation Request Sent</button> : <div></div>}
     </div>);
 }
 };
@@ -117,11 +140,11 @@ export function ModalGuestBooked({ reservation, display, setDisplay }) {
 function ModalGuest({ property_id, actionCard, obj, display, setDisplay, host, res }) {
     const modalHeader = "property address";
     const [date_from, setFrom] = useState("");
+    const [buttonText, setButtonText] = useState('Cancel Reservation');
     const [date_to, setTo] = useState("");
     const [guests_c, setGuests_c] = useState(1);
-    console.log(host);
 
-    const sidebarc = sidebarContent(actionCard, setFrom, setTo, setGuests_c, obj, res);
+    const sidebarc = sidebarContent(actionCard, setFrom, setTo, setGuests_c, obj, res, setButtonText, buttonText);
      
 
     // build the image carousel; ensure each carousel has a unique id
@@ -253,3 +276,4 @@ function ModalGuest({ property_id, actionCard, obj, display, setDisplay, host, r
         // />
     );
 }
+
