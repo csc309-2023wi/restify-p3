@@ -68,27 +68,6 @@ const SidebarContent = ( modal_type, date_from, setFrom,
                 console.error(await response.json());
             }
         });
-
-
-
-
-        // const access_token = localStorage.getItem("accessToken");
-        // const url = `http://localhost:8000/api/reservation/create/`;
-        // if (access_token) {
-        // const headers = {
-        //     Authorization: `Bearer ${access_token}`,
-        // };
-        // const response = await fetch(url, {method: 'POST', headers: {headers}
-        // });
-        // console.log(response)
-        // data = await response.json();
-        // if (data.status === 'CA') {
-        // setButtonText("Cancelled");
-        // }
-        // else {
-        //     setButtonText("Cancellation Request Sent");
-        // }
-        // }
         }
 
 
@@ -213,7 +192,13 @@ function ModalGuest({ property_id, actionCard, obj, display, setDisplay, host, r
     const mainImageContent = (
         <div id={carouselId} className={`splide ${carouselId}`} aria-label="Property Images">
             <div className="splide__track">
-                <ul className="splide__list">
+                    {(obj.images && obj.images.length > 0) ? <ul className="splide__list">
+                            {obj.images.map((item, index) => (
+                            <li key={index} className="splide__slide">
+                                <img src={`http://localhost:8000/api/image/${item}?width=1920&ext=webp`} alt="" />
+                            </li>
+                            ))}
+                            </ul> : <ul className="splide__list">
                     <li className="splide__slide">
                         <img src="https://splidejs.com/images/slides/full/01.jpg" alt="" />
                     </li>
@@ -222,8 +207,8 @@ function ModalGuest({ property_id, actionCard, obj, display, setDisplay, host, r
                     </li>
                     <li className="splide__slide">
                         <img src="https://splidejs.com/images/slides/full/03.jpg" alt="" />
-                    </li>
-                </ul>
+                    </li> 
+                </ul>}
             </div>
         </div>
     );
