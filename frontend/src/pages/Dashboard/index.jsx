@@ -10,6 +10,7 @@ import calendar_green from "../../assets/icons/calendar-green-dark.svg";
 import home_green from "../../assets/icons/home-green-dark.svg";
 import plus_white from "../../assets/icons/plus-circle-white.svg";
 import { ModalGuestBooked } from "../../components/ModalGuest";
+import { ModalHostCreate } from "../../components/ModalHost";
 
 const Dashboard = () => {
     const [reservations, setReservation] = useState([]);
@@ -63,30 +64,31 @@ const Dashboard = () => {
         fetchReservation();
     }, [currentPage, access_token, navigate]);
 
-    useEffect(() => {
-        async function fetchProperties() {
-            if (access_token) {
-                try {
-                    const headers = {
-                        Authorization: `Bearer ${access_token}`,
-                    };
-                    let url = `http://localhost:8000/api/user/profile/`;
-                    const response = await fetch(url, { headers });
+    async function fetchProperties(currentPage, access_token, navigate) {
+        if (access_token) {
+            try {
+                const headers = {
+                    Authorization: `Bearer ${access_token}`,
+                };
+                let url = `http://localhost:8000/api/user/profile/`;
+                const response = await fetch(url, { headers });
 
-                    const propertyResponse = await fetch(
-                        `http://localhost:8000/api/property/?host_id=${(await response.json()).id}`
-                    );
-                    const resolvedProperties = await Promise.all((await propertyResponse.json()).results);
-                    setProperties(resolvedProperties);
-                } catch (error) {
-                    console.error("Error fetching reservations:", error);
-                }
-            } else {
-                localStorage.removeItem("accessToken");
-                navigate("/auth");
+                const propertyResponse = await fetch(
+                    `http://localhost:8000/api/property/?host_id=${(await response.json()).id}`
+                );
+                const resolvedProperties = await Promise.all((await propertyResponse.json()).results);
+                setProperties(resolvedProperties);
+            } catch (error) {
+                console.error("Error fetching reservations:", error);
             }
+        } else {
+            localStorage.removeItem("accessToken");
+            navigate("/auth");
         }
-        fetchProperties();
+    }
+
+    useEffect(() => {
+        fetchProperties(currentPage, access_token, navigate);
     }, [currentPage, access_token, navigate]);
 
     const handleFilterChange = (e) => {
@@ -123,6 +125,8 @@ const Dashboard = () => {
         const resolvedReservations = await Promise.all(reservationPromises);
         setReservation(resolvedReservations);
     };
+
+    const [newHostCreateModalShow, setNewHostCreateModalShow] = useState(false);
 
     return (
         <>
@@ -192,10 +196,15 @@ const Dashboard = () => {
                             <img className="icon" src={home_green} alt="House" />
                             <h3 className="listings_tag">Your listed properties (Host)</h3>
                         </span>
-                        <button className="action-btn purple-dark">
+                        <button className="action-btn purple-dark" onClick={() => setNewHostCreateModalShow(true)}>
                             <img src={plus_white} alt="+" />
                             Add rental property
                         </button>
+                        <ModalHostCreate
+                            displayState={newHostCreateModalShow}
+                            displayStateSetter={setNewHostCreateModalShow}
+                            afterCreateTrigger={() => fetchProperties(currentPage, access_token, navigate)}
+                        />
                     </header>
                     <div className="carousel">
                         <div className="carousel-cards">

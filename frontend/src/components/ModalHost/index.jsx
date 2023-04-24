@@ -48,7 +48,7 @@ const hydrateObjectsWithUserProfiles = (oldObjectArray, userIdGetter, objectArra
     });
 };
 
-export function ModalHostCreate({ displayState, displayStateSetter }) {
+export function ModalHostCreate({ displayState, displayStateSetter, afterCreateTrigger }) {
     /* LEFT PANEL (Image Section Only) */
 
     const [propertyImages, setPropertyImages] = useState([]);
@@ -91,6 +91,16 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
             document.body.style.cursor = "default";
             if (response.ok) {
                 response.json().then((newPropObj) => {
+                    displayStateSetter(false);
+                    setPropertyImages([]);
+                    setAddress("");
+                    setDescription("");
+                    setNumGuests(1);
+                    setAvailabilities([]);
+                    setAmenities([]);
+                    if (afterCreateTrigger) {
+                        afterCreateTrigger();
+                    }
                     navigate("/dashboard/?property_id=" + newPropObj.id);
                 });
             } else if (response.status === 401) {
