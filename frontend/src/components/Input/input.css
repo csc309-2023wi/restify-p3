@@ -2,3 +2,18 @@
     display: flex;
     width: 100%;
 }
+
+input[type="text"].rounded-r,
+input[type="number"].rounded-r {
+    position: relative;
+    font-size: 14.5px;
+    border: 2px solid var(--clr-gray-dark);
+    background-color: transparent;
+    padding: unset;
+    padding-left: 1rem;
+    border-radius: 0%;
+    border-left: none;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    height: 33px;
+}

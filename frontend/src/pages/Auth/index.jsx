@@ -228,7 +228,7 @@ function Auth() {
     return (
         <>
             <Navbar />
-            <div className="container">
+            <div className="auth container">
                 <div className="sidebar">
                     <h2>Welcome to Restify!</h2>
                     {isLogin ? (

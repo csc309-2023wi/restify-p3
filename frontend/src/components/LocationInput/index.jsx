@@ -1,12 +1,11 @@
 import React from "react";
 import "./location_input.css";
 
-
-const LocationInput = ({ onChangeHandler }) => {
+function LocationInput({ defaultValue, onChangeHandler }) {
     return (
         <>
             <button className="btn-map"></button>
-            <input type="text" id="location" className="rounded-r-loc" onChange={onChangeHandler} />
+            <input type="text" id="location" className="rounded-r" value={defaultValue} onChange={onChangeHandler} />
         </>
     );
 }

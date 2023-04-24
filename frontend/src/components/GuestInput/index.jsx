@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./guest_input.css";
 
-function GuestInput({ onChangeHandler }) {
+function GuestInput({ defaultValue, onChangeHandler }) {
     const [guests, setGuests] = useState(1);
+    useEffect(() => {
+        if (defaultValue) {
+            setGuests(defaultValue);
+        }
+    }, [defaultValue]);
 
     const incCounter = () => {
         const newGuests = guests + 1;
@@ -27,7 +32,7 @@ function GuestInput({ onChangeHandler }) {
     return (
         <>
             <button className="btn-decrement" onClick={decCounter}></button>
-            <input type="text" id="guests" className="flat center" placeholder="1" value={guests} onChange={onChange} />
+            <input type="text" className="flat center guests" value={guests} onChange={onChange} />
             <button className="btn-increment" onClick={incCounter}></button>
         </>
     );
