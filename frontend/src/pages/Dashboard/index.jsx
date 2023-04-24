@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 // import axios from "axios";
 import "./dashboard.css";
 import Navbar from "../../components/Navbar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 // import { HomeContext } from "../../context/HomeContext";
 import ReservationCard from "../../components/ReservationCard";
 import PropertyListing from "../../components/PropertyListing";
@@ -10,6 +10,7 @@ import calendar_green from "../../assets/icons/calendar-green-dark.svg";
 import home_green from "../../assets/icons/home-green-dark.svg";
 import plus_white from "../../assets/icons/plus-circle-white.svg";
 import { ModalGuestBooked } from "../../components/ModalGuest";
+import { ModalHostCreate, ModalHostExisting } from "../../components/ModalHost";
 
 const Dashboard = () => {
     const [reservations, setReservation] = useState([]);
@@ -19,10 +20,31 @@ const Dashboard = () => {
         state: "all",
     });
     const navigate = useNavigate();
+    const location = useLocation();
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [properties, setProperties] = useState([]);
     const access_token = localStorage.getItem("accessToken");
+
+    const [propToDisplay, setPropToDisplay] = useState(null);
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const param = searchParams.get("property_id");
+        setPropToDisplay(param);
+    }, [location]);
+
+    const [hostExistingModalShow, setHostExistingModalShow] = useState(false);
+    const [hostExistingPropId, setHostExistingPropId] = useState(null);
+    useEffect(() => {
+        if (propToDisplay) {
+            console.warn(propToDisplay);
+            setHostExistingModalShow(true);
+            setHostExistingPropId(propToDisplay);
+        } else {
+            setHostExistingModalShow(false);
+            setHostExistingPropId(null);
+        }
+    }, [propToDisplay]);
 
     useEffect(() => {
         async function fetchReservation() {
@@ -63,30 +85,31 @@ const Dashboard = () => {
         fetchReservation();
     }, [currentPage, access_token, navigate]);
 
-    useEffect(() => {
-        async function fetchProperties() {
-            if (access_token) {
-                try {
-                    const headers = {
-                        Authorization: `Bearer ${access_token}`,
-                    };
-                    let url = `http://localhost:8000/api/user/profile/`;
-                    const response = await fetch(url, { headers });
+    async function fetchProperties(currentPage, access_token, navigate) {
+        if (access_token) {
+            try {
+                const headers = {
+                    Authorization: `Bearer ${access_token}`,
+                };
+                let url = `http://localhost:8000/api/user/profile/`;
+                const response = await fetch(url, { headers });
 
-                    const propertyResponse = await fetch(
-                        `http://localhost:8000/api/property/?host_id=${(await response.json()).id}`
-                    );
-                    const resolvedProperties = await Promise.all((await propertyResponse.json()).results);
-                    setProperties(resolvedProperties);
-                } catch (error) {
-                    console.error("Error fetching reservations:", error);
-                }
-            } else {
-                localStorage.removeItem("accessToken");
-                navigate("/auth");
+                const propertyResponse = await fetch(
+                    `http://localhost:8000/api/property/?host_id=${(await response.json()).id}`
+                );
+                const resolvedProperties = await Promise.all((await propertyResponse.json()).results);
+                setProperties(resolvedProperties);
+            } catch (error) {
+                console.error("Error fetching reservations:", error);
             }
+        } else {
+            localStorage.removeItem("accessToken");
+            navigate("/auth");
         }
-        fetchProperties();
+    }
+
+    useEffect(() => {
+        fetchProperties(currentPage, access_token, navigate);
     }, [currentPage, access_token, navigate]);
 
     const handleFilterChange = (e) => {
@@ -123,6 +146,8 @@ const Dashboard = () => {
         const resolvedReservations = await Promise.all(reservationPromises);
         setReservation(resolvedReservations);
     };
+
+    const [newHostCreateModalShow, setNewHostCreateModalShow] = useState(false);
 
     return (
         <>
@@ -192,18 +217,33 @@ const Dashboard = () => {
                             <img className="icon" src={home_green} alt="House" />
                             <h3 className="listings_tag">Your listed properties (Host)</h3>
                         </span>
-                        <button className="action-btn purple-dark">
+                        <button className="action-btn purple-dark" onClick={() => setNewHostCreateModalShow(true)}>
                             <img src={plus_white} alt="+" />
                             Add rental property
                         </button>
+                        <ModalHostCreate
+                            displayState={newHostCreateModalShow}
+                            displayStateSetter={setNewHostCreateModalShow}
+                            afterCreateTrigger={() => fetchProperties(currentPage, access_token, navigate)}
+                        />
                     </header>
                     <div className="carousel">
                         <div className="carousel-cards">
                             {properties.map((property, idx) => (
-                                <PropertyListing property={property} key={idx} />
+                                <PropertyListing
+                                    property={property}
+                                    key={idx}
+                                    handleCardClick={() => setPropToDisplay(property.id)}
+                                />
                             ))}
                         </div>
                     </div>
+                    <ModalHostExisting
+                        property_id={hostExistingPropId}
+                        displayState={hostExistingModalShow}
+                        displayStateSetter={setHostExistingModalShow}
+                        afterCloseTrigger={() => setPropToDisplay(null)}
+                    />
                 </section>
             </div>
         </>

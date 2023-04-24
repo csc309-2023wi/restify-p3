@@ -48,7 +48,7 @@ const hydrateObjectsWithUserProfiles = (oldObjectArray, userIdGetter, objectArra
     });
 };
 
-export function ModalHostCreate({ displayState, displayStateSetter }) {
+export function ModalHostCreate({ displayState, displayStateSetter, afterCreateTrigger }) {
     /* LEFT PANEL (Image Section Only) */
 
     const [propertyImages, setPropertyImages] = useState([]);
@@ -91,6 +91,16 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
             document.body.style.cursor = "default";
             if (response.ok) {
                 response.json().then((newPropObj) => {
+                    displayStateSetter(false);
+                    setPropertyImages([]);
+                    setAddress("");
+                    setDescription("");
+                    setNumGuests(1);
+                    setAvailabilities([]);
+                    setAmenities([]);
+                    if (afterCreateTrigger) {
+                        afterCreateTrigger();
+                    }
                     navigate("/dashboard/?property_id=" + newPropObj.id);
                 });
             } else if (response.status === 401) {
@@ -173,7 +183,7 @@ export function ModalHostCreate({ displayState, displayStateSetter }) {
     );
 }
 
-export function ModalHostExisting({ property_id, displayState, displayStateSetter }) {
+export function ModalHostExisting({ property_id, displayState, displayStateSetter, afterCloseTrigger }) {
     const navigate = useNavigate();
 
     // fetch reservations
@@ -185,6 +195,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
 
     const loadReservations = () => {
         setReservationLoaded(false);
+        console.warn("EXISTING", property_id);
         const fetchPromises = ["AP", "TE", "CO", "PC", "PE"].map((rStatus) => {
             return fetch(`${apiBase}/reservation/?page_size=99&type=host&status=${rStatus}`, {
                 method: "GET",
@@ -238,7 +249,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
         });
     };
 
-    useEffect(loadReservations, [navigate]);
+    useEffect(loadReservations, [navigate, property_id]);
 
     // how to get a user ID given a reservation object
     const reservationUserIdGetter = (r) => r.guest_id;
@@ -348,7 +359,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                 console.error(await response.json());
             }
         });
-    }, [navigate]);
+    }, [navigate, property_id]);
 
     const [propertyData, setPropertyData] = useState(null);
     useEffect(() => {
@@ -620,12 +631,19 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
         </div>
     );
 
+    const displayStateSetterMod = (newDisplayState) => {
+        if (afterCloseTrigger) {
+            afterCloseTrigger();
+        }
+        displayStateSetter(newDisplayState);
+    };
+
     return (
         <Modal
             id={"host_" + property_id}
             modalHeader={propertyData?.address}
             displayState={displayState} // bool: whether the modal should be shown
-            displayStateSetter={displayStateSetter} // function that sets whether the modal should be shown
+            displayStateSetter={displayStateSetterMod} // function that sets whether the modal should be shown
             mainImageContent={mainImageContent} // content to put inside the image section on the left; put null to disable
             mainInfoContent={mainInfoContent} // content to put inside the info section on the left; put null to disable
             createNewAction={null} // what happens when you click the green submit button; put null to disable

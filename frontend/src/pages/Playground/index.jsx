@@ -10,8 +10,8 @@ import "./playground.css";
 
 function Playground() {
     const [newModalShow, setNewModalShow] = useState(false);
-    const [newHostCreateModalShow, setNewHostCreateModalShow] = useState(true);
-    const [newHostExistingModalShow, setNewHExistingModalShow] = useState(false);
+    const [newHostCreateModalShow, setNewHostCreateModalShow] = useState(false);
+    const [newHostExistingModalShow, setNewHExistingModalShow] = useState(true);
     const [guestUnbookedModalShow, setGuestUnbookedModalShow] = useState(false);
     const [guestBookedModalShow, setGuestBookedModalShow] = useState(false);
 
@@ -81,11 +81,11 @@ function Playground() {
                                 onClick={() => setNewHExistingModalShow(true)}
                             />
                             {/* guest unbooked modal */}
-                            <ModalGuestUnbooked
+                            {/* <ModalGuestUnbooked
                                 property_id={3}
                                 displayState={guestUnbookedModalShow}
                                 displayStateSetter={setGuestUnbookedModalShow}
-                            />
+                            /> */}
                             <ActionBtn
                                 className={"green-light"}
                                 text="Show guest-unbooked modal"
