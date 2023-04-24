@@ -9,7 +9,7 @@ import greencalendar from "../../assets/icons/calendar-green-dark.svg";
 import greencircle from "../../assets/icons/check-circle-green-dark.svg";
 import GuestInput from "../GuestInput";
 
-const sidebarContent = ( modal_type, setFrom, setTo, setGuests_c, obj ) => {
+const sidebarContent = ( modal_type, setFrom, setTo, setGuests_c, obj, res ) => {
     if (modal_type === 'unbooked') {
     return (<div class="action-widget">
     <h3><img src={greencalendar} alt="Calendar" />Make Reservation</h3>
@@ -42,8 +42,8 @@ else {
     <div class="action-widget">
     <h3><img src={greencircle} alt="Reserved" />Booked!</h3>
     <ul class="booked-info">
-        <li class="price">Property.price/night</li>
-        <li class="duration">Reservation.from - Reservation.to</li>
+        {(obj.availability && obj.availability.length > 0) ? <li className="price">${obj.availability[0].price}/night</li> : <li className="price">Price is not known</li>}
+        <li class="duration">{res.from} - {res.to}</li>
     </ul>
     <button class="action-btn gray-dark">Cancel Reservation</button>
     </div>);
@@ -65,12 +65,12 @@ export function ModalGuestUnbooked({ property_id }) {
             let url = `http://localhost:8000/api/property/${property_id}`;
             const response = await fetch(url);
             const data = await response.json();
-            const host = await fetch(`http://localhost:8000/api/user/profile/${data.host_id}/`);
-            console.log(host);
-            // const hostData = await host.json();
+            const host = await fetch(`http://localhost:8000/api/user/${data.host_id}/`);
+            const hostData = await host.json();
+            console.log(hostData);
             const prop = await data;
             setProperty(prop);
-            // setHost(hostData)
+            setHost(hostData)
             return data;
         }
         fetchProperty(property_id);
@@ -81,30 +81,47 @@ export function ModalGuestUnbooked({ property_id }) {
             property_id={property_id}
             actionCard={actionCard}
             obj={property}
-            // host={host}
+            host={host}
         />
     );
 }
 
-export function ModalGuestBooked({ reservation_id }) {
+export function ModalGuestBooked({ reservation }) {
     const actionCard = "booked";
+    const { id, guest_id, property_id, status, property, guest_count, from_date, to_date } = reservation;
+    const [host, setHost] = useState({});
+
+    useEffect(() => { 
+        async function fetchProperty(property) {
+            const host = await fetch(`http://localhost:8000/api/user/${property.host_id}/`);
+            const hostData = await host.json();
+            setHost(hostData)
+            return hostData;
+        }
+        fetchProperty(property);
+    }, []);
+
     return (
         <ModalGuest
-            property_id={reservation_id}
+            property_id={id}
             actionCard={actionCard}
+            obj={property}
+            // host={host}
+            res = {reservation}
         />
     );
 }
 
-function ModalGuest({ property_id, actionCard, obj, host }) {
+
+function ModalGuest({ property_id, actionCard, obj, host, res }) {
     const modalHeader = "property address";
     const [displayAttr, setDisplayAttr] = useState('flex');
     const [date_from, setFrom] = useState("");
     const [date_to, setTo] = useState("");
     const [guests_c, setGuests_c] = useState(1);
-    // console.log(host);
+    console.log(host);
 
-    const sidebarc = sidebarContent(actionCard, setFrom, setTo, setGuests_c, obj);
+    const sidebarc = sidebarContent(actionCard, setFrom, setTo, setGuests_c, obj, res);
      
 
     // build the image carousel; ensure each carousel has a unique id
@@ -205,12 +222,13 @@ function ModalGuest({ property_id, actionCard, obj, host }) {
                     <h4>The Host</h4>
                     <div class="host-info-card">
                         <span class="avatar-container">
-                            <img class="avatar" src="images/user-avatar-color.png" alt="Host Avatar" />
+                            <img class="avatar" src={host.avatar} alt="Host Avatar" />
                         </span>
                         <ul class="bio">
-                            <li class="name">property.host.firstName + property.host.LastName</li>
-                            <li class="email"><a href="mailto:john.doe@restify.com">property.host.email</a></li>
-                            <li class="tel">property.host.phone</li>
+                            <li class="name">{host.first_name}  {host.last_name}</li>
+                            <li class="email"><a href={`mailto:${host.email}`}>{host.email}</a></li>
+                            {(host.phone_number) ? <li class="tel">{host.phone_number}</li> : <div></div> }
+
                         </ul>
                     </div>
                 </article>
