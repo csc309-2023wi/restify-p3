@@ -13,7 +13,10 @@ import { data } from "jquery";
 
 
 
-const sidebarContent = ( modal_type, setFrom, setTo, setGuests_c, obj, res, setButtonText, buttonText ) => {
+const SidebarContent = ( modal_type, date_from, setFrom,
+    date_to, setTo, guests_c, setGuests_c, obj, res, setButtonText, buttonText, buttonText1 ) => {
+    const navigate = useNavigate();
+
     const Cancel_Res = async () => {
     const access_token = localStorage.getItem("accessToken");
     const url = `http://localhost:8000/api/reservation/cancel/${res.id}/`;
@@ -28,9 +31,65 @@ const sidebarContent = ( modal_type, setFrom, setTo, setGuests_c, obj, res, setB
     }
     else {
         setButtonText("Cancellation Request Sent");
-    }
-    }
-    }
+    }}
+    else {
+        navigate("/auth");
+    }}
+
+    const Send_Req = async () => {
+        const token = localStorage.getItem("accessToken");
+        const createReservation = {
+            property_id: obj.id,
+            guest_count: guests_c,
+            from_date: `${date_from}`,
+            to_date: date_to,
+        }
+        if (!token) {
+            navigate("/auth");
+        }
+        console.log("Creating reservation...");
+
+        fetch(`http://localhost:8000/api/reservation/create/`, {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+            body: JSON.stringify(createReservation),
+        }).then(async (response) => {
+            document.body.style.cursor = "default";
+            if (response.ok) {
+                console.log("Reservation created successfully");
+                response.json().then((newRes) => {
+                    navigate("/dashboard/");
+                });
+            } else if (response.status === 401) {
+                localStorage.removeItem("accessToken");
+                navigate("/auth");
+            } else {
+                console.error(response.status, response.statusText);
+                console.error(await response.json());
+            }
+        });
+
+
+
+
+        // const access_token = localStorage.getItem("accessToken");
+        // const url = `http://localhost:8000/api/reservation/create/`;
+        // if (access_token) {
+        // const headers = {
+        //     Authorization: `Bearer ${access_token}`,
+        // };
+        // const response = await fetch(url, {method: 'POST', headers: {headers}
+        // });
+        // console.log(response)
+        // data = await response.json();
+        // if (data.status === 'CA') {
+        // setButtonText("Cancelled");
+        // }
+        // else {
+        //     setButtonText("Cancellation Request Sent");
+        // }
+        // }
+        }
 
 
     if (modal_type === 'unbooked') {
@@ -57,7 +116,7 @@ const sidebarContent = ( modal_type, setFrom, setTo, setGuests_c, obj, res, setB
             {(obj.availability && obj.availability.length > 0) ? <td>{obj.availability[0].price}</td> : <td>Unknown</td>}
         </tr>
     </table>
-    <button class="action-btn gray-dark">Send Request</button>
+    <button class="action-btn gray-dark" onClick={Send_Req}>{buttonText1}</button>
 </div>);
 } 
 else {
@@ -141,10 +200,12 @@ function ModalGuest({ property_id, actionCard, obj, display, setDisplay, host, r
     const modalHeader = "property address";
     const [date_from, setFrom] = useState("");
     const [buttonText, setButtonText] = useState('Cancel Reservation');
+    const [buttonText1, setButtonText1] = useState('Send Request');
     const [date_to, setTo] = useState("");
     const [guests_c, setGuests_c] = useState(1);
 
-    const sidebarc = sidebarContent(actionCard, setFrom, setTo, setGuests_c, obj, res, setButtonText, buttonText);
+    const sidebarc = SidebarContent(actionCard, date_from, setFrom,
+        date_to, setTo, guests_c, setGuests_c, obj, res, setButtonText, buttonText, buttonText1);
      
 
     // build the image carousel; ensure each carousel has a unique id

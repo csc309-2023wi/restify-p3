@@ -81,11 +81,11 @@ function Playground() {
                                 onClick={() => setNewHExistingModalShow(true)}
                             />
                             {/* guest unbooked modal */}
-                            {/* <ModalGuestUnbooked
+                            <ModalGuestUnbooked
                                 property_id={3}
                                 displayState={guestUnbookedModalShow}
                                 displayStateSetter={setGuestUnbookedModalShow}
-                            /> */}
+                            />
                             <ActionBtn
                                 className={"green-light"}
                                 text="Show guest-unbooked modal"
