@@ -56,6 +56,24 @@ function PropertyComment ({content}) {
             })
     }, [])
 
+    useEffect(() => {
+        
+        fetch(`http://localhost:8000/api/comment/property/reply/${content["id"]}/`,
+        {headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`,}})
+            .then(async (response) => {
+                if (response.ok) {
+                    let data = await response.json()
+                    if (data["count"] > 0) {
+                        console.log(data["count"])
+                        setHasReply(true)
+                        setReplies(data["results"])
+                    }
+                }
+            })
+    }, [canReply])
+
+
+
     for (let i = 0; i < content["rating"]; i++) {
         filledStars.push(<img src={starFilled} alt="" key={i}/>)
     }
