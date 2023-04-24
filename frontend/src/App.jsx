@@ -6,8 +6,10 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Playground from "./pages/Playground";
+
 // import components
 import Footer from "./components/Footer";
+import { HomeContextProvider } from "./context/HomeContext";
 
 /* Client-Side Routing */
 function App() {
@@ -15,7 +17,11 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    <Route index element={<Home />} />
+                    <Route index element={
+                        <HomeContextProvider>
+                            <Home />
+                        </HomeContextProvider>
+                    } />
                     <Route path="auth" element={<Auth />} />
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="profile" element={<Profile />} />

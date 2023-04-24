@@ -1,1 +1,55 @@
 /* css styles for dashboard */
+div.container-dash {
+    display: block;
+    width: 100%!important;
+    margin: 0!important;
+    padding: 0!important;
+}
+
+section.section-user,
+section.section-host {
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+section header.section-header {
+    margin: 0 2rem 0.5rem 2rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    row-gap: 0.5rem;
+}
+
+section header.section-header span.section-header-title {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+section header.section-header > button.action-btn {
+    column-gap: 0.5em;
+    margin-left: auto;
+}
+
+.icon {
+    height: 1.5em;
+    margin-right: 0.5em;
+}
+
+.carousel {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+}
+.carousel-cards {
+    margin: 1rem 2rem 2rem 2rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    column-gap: 2rem;
+    font-size: var(--font-size-sml);
+}

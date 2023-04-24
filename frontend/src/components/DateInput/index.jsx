@@ -1,7 +1,8 @@
 import React from "react";
 import "./date_input.css";
 
-function DateInput({ dateLabel, onChangeHandler }) {
+
+const DateInput = ({ dateLabel, onChangeHandler }) => {
     return (
         <>
             <button className="btn-left">{dateLabel}</button>
@@ -14,6 +15,7 @@ function DateInput({ dateLabel, onChangeHandler }) {
             />
         </>
     );
+
 }
 
 export default DateInput;
