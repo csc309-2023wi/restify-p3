@@ -121,7 +121,7 @@ const Dashboard = () => {
                     <header className="section-header">
                         <span className="section-header-title">
                             <img className="icon" src={calendar_green} alt="Reservation" />
-                            <h3 className="reservations_tag">Your reservations (User)</h3>
+                            <h3 className="reservations_tag">Your reservations (Guest)</h3>
                         </span>
 
                         <label>
