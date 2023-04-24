@@ -169,3 +169,5 @@ function UserCard (userId) {
     </div>
     </li>
 }
+
+export default UserCard

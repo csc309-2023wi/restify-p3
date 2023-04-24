@@ -42,3 +42,5 @@ function UserRating ({content}) {
     </div>
     </li>
 }
+
+export default UserRating

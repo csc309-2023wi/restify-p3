@@ -11,3 +11,5 @@ function UserContainer (userIds) {
         )}
     </ul>
 }
+
+export default UserContainer
