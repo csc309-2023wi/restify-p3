@@ -53,6 +53,7 @@ const Dashboard = () => {
                     console.error("Error fetching reservations:", error);
                 }
             } else {
+                localStorage.removeItem("accessToken");
                 navigate("/auth");
             }
         }
@@ -78,6 +79,7 @@ const Dashboard = () => {
                     console.error("Error fetching reservations:", error);
                 }
             } else {
+                localStorage.removeItem("accessToken");
                 navigate("/auth");
             }
         }

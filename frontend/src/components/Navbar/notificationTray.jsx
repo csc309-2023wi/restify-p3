@@ -47,7 +47,7 @@ function NotificationTray() {
     };
 
     const entries = notifications
-        .filter((notification) => !notification.is_cleared)
+        ?.filter((notification) => !notification.is_cleared)
         .map((notification) => (
             <li key={notification.id}>
                 <Link
