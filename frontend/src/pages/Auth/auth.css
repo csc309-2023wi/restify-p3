@@ -1,5 +1,5 @@
 /* css styles for auth */
-div.container {
+div.auth.container {
     margin: 2rem;
     display: flex;
     flex-direction: row;

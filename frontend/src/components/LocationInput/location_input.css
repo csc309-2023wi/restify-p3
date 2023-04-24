@@ -16,6 +16,7 @@ input[type="number"].rounded-r-loc {
     font-size: 14.5px;
     border: 2px solid var(--clr-gray-dark);
     background-color: transparent;
+    padding: unset;
     padding-left: 1rem;
     border-radius: 0%;
     border-left: none;
