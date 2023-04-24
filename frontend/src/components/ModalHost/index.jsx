@@ -142,7 +142,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
 
     // fetch reservations
     const [reservationLoaded, setReservationLoaded] = useState(false);
-    const [currentGuests, setCurrentGuests] = useState([]);
+    const [activeReservations, setCurrentGuests] = useState([]);
     const [pastGuests, setPastGuests] = useState([]);
     const [cancellationRequests, setCancellationRequests] = useState([]);
     const [reservationRequests, setReservationRequests] = useState([]);
@@ -203,7 +203,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
 
     useEffect(() => {
         if (reservationLoaded === true) {
-            console.info("Current", currentGuests);
+            console.info("Current", activeReservations);
         }
     }, [reservationLoaded]);
 
@@ -413,202 +413,51 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
     const actionContent = (
         <div className="input-container">
             <h3 className="request-heading">Active Reservations</h3>
-            <div className="request-container">
-                <div className="request-card has-ratings">
-                    <div className="request-card-content">
-                        <div className="request-card-info">
-                            <h4>John Doe</h4>
-                            <p>
-                                From <span className="date">March 5, 2025</span>
-                            </p>
-                            <p>
-                                To <span className="date">March 10, 2025</span>
-                            </p>
-                            <p className="price">$500</p>
-                        </div>
-                    </div>
-                    <div className="btn-container">
-                        <button className="action-btn gray-light">Terminate</button>
-                    </div>
-                </div>
-                <details>
-                    <summary
-                        className="comments-dropdown"
-                        comments-open="Hide Comments"
-                        comments-hidden="Show Comments"></summary>
-                    {/* <div className="request-card host-comment">
+            {activeReservations.map((r, i) => (
+                <div className="request-container" key={i}>
+                    <div className="request-card has-ratings">
                         <div className="request-card-content">
-                            <img src="/images/user-avatar-default.png" className="profile-img" />
-                            <div className="request-card-info">
-                                <h4>John Doe</h4>
-                                <div className="rating-container">
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                </div>
-                                <p>
-                                    <span className="date">March 1, 2025</span>
-                                </p>
-                            </div>
+                            <RequestCardInfo reservationObj={r} />
                         </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </p>
-                    </div> */}
-                </details>
-            </div>
+                        <div className="btn-container">
+                            <button className="action-btn gray-light">Terminate</button>
+                        </div>
+                    </div>
+                    <RequestCardComments />
+                </div>
+            ))}
 
             <h3 className="request-heading">Cancellation Requests</h3>
-            <div className="request-container">
-                <div className="request-card has-ratings">
-                    <div className="request-card-content">
-                        <div className="request-card-info">
-                            <h4>John Doe</h4>
-                            <p>
-                                From <span className="date">March 5, 2025</span>
-                            </p>
-                            <p>
-                                To <span className="date">March 10, 2025</span>
-                            </p>
-                            <p className="price">$500</p>
-                        </div>
-                    </div>
-                    <div className="btn-container">
-                        <button className="action-btn green-light">Accept</button>
-                        <button className="action-btn gray-light">Decline</button>
-                    </div>
-                </div>
-                <details>
-                    <summary
-                        className="comments-dropdown"
-                        comments-open="Hide Comments"
-                        comments-hidden="Show Comments"></summary>
-                    {/* <div className="request-card host-comment">
+            {cancellationRequests.map((r, i) => (
+                <div className="request-container" key={i}>
+                    <div className="request-card has-ratings">
                         <div className="request-card-content">
-                            <img src="/images/user-avatar-default.png" className="profile-img" />
-                            <div className="request-card-info">
-                                <h4>John Doe</h4>
-                                <div className="rating-container">
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                </div>
-                                <p>
-                                    <span className="date">March 1, 2025</span>
-                                </p>
-                            </div>
+                            <RequestCardInfo reservationObj={r} />
                         </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </p>
-                    </div> */}
-                </details>
-            </div>
+                        <div className="btn-container">
+                            <button className="action-btn green-light">Accept</button>
+                            <button className="action-btn gray-light">Decline</button>
+                        </div>
+                    </div>
+                    <RequestCardComments />
+                </div>
+            ))}
 
             <h3 className="request-heading">Reservation Requests</h3>
-            <div className="request-container">
-                <div className="request-card has-ratings">
-                    <div className="request-card-content">
-                        <div className="request-card-info">
-                            <h4>John Doe</h4>
-                            <p>
-                                From <span className="date">March 5, 2025</span>
-                            </p>
-                            <p>
-                                To <span className="date">March 10, 2025</span>
-                            </p>
-                            <p className="price">$500</p>
-                        </div>
-                    </div>
-                    <div className="btn-container">
-                        <button className="action-btn green-light">Accept</button>
-                        <button className="action-btn gray-light">Decline</button>
-                    </div>
-                </div>
-                <details>
-                    <summary
-                        className="comments-dropdown"
-                        comments-open="Hide Comments"
-                        comments-hidden="Show Comments"></summary>
-                    {/* <div className="request-card host-comment">
+            {reservationRequests.map((r, i) => (
+                <div className="request-container" key={i}>
+                    <div className="request-card has-ratings">
                         <div className="request-card-content">
-                            <img src="/images/user-avatar-default.png" className="profile-img" />
-                            <div className="request-card-info">
-                                <h4>John Doe</h4>
-                                <div className="rating-container">
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                </div>
-                                <p>
-                                    <span className="date">March 1, 2025</span>
-                                </p>
-                            </div>
+                            <RequestCardInfo reservationObj={r} />
                         </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </p>
-                    </div> */}
-                </details>
-            </div>
-
-            <div className="request-container">
-                <div className="request-card has-ratings">
-                    <div className="request-card-content">
-                        <div className="request-card-info">
-                            <h4>John Doe</h4>
-                            <p>
-                                From <span className="date">March 5, 2025</span>
-                            </p>
-                            <p>
-                                To <span className="date">March 10, 2025</span>
-                            </p>
-                            <p className="price">$500</p>
+                        <div className="btn-container">
+                            <button className="action-btn green-light">Accept</button>
+                            <button className="action-btn gray-light">Decline</button>
                         </div>
                     </div>
-                    <div className="btn-container">
-                        <button className="action-btn green-light">Accept</button>
-                        <button className="action-btn gray-light">Decline</button>
-                    </div>
+                    <RequestCardComments />
                 </div>
-                <details>
-                    <summary
-                        className="comments-dropdown"
-                        comments-open="Hide Comments"
-                        comments-hidden="Show Comments"></summary>
-                    {/* <div className="request-card host-comment">
-                        <div className="request-card-content">
-                            <img src="/images/user-avatar-default.png" className="profile-img" />
-                            <div className="request-card-info">
-                                <h4>John Doe</h4>
-                                <div className="rating-container">
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                    <img src="icons/star-filled.svg" alt="" />
-                                </div>
-                                <p>
-                                    <span className="date">March 1, 2025</span>
-                                </p>
-                            </div>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </p>
-                    </div> */}
-                </details>
-            </div>
+            ))}
         </div>
     );
 
@@ -623,5 +472,59 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
             createNewAction={null} // what happens when you click the green submit button; put null to disable
             actionContent={actionContent} // content to put inside the action column on the right; put null to disable
         />
+    );
+}
+
+function RequestCardInfo({ reservationObj }) {
+    const r = reservationObj;
+    return (
+        <div className="request-card-info">
+            <h4>Guest {r?.guest_id}</h4>
+            <p>
+                <span className="date">{r?.guest_count}</span> guest{r?.guest_count > 1 ? "s" : ""}
+            </p>
+            <p>
+                From <span className="date">{r?.from_date}</span>
+            </p>
+            <p>
+                To <span className="date">{r?.to_date}</span>
+            </p>
+            {/* TODO: hydrate price based on availability */}
+            {/* <p className="price">$500</p> */}
+        </div>
+    );
+}
+
+// TODO: Implement Comments
+function RequestCardComments() {
+    return (
+        <details>
+            <summary
+                className="comments-dropdown"
+                comments-open="Hide Comments"
+                comments-hidden="Show Comments"></summary>
+            <div className="request-card host-comment">
+                <div className="request-card-content">
+                    <img src="/images/user-avatar-default.png" className="profile-img" alt="avatar" />
+                    <div className="request-card-info">
+                        <h4>John Doe</h4>
+                        <div className="rating-container">
+                            <img src="icons/star-filled.svg" alt="" />
+                            <img src="icons/star-filled.svg" alt="" />
+                            <img src="icons/star-filled.svg" alt="" />
+                            <img src="icons/star-filled.svg" alt="" />
+                            <img src="icons/star-filled.svg" alt="" />
+                        </div>
+                        <p>
+                            <span className="date">March 1, 2025</span>
+                        </p>
+                    </div>
+                </div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua.
+                </p>
+            </div>
+        </details>
     );
 }

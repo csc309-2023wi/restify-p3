@@ -96,6 +96,10 @@ h3.request-heading {
     margin-bottom: 0.5rem;
 }
 
+.request-card-info h4 {
+    margin-bottom: 0.5em;
+}
+
 .request-card-info p {
     margin: 0;
 }
