@@ -4,10 +4,13 @@ import PropertyComment from "./propertyComment"
 import starFilled from "../../assets/icons/star-filled.svg"
 import starEmpty from "../../assets/icons/star-empty.svg"
 import arrowRightPurp from "../../assets/icons/arrow-right-purple.svg"
+import ActionBtn from "../ActionBtn";
 
 function CommentContainer({propertyId}) {
     const [commentList, setCommentList] = useState([]);
     const [canComment, setCanComment] = useState(false);
+    const [morePages, setMorePages] = useState(false)
+    const [currPage, setCurrPage] = useState(1)
 
     const [star1, setStar1] = useState(starFilled)
     const [star2, setStar2] = useState(starEmpty)
@@ -25,7 +28,20 @@ function CommentContainer({propertyId}) {
        }).then(async (response) => {
         if(response.ok) {
             let data = await response.json();
-            setCommentList(data["results"]);
+            if (page > 1) {
+                let currComments = commentList
+                currComments = currComments.concat(data["results"])
+                
+                setCommentList(currComments);
+            } else {
+                setCommentList(data["results"])
+            }
+           
+            if (data["next"] !== null) {
+                setMorePages(true)
+            } else {
+                setMorePages(false)
+            }
         }
        })
        
@@ -108,6 +124,15 @@ function CommentContainer({propertyId}) {
         }
        })
     }
+
+    const addPage = () => {
+        let page = currPage
+        console.log(currPage)
+        getComments(page + 1)
+        setCurrPage(page + 1)
+
+    }
+
     return <ul className="content-list content-list-comments">
         {canComment?
         <li>
@@ -132,7 +157,10 @@ function CommentContainer({propertyId}) {
         {commentList.map((comment, i) => (
             <PropertyComment content={comment} key={comment["id"]} />
         ))}
-        {/*  */}
+        
+        {morePages?
+            <ActionBtn className={"purple-dark"} text={"More Comments"} onClick={addPage}/>:<></>
+        }
         
     </ul>
 }

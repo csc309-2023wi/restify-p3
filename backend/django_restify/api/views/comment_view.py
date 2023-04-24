@@ -58,7 +58,7 @@ class ReplySerializer(CommentSerializer, ModelSerializer):
 
 
 class CommentPagination(PageNumberPagination):
-    page_size = 5
+    page_size = 1
 
 
 class PropertyCommentListView(ListCreateAPIView):
