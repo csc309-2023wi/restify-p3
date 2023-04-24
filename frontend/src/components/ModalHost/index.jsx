@@ -407,7 +407,10 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                 </div>
 
                 <h3>Comments and Ratings</h3>
-                <ul className="content-list content-list-comments"></ul>
+                <ul className="content-list content-list-comments">
+                    <CommentsAndRatings />
+                </ul>
+
                 <h3>Past Guests</h3>
                 <ul className="content-list content-list-comments">
                     <PastGuestCanStillComment />
@@ -481,6 +484,139 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
             createNewAction={null} // what happens when you click the green submit button; put null to disable
             actionContent={actionContent} // content to put inside the action column on the right; put null to disable
         />
+    );
+}
+
+function CommentsAndRatings() {
+    return (
+        <>
+            <li>
+                <div class="comment-card main-comment has-ratings">
+                    <img class="profile-img" src={userAvatarDefault} alt="avatar" />
+                    <div class="comment-info">
+                        <h4>Jane Doe</h4>
+                        <div class="rating-container">
+                            <img src={iconStarFilled} alt="" />
+                            <img src={iconStarFilled} alt="" />
+                            <img src={iconStarFilled} alt="" />
+                            <img src={iconStarFilled} alt="" />
+                            <img src={iconStarFilled} alt="" />
+                        </div>
+                        <p>
+                            Stayed From <span class="date">March 10, 2025</span> To{" "}
+                            <span class="date">March 15, 2025</span>
+                        </p>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua.
+                        </p>
+                    </div>
+                </div>
+
+                <details class="reply-container">
+                    <summary
+                        class="comments-dropdown"
+                        comments-open="Hide Replies"
+                        comments-hidden="Show Replies"></summary>
+                    <div class="comment-card reply host-reply">
+                        <img class="profile-img" src={userAvatarDefault} alt="avatar" />
+                        <div class="comment-info">
+                            <h4>John Doe</h4>
+                            <span class="date">March 10, 2025</span>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="comment-card reply">
+                        <img class="profile-img" src={userAvatarDefault} alt="avatar" />
+                        <div class="comment-info">
+                            <h4>Jane Doe</h4>
+                            <span class="date">March 10, 2025</span>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua.
+                            </p>
+                            <div class="reply-input-container">
+                                <textarea placeholder="Reply to comment..."></textarea>
+                                <button class="send-arrow">
+                                    <img src={iconArrowRightPurple} alt="Send reply" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+            </li>
+
+            <li>
+                <div class="comment-card main-comment">
+                    <img class="profile-img" src={userAvatarDefault} alt="avatar" />
+                    <div class="comment-info">
+                        <h4>Jane Doe</h4>
+                        <div class="rating-container">
+                            <img src={iconStarFilled} alt="" />
+                            <img src={iconStarFilled} alt="" />
+                            <img src={iconStarFilled} alt="" />
+                            <img src={iconStarFilled} alt="" />
+                            <img src={iconStarFilled} alt="" />
+                        </div>
+                        <p>
+                            Stayed From <span class="date">March 10, 2025</span> To{" "}
+                            <span class="date">March 15, 2025</span>
+                        </p>
+                        <div class="reply-input-container">
+                            <textarea placeholder="Reply to comment..."></textarea>
+                            <button class="send-arrow">
+                                <img src={iconArrowRightPurple} alt="Send reply" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="comment-card main-comment has-ratings">
+                    <img class="profile-img" src={userAvatarDefault} alt="avatar" />
+                    <div class="comment-info">
+                        <h4>Jane Doe</h4>
+                        <div class="rating-container">
+                            <img src={iconStarFilled} alt="" />
+                            <img src={iconStarFilled} alt="" />
+                            <img src={iconStarFilled} alt="" />
+                            <img src={iconStarFilled} alt="" />
+                            <img src={iconStarFilled} alt="" />
+                        </div>
+                        <p>
+                            Stayed From <span class="date">March 10, 2025</span> To{" "}
+                            <span class="date">March 15, 2025</span>
+                        </p>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua.
+                        </p>
+                    </div>
+                </div>
+
+                <details class="reply-container">
+                    <summary
+                        class="comments-dropdown"
+                        comments-open="Hide Replies"
+                        comments-hidden="Show Replies"></summary>
+                    <div class="comment-card reply host-reply">
+                        <img class="profile-img" src={userAvatarDefault} alt="avatar" />
+                        <div class="comment-info">
+                            <h4>John Doe</h4>
+                            <span class="date">March 10, 2025</span>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua.
+                            </p>
+                        </div>
+                    </div>
+                </details>
+            </li>
+        </>
     );
 }
 
