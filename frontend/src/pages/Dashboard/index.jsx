@@ -84,7 +84,8 @@ const Dashboard = () => {
         fetchProperties();
     }, [currentPage, access_token, navigate]);
 
-    const handleFilterChange = (e) => { //This is still not implemented
+    const handleFilterChange = (e) => {
+        //This is still not implemented
         // const { name, value } = e.target;
         const { value } = e.target;
 
@@ -180,8 +181,8 @@ const Dashboard = () => {
                     </header>
                     <div className="carousel">
                         <div className="carousel-cards">
-                            {properties.map((property) => (
-                                <PropertyListing property={property} />
+                            {properties.map((property, idx) => (
+                                <PropertyListing property={property} key={idx} />
                             ))}
                         </div>
                     </div>
