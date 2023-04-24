@@ -8,7 +8,7 @@ function Auth() {
     const navigate = useNavigate();
     useEffect(() => {
         if (localStorage.getItem("accessToken")) {
-            navigate(`/profile`);
+            navigate("/profile");
         }
     }, [navigate]);
 
