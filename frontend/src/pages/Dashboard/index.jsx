@@ -38,6 +38,8 @@ const Dashboard = () => {
                     }
                     const response = await fetch(url, { headers });
                     // const response = await axios.get(url, { headers });
+                    console.log("Look");
+                    console.log(response);
 
                     const reservationPromises = (await response.json()).results.map(async (reservation) => {
                         const propertyResponse = await fetch(
@@ -89,30 +91,38 @@ const Dashboard = () => {
 
     const handleFilterChange = (e) => { //This is still not implemented
         // const { name, value } = e.target;
-        const { value } = e.target;
+        // const { value } = e.target;
 
-        setFilterState((prevState) => ({ ...prevState, state: value }));
-        // setFilterState((prevState) => ({ ...prevState, [name]: value }));
+        setFilterState({role: "all", state: e.target.value})
+        // // setFilterState((prevState) => ({ ...prevState, [name]: value }));
         handleFilterSubmit(e);
     };
 
     const handleFilterSubmit = async (e) => {
         e.preventDefault();
-        const { role, state } = filterState;
+        // const { role, state } = filterState;
+        const st = e.target.value;
         let url = "http://localhost:8000/api/reservation/?page=1&type=guest";
         setCurrentPage(1);
-        if (state !== "all") {
-            url += `&status=${state.substring(0, 2).toUpperCase()}`;
+        if (st !== "all") {
+            url += `&status=${st.substring(0, 2).toUpperCase()}`;
         }
-
         const response = await fetch(url, {
             headers: {
                 Authorization: `Bearer ${access_token}`,
             },
         });
-        const data = await response.json();
-        setPageCount(Math.ceil(data.count / 5));
-        setReservation(data);
+        const reservationPromises = (await response.json()).results.map(async (reservation) => {
+            const propertyResponse = await fetch(
+                `http://localhost:8000/api/property/${reservation.property_id}`
+            );
+            return {
+                ...reservation,
+                property: await propertyResponse.json(),
+            };
+        });
+        const resolvedReservations = await Promise.all(reservationPromises);
+        setReservation(resolvedReservations);
     };
 
     return (
