@@ -10,8 +10,8 @@ button.btn-map {
     border: none;
 }
 
-input[type="text"].rounded-r,
-input[type="number"].rounded-r {
+input[type="text"].rounded-r-loc,
+input[type="number"].rounded-r-loc {
     position: relative;
     font-size: 14.5px;
     border: 2px solid var(--clr-gray-dark);

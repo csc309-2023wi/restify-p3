@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, UpdateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, RetrieveUpdateAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
@@ -49,6 +49,7 @@ class ProfileSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = [
+            "id",
             "username",
             "first_name",
             "last_name",
@@ -100,3 +101,10 @@ class ProfileView(RetrieveUpdateAPIView):
             self.object.save()
             data.pop("password")
             return Response(data, status=status.HTTP_200_OK)
+
+class UserView(RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = ProfileSerializer
+
+    def get_object(self):
+        return get_object_or_404(User, pk=self.kwargs["pk"])

@@ -45,3 +45,8 @@ aside.sidebar::after {
     justify-content: flex-start;
     row-gap: 1rem;
 }
+
+.filter-btns{
+    display: flex;
+    justify-content: space-around;
+}
