@@ -10,9 +10,9 @@ import "./playground.css";
 
 function Playground() {
     const [newModalShow, setNewModalShow] = useState(false);
-    const [newHostCreateModalShow, setNewHostCreateModalShow] = useState(false);
+    const [newHostCreateModalShow, setNewHostCreateModalShow] = useState(true);
     const [newHostExistingModalShow, setNewHExistingModalShow] = useState(false);
-    const [guestUnbookedModalShow, setGuestUnbookedModalShow] = useState(true);
+    const [guestUnbookedModalShow, setGuestUnbookedModalShow] = useState(false);
     const [guestBookedModalShow, setGuestBookedModalShow] = useState(false);
 
     return (
@@ -71,7 +71,7 @@ function Playground() {
                             />
                             {/* host existing modal */}
                             <ModalHostExisting
-                                property_id={0}
+                                property_id={1}
                                 displayState={newHostExistingModalShow}
                                 displayStateSetter={setNewHExistingModalShow}
                             />

@@ -1,0 +1,25 @@
+button.add-image {
+    height: 100%;
+    width: 100%;
+}
+
+button.add-image div.drag-area {
+    background-color: var(--clr-gray-mid-dark);
+    font-size: var(--font-size-h3);
+    color: white;
+    border: 2px dashed #ffffff;
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+button.add-image div.drag-area img {
+    height: unset;
+    margin: 1rem;
+    width: 25%;
+}
