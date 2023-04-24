@@ -177,7 +177,7 @@ export function ModalGuestUnbooked({ property_id, display, setDisplay }) {
             return data;
         }
         fetchProperty(property_id);
-    }, []);
+    }, [property_id]);
 
     return (
         <ModalGuest
@@ -330,7 +330,7 @@ function ModalGuest({ property_id, actionCard, obj, display, setDisplay, host, r
                     <div className="info-section">{mainInfoContent}</div>
                 </section>
                 <aside className="modal-action with-action-widget">
-                    <button className="btn-modal-close clickable-on-dark" onClick={() => setDisplay("None")}>
+                    <button className="btn-modal-close clickable-on-dark" onClick={() => setDisplay("none")}>
                         <img src={xWhite} alt="X" />
                     </button>
                     <div class="modal-header">

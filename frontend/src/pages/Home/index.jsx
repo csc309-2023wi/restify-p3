@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "./home.css";
 import Navbar from "../../components/Navbar";
 import PropertyListing from "../../components/PropertyListing";
+import { ModalGuestUnbooked } from "../../components/ModalGuest";
 import { useNavigate, useLocation } from "react-router-dom";
 import { HomeContext } from "../../context/HomeContext";
 import Sidebar from "../../components/Sidebar";
@@ -102,6 +103,9 @@ const Home = () => {
         setPage(1);
     };
 
+    const [guestUnbookedModalShow, setGuestUnbookedModalShow] = useState("none");
+    const [guestModalPropId, setGuestModalPropId] = useState(null);
+
     return (
         <>
             <Navbar />
@@ -128,10 +132,17 @@ const Home = () => {
                             property={property}
                             handleCardClick={() => {
                                 //Open Guest Unbooked Modal with property.id
+                                setGuestModalPropId(property.id);
+                                setGuestUnbookedModalShow("flex");
                             }}
                         />
                     ))}
                 </div>
+                <ModalGuestUnbooked
+                    property_id={guestModalPropId}
+                    display={guestUnbookedModalShow}
+                    setDisplay={setGuestUnbookedModalShow}
+                />
             </div>
         </>
     );
