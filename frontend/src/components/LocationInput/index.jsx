@@ -5,7 +5,13 @@ function LocationInput({ defaultValue, onChangeHandler }) {
     return (
         <>
             <button className="btn-map"></button>
-            <input type="text" id="location" className="rounded-r" value={defaultValue} onChange={onChangeHandler} />
+            <input
+                type="text"
+                id="location"
+                className="rounded-r-loc"
+                value={defaultValue}
+                onChange={onChangeHandler}
+            />
         </>
     );
 }

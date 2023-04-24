@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import DateInput from "../DateInput";
 import GuestInput from "../GuestInput";
 import Input from "../Input";
@@ -55,6 +55,7 @@ const Sidebar = ({
                         inputBody={
                             <input
                                 type="text"
+                                style={{ padding: "0.5rem 1rem" }}
                                 placeholder="e.g - A/C, Pool"
                                 onChange={(e) => setAmenities(formatAmenities(e.target.value))}
                             />
@@ -67,19 +68,6 @@ const Sidebar = ({
                     <SortBtn handleSort={click1} />
                 </div>
             </div>
-
-            <div>
-                Number of Guests:
-                <Input inputBody={<GuestInput />} />
-            </div>
-
-            <div>
-                Dates available:
-                <Input inputBody={<DateInput dateLabel="FROM" />} />
-                <Input inputBody={<DateInput dateLabel="TO" />} />
-            </div>
-
-            <div>Amenities:</div>
         </aside>
     );
 };
