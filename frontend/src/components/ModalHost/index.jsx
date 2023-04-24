@@ -302,7 +302,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                 file: null,
                 fileExtension: "webp",
                 base64Rep: null,
-                previewURL: `${apiBase}/image/${imgHash}?width=1920&ext=webp`,
+                previewURL: `${apiBase}/image/${imgHash}?width=1280&ext=webp`,
             };
         });
         // console.log(localImageObjs);
