@@ -21,6 +21,33 @@ import {
 
 var apiBase = "http://127.0.0.1:8000/api";
 
+async function userProfileFromId(userId) {
+    try {
+        const response = await fetch(`${apiBase}/user/${userId}/`, { method: "GET" });
+        if (response.ok) {
+            const data = await response.json();
+            return { ...data };
+        } else {
+            console.error(response.status, response.statusText);
+            console.error(await response.json());
+        }
+    } catch (err) {
+        console.error(err);
+    }
+    return {};
+}
+
+/* add a new userProfile field for every object in an array */
+const hydrateObjectsWithUserProfiles = (oldObjectArray, userIdGetter, objectArraySetter) => {
+    const userLoadingPromises = oldObjectArray.map(async (r) => ({
+        ...r,
+        userProfile: await userProfileFromId(userIdGetter(r)),
+    }));
+    return Promise.all(userLoadingPromises).then((newReservations) => {
+        objectArraySetter(newReservations);
+    });
+};
+
 export function ModalHostCreate({ displayState, displayStateSetter }) {
     /* LEFT PANEL (Image Section Only) */
 
@@ -151,7 +178,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
 
     // fetch reservations
     const [reservationLoaded, setReservationLoaded] = useState(false);
-    const [activeReservations, setCurrentGuests] = useState([]);
+    const [activeReservations, setActiveReservations] = useState([]);
     const [pastGuests, setPastGuests] = useState([]);
     const [cancellationRequests, setCancellationRequests] = useState([]);
     const [reservationRequests, setReservationRequests] = useState([]);
@@ -171,7 +198,7 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                         switch (rStatus) {
                             case "AP":
                                 // current guests
-                                setCurrentGuests(reservationsForProperty);
+                                setActiveReservations(reservationsForProperty);
                                 break;
                             case "TE":
                             case "CO":
@@ -210,27 +237,28 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
         });
     }, [navigate]);
 
+    // how to get a user ID given a reservation object
+    const reservationUserIdGetter = (r) => r.guest_id;
+
+    // add a userProfile field for every type of reservation
     useEffect(() => {
         if (reservationLoaded === true) {
-            console.info("Current", activeReservations);
+            hydrateObjectsWithUserProfiles(activeReservations, reservationUserIdGetter, setActiveReservations);
         }
     }, [reservationLoaded]);
-
     useEffect(() => {
         if (reservationLoaded === true) {
-            console.info("Past", pastGuests);
+            hydrateObjectsWithUserProfiles(pastGuests, reservationUserIdGetter, setPastGuests);
         }
     }, [reservationLoaded]);
-
     useEffect(() => {
         if (reservationLoaded === true) {
-            console.info("Cancel", cancellationRequests);
+            hydrateObjectsWithUserProfiles(cancellationRequests, reservationUserIdGetter, setCancellationRequests);
         }
     }, [reservationLoaded]);
-
     useEffect(() => {
         if (reservationLoaded === true) {
-            console.info("ResReq", reservationRequests);
+            hydrateObjectsWithUserProfiles(reservationRequests, reservationUserIdGetter, setReservationRequests);
         }
     }, [reservationLoaded]);
 
@@ -494,7 +522,9 @@ function RequestCardInfo({ reservationObj }) {
     const r = reservationObj;
     return (
         <div className="request-card-info">
-            <h4>Guest {r?.guest_id}</h4>
+            <h4>
+                {r?.userProfile?.first_name} {r?.userProfile?.last_name}
+            </h4>
             <p>
                 <span className="date">{r?.guest_count}</span> guest{r?.guest_count > 1 ? "s" : ""}
             </p>
