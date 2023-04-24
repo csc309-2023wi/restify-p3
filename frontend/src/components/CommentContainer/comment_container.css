@@ -1,0 +1,15 @@
+ul.content-list {
+    max-height: 30rem;
+    overflow-y: auto;
+}
+ul.content-list.content-list-comments {
+    margin-top: 0.5rem;
+    box-shadow: var(--shadow-sml);
+    border: 1px solid var(--clr-gray-light);
+    border-radius: var(--rad-med);
+    padding: 0.5rem;
+}
+
+.content-list li {
+    margin: 1rem 0 1rem 0;
+}

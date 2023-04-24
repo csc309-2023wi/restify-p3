@@ -17,6 +17,7 @@ urlpatterns = [
     path(
         "comment/property/reply/<int:pk>/", views.ReplyListView.as_view(), name="reply"
     ),
+    path("comment/property/reply/<int:pk>/check/", views.ReplyCheck.as_view(), name="reply_check"),
     # path("image/", views.__.as_view(), name="image"),
     path("image/<str:image_hash>", views.image_view, name="image_fetch"),
     path("signup/", views.SignUpView.as_view(), name="signup"),

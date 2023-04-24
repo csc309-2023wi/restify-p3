@@ -4,6 +4,7 @@ from rest_framework.generics import (
     RetrieveUpdateAPIView,
     ListCreateAPIView,
 )
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -199,3 +200,28 @@ class ReplyListView(ListCreateAPIView):
     def perform_create(self, serializer):
         comment = get_object_or_404(PropertyComment, pk=self.kwargs["pk"])
         serializer.save(commenter=self.request.user, comment_for=comment)
+
+class ReplyCheck(APIView):
+    def get(self, request, pk):
+        comment = get_object_or_404(PropertyComment, pk=pk)
+        replies = Reply.objects.filter(comment_for=comment)
+
+        if comment.comment_for.host == request.user:
+            if replies.count() % 2 != 0:
+                return Response(
+                    {"error": "You can't reply to your own reply."},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+        elif comment.commenter == request.user:
+            if replies.count() % 2 == 0:
+                return Response(
+                    {"error": "You can't reply to your own comment/reply."},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+        else:
+            return Response(
+                {"error": "You are not allowed to reply to this comment."},
+                status=status.HTTP_403_FORBIDDEN,
+            ) 
+        
+        return Response({"reply_to": replies.count()}, status=status.HTTP_200_OK)
