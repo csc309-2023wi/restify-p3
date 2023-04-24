@@ -9,14 +9,17 @@ urlpatterns = [
         views.PropertyCommentListView.as_view(),
         name="comment_property",
     ),
+    path("comment/property/<int:pk>/check/", views.CommentCheck.as_view(), name="comment_check"),
     path(
         "comment/user/<int:pk>/",
         views.UserCommentListView.as_view(),
         name="comment_user",
     ),
+    path("comment/user/<int:pk>/check/", views.UserCommentCheck.as_view(), name="user_check"),
     path(
         "comment/property/reply/<int:pk>/", views.ReplyListView.as_view(), name="reply"
     ),
+    path("comment/property/reply/<int:pk>/check/", views.ReplyCheck.as_view(), name="reply_check"),
     # path("image/", views.__.as_view(), name="image"),
     path("image/<str:image_hash>", views.image_view, name="image_fetch"),
     path("signup/", views.SignUpView.as_view(), name="signup"),
