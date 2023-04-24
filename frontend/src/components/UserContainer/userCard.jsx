@@ -5,7 +5,7 @@ import starFilled from "../../assets/icons/star-filled.svg"
 import starEmpty from "../../assets/icons/star-empty.svg"
 import arrowRightPurp from "../../assets/icons/arrow-right-purple.svg"
 
-function UserCard (userId) {
+function UserCard ({userId}) {
     const [name, setName] = useState("")
     const [avatar, setAvatar] = useState("")
     const [canRate, setCanRate] = useState(false)
@@ -127,24 +127,24 @@ function UserCard (userId) {
     }
 
     return <li>
-    <div class="past-guest-card has-ratings">
-        <div class="guest-info">
-            <img class="profile-img" src={avatar} alt=""/>
+    <div className={`past-guest-card ${hasRating? "has-ratings": ""}`}>
+        <div className="guest-info">
+            <img className="profile-img" src={avatar} alt=""/>
             <h4>{name}</h4>
         </div>
 
         {canRate?
             <>
-                <div class="rating-container">
+                <div className="rating-container">
                     <img src={star1} alt=""  onClick={star1Click}/>
                     <img src={star2} alt="" onClick={star2Click}/>
                     <img src={star3} alt="" onClick={star3Click}/>
                     <img src={star4} alt="" onClick={star4Click}/>
                     <img src={star5} alt="" onClick={star5Click}/>
                 </div>
-                <div class="reply-input-container">
+                <div className="reply-input-container">
                     <textarea placeholder="Leave a rating..." value={comment} onChange={(e) => (setComment(e.target.value))}></textarea>
-                    <button class="send-arrow" onClick={postComment}>
+                    <button className="send-arrow" onClick={postComment}>
                         <img src={arrowRightPurp} alt=""/>
                     </button>
                 </div>
@@ -154,7 +154,7 @@ function UserCard (userId) {
         {hasRating?
             <>
             <details>
-                <summary class="comments-dropdown" comments-open="Hide Host Ratings"
+                <summary className="comments-dropdown" comments-open="Hide Host Ratings"
                     comments-hidden="Show Host Ratings"></summary>
                 <ul>
                     {ratings.map((rating, i) => {
