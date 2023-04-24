@@ -9,10 +9,10 @@ import { ModalGuestUnbooked, ModalGuestBooked } from "../../components/ModalGues
 import "./playground.css";
 
 function Playground() {
-    const [newModalShow, setNewModalShow] = useState(true);
+    const [newModalShow, setNewModalShow] = useState(false);
     const [newHostCreateModalShow, setNewHostCreateModalShow] = useState(false);
     const [newHostExistingModalShow, setNewHExistingModalShow] = useState(false);
-    const [guestUnbookedModalShow, setGuestUnbookedModalShow] = useState(false);
+    const [guestUnbookedModalShow, setGuestUnbookedModalShow] = useState(true);
     const [guestBookedModalShow, setGuestBookedModalShow] = useState(false);
 
     return (
