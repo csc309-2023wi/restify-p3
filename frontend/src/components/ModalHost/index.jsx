@@ -185,7 +185,6 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
 
     const loadReservations = () => {
         setReservationLoaded(false);
-        console.warn("loading reservations...");
         const fetchPromises = ["AP", "TE", "CO", "PC", "PE"].map((rStatus) => {
             return fetch(`${apiBase}/reservation/?page_size=99&type=host&status=${rStatus}`, {
                 method: "GET",
@@ -371,7 +370,6 @@ export function ModalHostExisting({ property_id, displayState, displayStateSette
                 previewURL: `${apiBase}/image/${imgHash}?width=1280&ext=webp`,
             };
         });
-        // console.log(localImageObjs);
         setPropertyImages(localImageObjs);
     }, [propertyDataLoad]);
 
